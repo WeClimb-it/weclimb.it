@@ -1,0 +1,13 @@
+<div class="main" fxLayout="row">
+  <div class="map">
+    <wci-map
+      [zoom]="zoom"
+      [centerLocation]="currentLocation"
+      [userLocation]="userLocation"
+      [pois]="nearbyPois"
+      (ready)="onMapReady($event)"
+      (update)="onMapUpdate($event)"
+    ></wci-map>
+  </div>
+  <div class="sidenav" fxShow="false" fxShow.gt-sm>sidebar</div>
+</div>
