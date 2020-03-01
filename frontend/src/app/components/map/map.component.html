@@ -117,7 +117,7 @@
       <div class="title">{{ selectedFeature.properties.title || selectedFeature.properties.name }}</div>
       <div class="description">{{ selectedFeature.properties.descr }}</div>
       <div class="link">
-        <a href="/">Apri dettaglio</a>
+        <a routerLink="{{selectedFeature.properties.internal_link}}">Apri dettaglio</a>
       </div>
     </div>
   </mgl-popup>

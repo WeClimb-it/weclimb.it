@@ -83,6 +83,14 @@ export class MapComponent implements OnInit, OnChanges {
     HIKE: 'hike-pin',
   };
 
+  ENTITY_NAMESPACE = {
+    CRAG: 'crags',
+    PLACE: 'places',
+    EVENT: 'events',
+    SHELTER: 'shelters',
+    HIKE: 'hikes',
+  };
+
   pins: { [key: string]: ImageData };
   centerCoords: number[];
   userCoords: number[];
@@ -219,12 +227,12 @@ export class MapComponent implements OnInit, OnChanges {
   /**
    *
    */
-  private translateToFeatureCollection(entities: Entities, type: string): any {
+  private translateToFeatureCollection(entities: Entities, type: string, namespace: string): any {
     const output = new Array();
     _.each(entities, (e: Entity) => {
       const feature: GeoJSONFeature = {
         type: 'Feature',
-        properties: { ...e, 'marker-symbol': type },
+        properties: { ...e, 'marker-symbol': type, internal_link: `/${namespace}/${e.slug}` },
         geometry: {
           type: 'Point',
           coordinates: [e.coords ? e.coords.lng : 0, e.coords ? e.coords.lat : 0],
@@ -240,11 +248,31 @@ export class MapComponent implements OnInit, OnChanges {
    */
   private contructGeoJSONFromChange(change: SimpleChange): void {
     this.geojsonFeatures = [
-      ...this.translateToFeatureCollection(change.currentValue.crags, this.MARKER_TYPE.CRAG),
-      ...this.translateToFeatureCollection(change.currentValue.competitions, this.MARKER_TYPE.EVENT),
-      ...this.translateToFeatureCollection(change.currentValue.places, this.MARKER_TYPE.PLACE),
-      ...this.translateToFeatureCollection(change.currentValue.shelters, this.MARKER_TYPE.SHELTER),
-      ...this.translateToFeatureCollection(change.currentValue.hikes, this.MARKER_TYPE.HIKE),
+      ...this.translateToFeatureCollection(
+        change.currentValue.crags,
+        this.MARKER_TYPE.CRAG,
+        this.ENTITY_NAMESPACE.CRAG,
+      ),
+      ...this.translateToFeatureCollection(
+        change.currentValue.competitions,
+        this.MARKER_TYPE.EVENT,
+        this.ENTITY_NAMESPACE.EVENT,
+      ),
+      ...this.translateToFeatureCollection(
+        change.currentValue.places,
+        this.MARKER_TYPE.PLACE,
+        this.ENTITY_NAMESPACE.PLACE,
+      ),
+      ...this.translateToFeatureCollection(
+        change.currentValue.shelters,
+        this.MARKER_TYPE.SHELTER,
+        this.ENTITY_NAMESPACE.SHELTER,
+      ),
+      ...this.translateToFeatureCollection(
+        change.currentValue.hikes,
+        this.MARKER_TYPE.HIKE,
+        this.ENTITY_NAMESPACE.HIKE,
+      ),
     ];
     this.geoJson = {
       type: 'FeatureCollection',
