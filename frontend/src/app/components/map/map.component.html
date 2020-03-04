@@ -115,7 +115,7 @@
   >
     <div class="popup-content">
       <div class="title">{{ selectedFeature.properties.title || selectedFeature.properties.name }}</div>
-      <div class="description">{{ selectedFeature.properties.descr }}</div>
+      <div class="description" *ngIf="selectedFeature.properties.descr && selectedFeature.properties.descr != 'null'">{{ selectedFeature.properties.descr }}</div>
       <div class="link">
         <a routerLink="{{selectedFeature.properties.internal_link}}">Apri dettaglio</a>
       </div>
