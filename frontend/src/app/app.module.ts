@@ -10,9 +10,10 @@ import { AppComponent } from './app.component';
 import { MapComponent } from './components/map/map.component';
 import { GraphQLModule } from './graphql.module';
 import { MaterialModule } from './material.module';
+import { HeaderComponent } from './components/header/header.component';
 
 @NgModule({
-  declarations: [AppComponent, MapComponent],
+  declarations: [AppComponent, MapComponent, HeaderComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

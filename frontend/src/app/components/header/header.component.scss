@@ -1,0 +1,41 @@
+@import '~@angular/material/theming';
+
+.header-content {
+  margin: 0 auto;
+
+  .logo {
+    width: 110px;
+    height: 70px;
+    margin: 0 auto;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    background-image: url(/assets/images/logo.svg);
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+
+  .search {
+    @include mat-elevation(6, #000000, 0.25);
+    width: 660px;
+    height: 47px;
+    border-radius: 100px;
+    background-color: white;
+    margin: 0 auto;
+    position: relative;
+    z-index: 9999;
+
+    input {
+      width: 95%;
+      height: 93%;
+      display: flex;
+      margin: 0 auto;
+      font-size: 17px;
+      color: rgba($color: #000000, $alpha: 0.6);
+      background: transparent;
+      border: none;
+      outline: none;
+      text-align: left;
+    }
+  }
+
+}
