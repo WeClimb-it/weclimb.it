@@ -14,4 +14,11 @@ export class GeoLocation {
   toCoordinates(): number[] {
     return [this.lng || 0, this.lat || 0];
   }
+
+  /**
+   * Returns a string of coordinates
+   */
+  toString(): string {
+    return `${this.lng || 0},${this.lat || 0}`;
+  }
 }

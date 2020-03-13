@@ -1,6 +1,12 @@
 <div class="main" fxLayout="row">
   <div class="map">
-    <wci-header class="header"></wci-header>
+    <wci-header
+      class="header"
+      (search)="onSearch($event)"
+      (queryChanged)="onSearchQueryChanged($event)"
+      (suggestionSelected)="onSuggestionSelected($event)"
+      (optionsUpdated)="onOptionsUpdated($event)"
+    ></wci-header>
     <wci-map
       [zoom]="zoom"
       [centerLocation]="currentLocation"
@@ -10,5 +16,11 @@
       (update)="onMapUpdate($event)"
     ></wci-map>
   </div>
-  <div class="sidenav" fxShow="false" fxShow.gt-sm>sidebar</div>
+  <div class="sidenav" fxShow="false" fxShow.gt-sm>
+    <wci-sidebar
+      [currentLocation]="currentLocation"
+      [pois]="latestPois"
+      (poiSelected)="onPoiSelected($event)"
+    ></wci-sidebar>
+  </div>
 </div>

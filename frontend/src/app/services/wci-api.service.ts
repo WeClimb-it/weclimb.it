@@ -133,6 +133,7 @@ export class WciApiService {
     return this.apollo.watchQuery({
       query: Queries.search,
       variables: opts,
+      fetchPolicy: 'no-cache',
     }).valueChanges as Observable<SearchResult>;
   }
 }

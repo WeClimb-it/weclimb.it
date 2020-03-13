@@ -1,6 +1,75 @@
 <div fxLayout="column" class="header-content">
   <div class="logo" alt="WeClimb.it"></div>
   <div class="search" alt="Type here to search">
-    <input placeholder="Search for crags, places or locations..." />
+    <input
+      #search
+      placeholder="Search for crags, places or locations..."
+      [(ngModel)]="query"
+      (keyup)="$event.keyCode !== ENTER_KEY && onQueryChanged($event.target.value)"
+      (keyup.enter)="onSearch($event.target.value)"
+    />
+    <button
+      class="search-button"
+      mat-icon-button
+      aria-label="Click here to search"
+      color="primary"
+      disableRipple="true"
+      (click)="onSearch()"
+    >
+      <mat-icon>search</mat-icon>
+    </button>
+    <button
+      class="settings-button"
+      mat-icon-button
+      aria-label="Click here to open the search settings"
+      (click)="showSettings = !showSettings"
+    >
+      <mat-icon>settings</mat-icon>
+    </button>
+  </div>
+  <div class="suggestions" *ngIf="suggestedPlaces.length > 0 && showSuggestions && !showSettings">
+    <div class="suggestion" *ngFor="let suggestion of suggestedPlaces" (click)="onSuggestionSelected(suggestion)">
+      {{ suggestion.description }}
+    </div>
+  </div>
+  <div class="settings" *ngIf="showSettings">
+    <h4>Map settings</h4>
+    <span
+      >Use the sliders to change some parameters, like the <strong>climatic trend</strong>, the
+      <strong>accessibility</strong> and the <strong>difficulty</strong>.</span
+    >
+    <div class="coeffSliders">
+      <div>
+        <ng5-slider
+          [(value)]="minWeatherCoeff"
+          [(highValue)]="maxWeatherCoeff"
+          [options]="sliderOptions"
+          (userChangeEnd)="onPreferencesUpdated()"
+        >
+        </ng5-slider>
+        <mat-icon aria-hidden="false" aria-label="Chill">ac_unit</mat-icon>
+        <mat-icon aria-hidden="false" aria-label="Warm">brightness_high</mat-icon>
+      </div>
+      <div>
+        <ng5-slider
+          [(value)]="minDistanceCoeff"
+          [(highValue)]="maxDistanceCoeff"
+          [options]="sliderOptions"
+          (userChangeEnd)="onPreferencesUpdated()"
+        ></ng5-slider>
+        <mat-icon aria-hidden="false" aria-label="Near">directions_walk</mat-icon>
+        <mat-icon aria-hidden="false" aria-label="Far">terrain</mat-icon>
+      </div>
+      <div>
+        <ng5-slider
+          [(value)]="minDifficultyCoeff"
+          [(highValue)]="maxDifficultyCoeff"
+          [options]="sliderOptions"
+          (userChangeEnd)="onPreferencesUpdated()"
+        ></ng5-slider>
+        <mat-icon aria-hidden="false" aria-label="Easy">spa</mat-icon>
+        <mat-icon aria-hidden="false" aria-label="Hard">fitness_center</mat-icon>
+      </div>
+    </div>
   </div>
 </div>

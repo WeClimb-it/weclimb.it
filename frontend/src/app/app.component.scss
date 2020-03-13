@@ -1,3 +1,6 @@
+@import '../common';
+@import '../colors';
+
 .main,
 .map {
   width: 100%;
@@ -7,14 +10,17 @@
 .header {
   display: flex;
   position: relative;
-  z-index: 9999;
+  z-index: $maxZIndex;
   width: 100%;
-  height: 160px;
-  margin-bottom: -160px;
-  background-color: rgba($color: white, $alpha: .45);
+  height: $headerHeight;
+  margin-bottom: -$headerHeight;
+  background-color: transparent;
 }
 
 .sidenav {
-  width: 330px;
+  position: relative;
+  width: $sidebarWidth;
   height: 100%;
+  background: $sidebarBg;
+  box-shadow: -2px 0 10px #0000004d;
 }

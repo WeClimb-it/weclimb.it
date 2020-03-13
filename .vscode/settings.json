@@ -1,0 +1,8 @@
+{
+    "editor.formatOnSave": true,
+    "files.eol": "\n",
+    "prettier.endOfLine": "lf",
+    "editor.tabSize": 2,
+    "editor.formatOnPaste": true,
+    "prettier.tabWidth": 4
+}

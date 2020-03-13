@@ -84,6 +84,24 @@ export default class {
             picture
             resource_url
           }
+          hikes {
+            coords {
+              lat
+              lng
+            }
+            slug
+            title
+            descr
+          }
+          shelters {
+            coords {
+              lat
+              lng
+            }
+            slug
+            name
+            descr
+          }
           competitions {
             coords {
               lat
