@@ -7,6 +7,12 @@
   height: 100%;
 }
 
+.main.has-content {
+  .header {
+    background-color: rgba(white, 0.5);
+  }
+}
+
 .header {
   display: flex;
   position: relative;
@@ -19,8 +25,36 @@
 
 .sidenav {
   position: relative;
+  z-index: $maxZIndex;
   width: $sidebarWidth;
   height: 100%;
   background: $sidebarBg;
   box-shadow: -2px 0 10px #0000004d;
+}
+
+.content {
+  position: absolute;
+  z-index: $maxZIndex - 1;
+  bottom: 0;
+  width: 100%;
+  height: calc(100% - #{$headerHeight});
+  background-color: $contentBg;
+
+  .section {
+    padding-left: 30px;
+    padding-top: 40px;
+    padding-bottom: 20px;
+    padding-right: calc(#{$sidebarWidth} + 10px);
+    height: calc(100% - 80px);
+  }
+}
+
+@media only screen and (max-width: $mobileBreakpointWidth) {
+  .content {
+    .section {
+      padding-top: 20px;
+      padding-left: 15px;
+      padding-right: 15px;
+    }
+  }
 }

@@ -14,7 +14,7 @@ $panelsMaxWidth: 660px;
     margin: 0 auto;
     margin-top: 15px;
     margin-bottom: 15px;
-    background-image: url(/assets/images/logo.svg);
+    background-image: url(/assets/images/logo-border.svg);
     background-size: contain;
     background-repeat: no-repeat;
   }
@@ -95,7 +95,7 @@ $panelsMaxWidth: 660px;
     padding-top: 30px;
     padding-left: 10px;
     padding-right: 10px;
-    padding-bottom: 7px;
+    padding-bottom: 10px;
   }
 
   .suggestions {
@@ -116,6 +116,17 @@ $panelsMaxWidth: 660px;
 
       &:last-child {
         border-bottom: none;
+      }
+
+      &.selected {
+        @include mat-elevation(2, black, 0.25);
+        color: rgba($color: black, $alpha: 0.7);
+        background-color: rgba(black, 0.03);
+        border-radius: 4px;
+
+        &:last-child {
+          border-radius: 0 0 20px 20px;
+        }
       }
     }
   }

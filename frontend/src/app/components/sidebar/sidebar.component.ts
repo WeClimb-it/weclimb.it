@@ -5,6 +5,7 @@ import { Crag } from 'src/app/interfaces/graphql/crag.type';
 import { Hike } from 'src/app/interfaces/graphql/hike.type';
 import { Place } from 'src/app/interfaces/graphql/place.type';
 import { Shelter } from 'src/app/interfaces/graphql/shelter.type';
+import { Router } from '@angular/router';
 
 interface EntitiesPayload {
   crags: Entities;
@@ -28,10 +29,19 @@ export class SidebarComponent {
 
   @Output() poiSelected: EventEmitter<Entity> = new EventEmitter<Entity>();
 
+  constructor(private router: Router) {}
+
   /**
    *
    */
   onEntitySelected(entity: Entity): void {
     this.poiSelected.emit(entity);
+  }
+
+  /**
+   *
+   */
+  goToSection(endpoint: string): void {
+    this.router.navigateByUrl(`/${endpoint}`);
   }
 }

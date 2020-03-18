@@ -1,0 +1,86 @@
+@import '~@angular/material/theming';
+@import '../../../common';
+@import '../../../colors';
+
+h4 {
+  color: $primaryColor;
+  font-size: 19px;
+  font-weight: bold;
+
+  &::first-letter {
+    text-transform: capitalize;
+  }
+}
+
+.text {
+  width: 70%;
+  display: inline-block;
+  vertical-align: top;
+
+  span.description {
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 18px;
+  }
+}
+
+.extra {
+  width: calc(30% - 5px);
+  margin-left: 5px;
+  display: inline-block;
+
+  mat-chip-list {
+    pointer-events: none;
+
+    mat-chip {
+      color: $primaryAltDarker;
+    }
+  }
+
+  .coeff {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    padding-left: 5px;
+    padding-right: 5px;
+    width: 60%;
+    position: relative;
+
+    mat-icon {
+      display: inline-block;
+      vertical-align: middle;
+      color: $primaryColor;
+      margin-right: 5px;
+    }
+
+    mat-progress-bar {
+      vertical-align: middle;
+      display: inline-block;
+      height: 10px;
+      width: 80%;
+    }
+
+    .progress-info {
+      @include mat-elevation(5, black, 0.15);
+      display: inline-block;
+      margin: 5px 30px;
+      padding: 5px 10px;
+      background: rgba(white, 1);
+      color: $primaryColor;
+      font-size: 13px;
+      font-weight: bold;
+      line-height: 13px;
+      border-radius: 60px;
+    }
+  }
+}
+
+@media only screen and (max-width: $mobileBreakpointWidth) {
+  .text {
+    width: 100%;
+  }
+
+  .extra {
+    margin-top: 20px;
+    width: 100%;
+  }
+}

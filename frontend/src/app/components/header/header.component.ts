@@ -28,6 +28,8 @@ export class HeaderComponent {
   @ViewChild('search') public searchElementRef: ElementRef;
 
   ENTER_KEY = 13;
+  ARROW_UP_KEY = 38;
+  ARROW_DOWN_KEY = 40;
 
   showSettings = false;
   showSuggestions = false;
@@ -48,6 +50,8 @@ export class HeaderComponent {
     animate: false,
   };
 
+  suggestionsKeyboardSelectionIndex = -1;
+
   constructor(private geoService: GeoService, private elRef: ElementRef) {}
 
   @HostListener('document:click', ['$event'])
@@ -55,6 +59,7 @@ export class HeaderComponent {
     if (!this.elRef.nativeElement.contains(event.target)) {
       this.showSuggestions = false;
       this.showSettings = false;
+      this.suggestionsKeyboardSelectionIndex = -1;
     } else {
       this.showSuggestions = true;
     }
@@ -101,11 +106,30 @@ export class HeaderComponent {
 
         item.geo = new GeoLocation(geometry.location.lat(), geometry.location.lng(), undefined, city);
 
+        this.suggestionsKeyboardSelectionIndex = this.suggestedPlaces.indexOf(item);
         this.suggestionSelected.emit(item);
       })
       .catch((err: Error) => {
         throw err;
       });
+  }
+
+  /**
+   *
+   */
+  onSuggestionsKeyboardEvent($event: KeyboardEvent): void {
+    if ($event.keyCode === this.ARROW_UP_KEY) {
+      this.suggestionsKeyboardSelectionIndex =
+        this.suggestionsKeyboardSelectionIndex <= 1 ? 0 : --this.suggestionsKeyboardSelectionIndex;
+    } else if ($event.keyCode === this.ARROW_DOWN_KEY) {
+      this.suggestionsKeyboardSelectionIndex =
+        this.suggestionsKeyboardSelectionIndex >= this.suggestedPlaces.length - 2
+          ? this.suggestedPlaces.length - 1
+          : ++this.suggestionsKeyboardSelectionIndex;
+    } else if ($event.keyCode === this.ENTER_KEY) {
+      $event.stopImmediatePropagation();
+      this.onSuggestionSelected(this.suggestedPlaces[this.suggestionsKeyboardSelectionIndex]);
+    }
   }
 
   /**

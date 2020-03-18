@@ -1,6 +1,6 @@
 <div fxLayout="column" class="header-content">
   <div class="logo" alt="WeClimb.it"></div>
-  <div class="search" alt="Type here to search">
+  <div class="search" alt="Type here to search" (keydown)="onSuggestionsKeyboardEvent($event)">
     <input
       #search
       placeholder="Search for crags, places or locations..."
@@ -28,14 +28,19 @@
     </button>
   </div>
   <div class="suggestions" *ngIf="suggestedPlaces.length > 0 && showSuggestions && !showSettings">
-    <div class="suggestion" *ngFor="let suggestion of suggestedPlaces" (click)="onSuggestionSelected(suggestion)">
+    <div
+      class="suggestion"
+      *ngFor="let suggestion of suggestedPlaces; index as i"
+      (click)="onSuggestionSelected(suggestion)"
+      [class]="i === suggestionsKeyboardSelectionIndex ? 'selected' : ''"
+    >
       {{ suggestion.description }}
     </div>
   </div>
   <div class="settings" *ngIf="showSettings">
     <h4>Map settings</h4>
     <span
-      >Use the sliders to change some parameters, like the <strong>climatic trend</strong>, the
+      >Use the sliders to change some parameters, like the <strong>climate trend</strong>, the
       <strong>accessibility</strong> and the <strong>difficulty</strong>.</span
     >
     <div class="coeffSliders">

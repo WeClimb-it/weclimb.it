@@ -55,3 +55,16 @@ h6 {
 .ps__rail-y {
   background-color: transparent !important;
 }
+
+.mat-progress-bar-fill::after {
+  background: rgb(64, 205, 126);
+  background: linear-gradient(90deg, rgba(64, 205, 126, 1) 0%, rgba(64, 205, 126, 0) 100%);
+}
+
+.mat-progress-bar-buffer {
+  background: #e4e8eb;
+}
+
+.mat-progress-bar {
+  border-radius: 10px;
+}

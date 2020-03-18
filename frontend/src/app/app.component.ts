@@ -1,9 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Competition } from 'src/app/interfaces/graphql/competition.type';
-import { Crag } from 'src/app/interfaces/graphql/crag.type';
-import { Hike } from 'src/app/interfaces/graphql/hike.type';
-import { Place } from 'src/app/interfaces/graphql/place.type';
-import { Shelter } from 'src/app/interfaces/graphql/shelter.type';
+import { NavigationEnd, Router, RouterEvent } from '@angular/router';
 import { GeoLocation } from './classes/geolocation.class';
 import { SearchOptions } from './components/header/header.component';
 import { LatestResult, NearbyResult, SearchResult as QuerySearchResult, UserInfoResult } from './graphql/queries';
@@ -11,9 +7,9 @@ import { MapUpdateEvent } from './interfaces/events/map-update.interface';
 import { SearchResult } from './interfaces/graphql/searchresult.type';
 import { UserInfo } from './interfaces/graphql/userinfo.type';
 import { PlaceSuggestion } from './services/geo.service';
-import { WciApiService } from './services/wci-api.service';
-
-type Poi = Crag | Place | Competition | Shelter | Hike;
+import { WciApiService } from './services/wciApi.service';
+import { Poi } from './utils/Poi';
+import { AppStoreService } from './services/appState.service';
 
 @Component({
   selector: 'wci-root',
@@ -27,11 +23,19 @@ export class AppComponent implements OnInit {
   nearbyPois: SearchResult;
   latestPois: SearchResult;
 
+  showContent = false;
+
   private mapData: MapUpdateEvent;
   private userData: UserInfo;
   private latestSearchOptions: SearchOptions;
 
-  constructor(private api: WciApiService) {}
+  constructor(private api: WciApiService, private router: Router, private appStore: AppStoreService) {
+    this.router.events.subscribe((event: RouterEvent) => {
+      if (event instanceof NavigationEnd) {
+        this.showContent = event.url !== '/';
+      }
+    });
+  }
 
   ngOnInit(): void {
     this.bootstrap();
@@ -53,7 +57,8 @@ export class AppComponent implements OnInit {
   }
 
   /**
-   *
+   * TODO: This should go to the search route where the
+   * actual search should take place.
    */
   onSearch(searchOptions: SearchOptions): void {
     this.latestSearchOptions = searchOptions;
@@ -64,7 +69,6 @@ export class AppComponent implements OnInit {
           throw new Error('Something went wrong during the search query');
         }
 
-        console.log(res);
         searchSubscription.unsubscribe();
       });
   }
@@ -81,6 +85,7 @@ export class AppComponent implements OnInit {
    */
   onSuggestionSelected(suggestion: PlaceSuggestion): void {
     this.currentLocation = suggestion.geo;
+    this.updateCurrentLocationInStore();
     this.getLatest(this.currentLocation.lng, this.currentLocation.lat);
   }
 
@@ -94,6 +99,7 @@ export class AppComponent implements OnInit {
       undefined,
       (entity as any).title || (entity as any).name,
     );
+    this.updateCurrentLocationInStore();
   }
 
   /**
@@ -124,6 +130,7 @@ export class AppComponent implements OnInit {
           this.userData.geo.city,
         );
         this.userLocation = this.currentLocation;
+        this.updateCurrentLocationInStore();
         userInfoSubscription.unsubscribe();
 
         // First load
@@ -179,5 +186,12 @@ export class AppComponent implements OnInit {
           latestSubscription.unsubscribe();
         }
       });
+  }
+
+  /**
+   *
+   */
+  private updateCurrentLocationInStore(): void {
+    this.appStore.setProperty('currentLocation', this.currentLocation);
   }
 }

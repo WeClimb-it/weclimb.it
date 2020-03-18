@@ -1,0 +1,8 @@
+<h2>{{ title }}</h2>
+<perfect-scrollbar class="list">
+  <div *ngFor="let item of items">
+    <div class="item crag">
+      <wci-crag-list-item [data]="item"></wci-crag-list-item>
+    </div>
+  </div>
+</perfect-scrollbar>

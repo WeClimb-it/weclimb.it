@@ -1,4 +1,4 @@
-<div class="main" fxLayout="row">
+<div class="main" [ngClass]="{ 'has-content': showContent }" fxLayout="row">
   <div class="map">
     <wci-header
       class="header"
@@ -22,5 +22,10 @@
       [pois]="latestPois"
       (poiSelected)="onPoiSelected($event)"
     ></wci-sidebar>
+  </div>
+  <div class="content" *ngIf="showContent">
+    <div class="section">
+      <router-outlet></router-outlet>
+    </div>
   </div>
 </div>

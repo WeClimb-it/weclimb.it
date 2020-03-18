@@ -78,7 +78,7 @@
 
 .panel {
   position: relative;
-  height: calc((100vh / 3 - 95px) + (85px / 3));
+  height: calc((100vh / 3 - 75px) + (85px / 3));
 
   .visual {
     height: 85px;
@@ -105,7 +105,7 @@
       bottom: 0;
       display: block;
       width: 100%;
-      height: 105px;
+      height: 85px;
       background: linear-gradient(180deg, rgba($sidebarBg, 0) 0%, rgba($sidebarBg, 1) 100%);
     }
 
@@ -175,6 +175,7 @@
     font-weight: 600;
     text-decoration: none;
     opacity: 0.7;
+    cursor: pointer;
 
     &:hover {
       opacity: 1;
