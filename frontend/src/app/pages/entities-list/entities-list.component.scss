@@ -2,14 +2,46 @@
 @import '../../../colors';
 
 h2 {
-  font-size: 25px;
+  position: relative;
+  font-size: 28px;
   color: #000000b8;
   cursor: default;
   font-weight: bold;
   letter-spacing: -1px;
+  float: left;
+}
+
+.title-actions {
+  float: right;
+
+  button {
+    min-height: 28px;
+
+    text-transform: uppercase;
+    letter-spacing: 0.25px;
+    cursor: pointer;
+    font-size: 13px;
+    color: rgba(black, 0.65);
+    margin-right: 10px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+
+    mat-icon {
+      color: rgba(black, 0.45);
+      width: 20px;
+      height: 20px;
+      line-height: 20px;
+      margin-left: -8px;
+      margin-right: 10px;
+    }
+  }
 }
 
 .list {
+  clear: both;
+
   &:after {
     pointer-events: none;
     position: absolute;
@@ -40,5 +72,24 @@ h2 {
     margin-bottom: 10px;
     cursor: default;
     border-bottom: 1px solid rgba(black, 0.05);
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.no-results {
+  h4 {
+    padding-top: 30px;
+    text-align: center;
+    font-size: 40px;
+    font-weight: lighter;
+    color: rgba(black, 0.7);
+    cursor: default;
+
+    strong {
+      font-size: 80px;
+    }
   }
 }

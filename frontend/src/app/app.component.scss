@@ -42,10 +42,10 @@
 
   .section {
     padding-left: 30px;
-    padding-top: 40px;
+    padding-top: 30px;
     padding-bottom: 20px;
     padding-right: calc(#{$sidebarWidth} + 10px);
-    height: calc(100% - 80px);
+    height: calc(100% - 52px);
   }
 }
 
@@ -55,6 +55,15 @@
       padding-top: 20px;
       padding-left: 15px;
       padding-right: 15px;
+    }
+  }
+}
+
+@media only screen and (min-width: $hugeScreenBreakpointWidth) {
+  .content {
+    .section {
+      width: 1280px;
+      margin: 0 auto;
     }
   }
 }

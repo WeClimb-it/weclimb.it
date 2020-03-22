@@ -21,7 +21,7 @@
         </div>
       </div>
     </perfect-scrollbar>
-    <a class="full-list-link" (click)="goToSection('crags')">See the full list</a>
+    <div class="links"><a (click)="goToSection('crags')">See the full list</a></div>
   </div>
   <div class="panel hikes-shelters">
     <div class="visual">hikes & shelters</div>
@@ -40,7 +40,10 @@
         </div>
       </div>
     </perfect-scrollbar>
-    <a class="full-list-link" (click)="goToSection('hikes')">See the full list</a>
+    <div class="links">
+      <a (click)="goToSection('hikes')">More hikes</a>
+      <a (click)="goToSection('shelters')">More shelters</a>
+    </div>
   </div>
   <div class="panel gyms-competitions">
     <div class="visual">places & competitions</div>
@@ -59,6 +62,9 @@
         </div>
       </div>
     </perfect-scrollbar>
-    <a class="full-list-link" (click)="goToSection('places')">See the full list</a>
+    <div class="links">
+      <a (click)="goToSection('places')">More places</a>
+      <a (click)="goToSection('competitions')">More competitions</a>
+    </div>
   </div>
 </ng-container>

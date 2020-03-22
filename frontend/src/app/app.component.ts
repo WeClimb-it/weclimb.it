@@ -10,6 +10,7 @@ import { PlaceSuggestion } from './services/geo.service';
 import { WciApiService } from './services/wciApi.service';
 import { Poi } from './utils/Poi';
 import { AppStoreService } from './services/appState.service';
+import moment from 'moment-timezone';
 
 @Component({
   selector: 'wci-root',
@@ -122,6 +123,10 @@ export class AppComponent implements OnInit {
 
       if (!res.loading) {
         this.userData = res.data.userInfo;
+
+        moment.locale(this.userData.geo.isoCode);
+        moment.tz.setDefault(this.userData.geo.timeZone);
+
         // We set the user location as current one so the map is updated (it will trigger the "onMapUpdate" event)
         this.currentLocation = new GeoLocation(
           this.userData.geo.coords.lat,

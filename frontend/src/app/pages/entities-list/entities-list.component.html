@@ -1,8 +1,53 @@
-<h2>{{ title }}</h2>
-<perfect-scrollbar class="list">
-  <div *ngFor="let item of items">
-    <div class="item crag">
-      <wci-crag-list-item [data]="item"></wci-crag-list-item>
+<h2>
+  {{ title }}
+</h2>
+<div class="title-actions">
+  <button mat-stroked-button (click)="closeList()"><mat-icon>public</mat-icon>go to the map</button>
+</div>
+<ng-container *ngIf="items.length > 0">
+  <perfect-scrollbar class="list">
+    <div *ngFor="let item of items">
+      <ng-container [ngSwitch]="contentType">
+        <ng-container *ngSwitchDefault>???</ng-container>
+        <ng-container *ngSwitchCase="'crags'">
+          <div class="item crag">
+            <wci-crag-list-item [data]="item" [currentLocation]="currentLocation"></wci-crag-list-item>
+          </div>
+        </ng-container>
+        <ng-container *ngSwitchCase="'hikes'">
+          <div class="item hike">
+            <wci-hike-list-item [data]="item" [currentLocation]="currentLocation"></wci-hike-list-item>
+          </div>
+        </ng-container>
+        <ng-container *ngSwitchCase="'shelters'">
+          <div class="item shelter">
+            <wci-shelter-list-item [data]="item" [currentLocation]="currentLocation"></wci-shelter-list-item>
+          </div>
+        </ng-container>
+        <ng-container *ngSwitchCase="'places'">
+          <div class="item place">
+            <wci-place-list-item [data]="item" [currentLocation]="currentLocation"></wci-place-list-item>
+          </div>
+        </ng-container>
+        <ng-container *ngSwitchCase="'competitions'">
+          <div class="item competition">
+            <wci-competition-list-item [data]="item" [currentLocation]="currentLocation"></wci-competition-list-item>
+          </div>
+        </ng-container>
+      </ng-container>
     </div>
+    <mat-paginator
+      *ngIf="navVisible"
+      [length]="navTotalItems"
+      [hidePageSize]="true"
+      [pageSize]="navPageSize"
+      (page)="onPageChange($event)"
+    >
+    </mat-paginator>
+  </perfect-scrollbar>
+</ng-container>
+<ng-container *ngIf="items.length == 0">
+  <div class="no-results">
+    <h4>Nothing to see here...</h4>
   </div>
-</perfect-scrollbar>
+</ng-container>

@@ -1,0 +1,68 @@
+<div class="container" (click)="goToDetailUrl(data.slug)">
+  <div class="metadata">
+    <mat-chip-list>
+      <mat-chip class="no-mouse" color="accent" selected>
+        <span [innerHTML]="data.coords | distance: currentLocation"></span>
+      </mat-chip>
+    </mat-chip-list>
+  </div>
+  <div class="text">
+    <h4>{{ data.name }}</h4>
+    <div class="description">{{ data.descr | capitalizeFirst }}</div>
+  </div>
+  <div class="extra">
+    <mat-chip-list
+      ><mat-chip *ngIf="data.altitude" class="chip" color="primary" selected>
+        <mat-icon aria-hidden="false" aria-label="Altitude">arrow_upward</mat-icon>&nbsp;Altitude:&nbsp;<strong
+          >{{ data.altitude }} mt.</strong
+        >
+      </mat-chip>
+      <mat-chip
+        *ngIf="data.accomodations_food && data.accomodations_food.length < 4"
+        class="chip"
+        color="primary"
+        selected
+      >
+        <mat-icon aria-hidden="false" aria-label="Sits">restaurant_menu</mat-icon>Sits:&nbsp;<strong>{{
+          data.accomodations_food
+        }}</strong>
+      </mat-chip>
+      <mat-chip
+        *ngIf="data.accomodations_rooms && data.accomodations_rooms.length < 4"
+        class="chip"
+        color="primary"
+        selected
+      >
+        <mat-icon aria-hidden="false" aria-label="Rooms">home</mat-icon>
+        Rooms:&nbsp;<strong>{{ data.accomodations_rooms }}</strong>
+      </mat-chip>
+      <mat-chip *ngIf="data.beds" class="chip" color="primary" selected>
+        <mat-icon aria-hidden="false" aria-label="Beds">hotel</mat-icon>
+        Beds:&nbsp;<strong>{{ data.beds }}</strong>
+      </mat-chip>
+    </mat-chip-list>
+    <div *ngIf="data.opening" class="info-box" aria-label="Opening info">
+      <mat-icon aria-hidden="false">calendar_today</mat-icon>
+      <div class="capitalize">{{ data.opening }}</div>
+    </div>
+    <div
+      *ngIf="data.accomodations_food && data.accomodations_food.length > 4"
+      class="info-box"
+      aria-label="Accomodation info"
+    >
+      <mat-icon aria-hidden="false">restaurant_menu</mat-icon>
+      <div class="capitalize">{{ data.accomodations_food }}</div>
+    </div>
+    <div
+      *ngIf="data.accomodations_rooms && data.accomodations_rooms.length > 4"
+      class="info-box"
+      aria-label="Rooms info"
+    >
+      <mat-icon aria-hidden="false">home</mat-icon>
+      <div class="capitalize">{{ data.accomodations_rooms }}</div>
+    </div>
+  </div>
+  <div class="source-link">
+    source: <a href="{{ data.resource_url }}" target="_blank">{{ data.resource_url }}</a>
+  </div>
+</div>

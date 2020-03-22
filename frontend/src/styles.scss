@@ -2,6 +2,7 @@
 // For more information: https://material.angular.io/guide/theming
 @import '~@angular/material/theming';
 @import 'palette';
+@import 'colors';
 
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
@@ -12,7 +13,7 @@
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
 $frontend-primary: mat-palette($md-wcipalette);
-$frontend-accent: mat-palette($md-wcipalette, A200, A100, A400);
+$frontend-accent: mat-palette($md-wcipalette, A500, A200, A400);
 
 // The warn palette is optional (defaults to red).
 $frontend-warn: mat-palette($mat-red);
@@ -52,8 +53,36 @@ h6 {
   font-weight: 500;
 }
 
+a,
+a:link,
+a:active,
+a:visited {
+  color: $primaryAltDark;
+
+  &:hover {
+    color: $primary;
+  }
+}
+
+.no-mouse {
+  pointer-events: none;
+}
+
+.capitalize {
+  display: inline-block;
+
+  &::first-letter {
+    text-transform: capitalize;
+  }
+}
+
 .ps__rail-y {
   background-color: transparent !important;
+}
+
+// Global MD customizations --
+.mat-paginator-range-actions {
+  margin: 0 auto;
 }
 
 .mat-progress-bar-fill::after {
@@ -68,3 +97,4 @@ h6 {
 .mat-progress-bar {
   border-radius: 10px;
 }
+// --------------------------

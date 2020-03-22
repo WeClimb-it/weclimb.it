@@ -194,14 +194,14 @@ $panelsMaxWidth: 660px;
         }
 
         .ng5-slider-selection {
-          background: $primaryColor;
+          background: $primary;
         }
 
         .ng5-slider-pointer {
           outline: none;
           width: 16px;
           height: 16px;
-          background-color: $primaryColor;
+          background-color: $primary;
           top: -7px;
 
           &:after {

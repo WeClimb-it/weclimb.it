@@ -1,0 +1,35 @@
+<div class="container" (click)="goToDetailUrl(data.slug)">
+  <div class="metadata">
+    <mat-chip-list>
+      <mat-chip class="no-mouse" color="accent" selected>
+        <span [innerHTML]="data.coords | distance: currentLocation"></span>
+      </mat-chip>
+    </mat-chip-list>
+  </div>
+  <div class="text">
+    <h4>{{ data.title }}</h4>
+    <div class="description">{{ data.descr | capitalizeFirst }}</div>
+  </div>
+  <div class="extra">
+    <mat-chip-list>
+      <mat-chip *ngIf="data.difficulty" class="chip" color="primary" selected
+        ><mat-icon aria-hidden="false" aria-label="Difficulty">fitness_center</mat-icon>&nbsp;Difficulty:&nbsp;
+        <strong>{{ data.difficulty }}</strong></mat-chip
+      >
+      <mat-chip *ngIf="data.elevation.low" class="chip" color="primary" selected
+        ><mat-icon aria-hidden="false" aria-label="Min. elevation">arrow_downward</mat-icon>&nbsp;Min
+        elevation:&nbsp;<strong>{{ data.elevation.low }} mt.</strong></mat-chip
+      >
+      <mat-chip *ngIf="data.elevation.high" class="chip" color="primary" selected
+        ><mat-icon aria-hidden="false" aria-label="Max. elevation">arrow_upward</mat-icon>&nbsp;Max
+        elevation:&nbsp;<strong>{{ data.elevation.high }} mt.</strong></mat-chip
+      >
+      <mat-chip *ngIf="data.tracks.length > 0" color="primary" selected
+        ><mat-icon aria-hidden="false" aria-label="Has GPS tracks">directions</mat-icon>&nbsp; GPS track</mat-chip
+      >
+    </mat-chip-list>
+  </div>
+  <div class="source-link">
+    source: <a href="{{ data.resource_url }}" target="_blank">{{ data.resource_url }}</a>
+  </div>
+</div>

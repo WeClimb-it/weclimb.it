@@ -8,6 +8,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatPaginatorModule } from '@angular/material/paginator';
+
 import { Ng5SliderModule } from 'ng5-slider';
 
 /**
@@ -22,6 +24,7 @@ import { Ng5SliderModule } from 'ng5-slider';
     MatChipsModule,
     MatSliderModule,
     MatProgressBarModule,
+    MatPaginatorModule,
     Ng5SliderModule,
   ],
 })

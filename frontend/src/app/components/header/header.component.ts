@@ -97,6 +97,10 @@ export class HeaderComponent {
    *
    */
   onSuggestionSelected(item: PlaceSuggestion): void {
+    if (!item) {
+      return;
+    }
+
     this.geoService
       .geocodeByPlaceId(item.place_id)
       .then((results: any) => {

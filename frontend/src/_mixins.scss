@@ -1,0 +1,7 @@
+@mixin multilineTruncate($lines) {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+
+  -webkit-line-clamp: $lines;
+  overflow: hidden;
+}
