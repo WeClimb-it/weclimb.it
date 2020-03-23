@@ -4,13 +4,14 @@
 
 .map-location {
   position: relative;
-  height: 95px;
+  height: 147px;
   color: $primaryAltDark;
   text-align: center;
   padding-top: 13px;
 
   .content {
     position: relative;
+    top: 25px;
     z-index: 3;
     cursor: default;
   }
@@ -78,7 +79,7 @@
 
 .panel {
   position: relative;
-  height: calc((100vh / 3 - 75px) + (85px / 3));
+  height: calc((100vh / 3 - 83px) + (85px / 3));
 
   .visual {
     height: 85px;
@@ -96,7 +97,6 @@
 
   .list {
     max-height: calc(100% - 85px);
-    cursor: pointer;
 
     &:after {
       pointer-events: none;
@@ -110,12 +110,13 @@
     }
 
     .item {
+      cursor: pointer;
       padding-left: 15px;
       padding-right: 10px;
       margin-top: 10px;
       padding-bottom: 5px;
       margin-bottom: 5px;
-      border-bottom: 1px solid rgba($color: black, $alpha: 0.2);
+      border-bottom: 1px solid rgba($color: black, $alpha: 0.3);
 
       &:hover {
         h2 {
@@ -150,6 +151,12 @@
       margin: 0 10px;
       background-color: rgba($primary, 0.5);
     }
+  }
+
+  .no-results {
+    text-align: center;
+    color: rgba(white, 0.65);
+    margin-top: 20px;
   }
 
   &.crags-boulders .visual {
