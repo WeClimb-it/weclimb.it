@@ -10,7 +10,7 @@ import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'wci-crag-list-item',
   templateUrl: 'crag-item.component.html',
-  styleUrls: ['../common.scss'],
+  styleUrls: ['crag-item.component.scss'],
 })
 export class CragListItemComponent extends BaseListItemComponent implements OnInit {
   @Input() data: Crag;
