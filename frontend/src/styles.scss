@@ -3,6 +3,7 @@
 @import '~@angular/material/theming';
 @import 'palette';
 @import 'colors';
+@import 'common';
 
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
@@ -80,7 +81,28 @@ a:visited {
   background-color: transparent !important;
 }
 
+.ps__thumb-y {
+  background-color: rgba(black, 0.05) !important;
+}
+.ps__rail-y.ps--clicking .ps__thumb-y,
+.ps__rail-y:focus > .ps__thumb-y,
+.ps__rail-y:hover > .ps__thumb-y {
+  background-color: rgba(black, 0.2) !important;
+}
+
 // Global MD customizations --
+.media-dialog .mat-dialog-container {
+  width: 60vw !important;
+}
+
+.cdk-overlay-container {
+  z-index: 999999 !important;
+
+  .mat-dialog-container {
+    @include mat-elevation(3, black, 0.8);
+  }
+}
+
 .mat-paginator-range-actions {
   margin: 0 auto;
 }
@@ -98,3 +120,66 @@ a:visited {
   border-radius: 10px;
 }
 // --------------------------
+
+//
+// LOADER
+//
+.loading {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  z-index: $maxZIndex;
+  top: 0;
+  left: 0;
+  background: rgba(white, 0.95);
+}
+.spin-loader {
+  position: relative;
+  left: -180px;
+  width: 210px;
+  height: 210px;
+  margin-top: 50vh;
+  margin-left: auto;
+  margin-right: auto;
+}
+#loader-outline {
+  stroke: $primary;
+  stroke-dasharray: 2.42777px, 242.77666px;
+  stroke-dashoffset: 0;
+  -webkit-animation: loader-anim 1.6s linear infinite;
+  animation: loader-anim 1.6s linear infinite;
+}
+#loader-outline-bg {
+  stroke: black;
+}
+@-webkit-keyframes loader-anim {
+  12.5% {
+    stroke-dasharray: 33.98873px, 242.77666px;
+    stroke-dashoffset: -26.70543px;
+  }
+  43.75% {
+    stroke-dasharray: 84.97183px, 242.77666px;
+    stroke-dashoffset: -84.97183px;
+  }
+  100% {
+    stroke-dasharray: 2.42777px, 242.77666px;
+    stroke-dashoffset: -240.34889px;
+  }
+}
+@keyframes loader-anim {
+  12.5% {
+    stroke-dasharray: 33.98873px, 242.77666px;
+    stroke-dashoffset: -26.70543px;
+  }
+  43.75% {
+    stroke-dasharray: 84.97183px, 242.77666px;
+    stroke-dashoffset: -84.97183px;
+  }
+  100% {
+    stroke-dasharray: 2.42777px, 242.77666px;
+    stroke-dashoffset: -240.34889px;
+  }
+}
+//
+// END LOADER
+//

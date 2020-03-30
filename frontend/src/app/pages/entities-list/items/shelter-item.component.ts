@@ -4,6 +4,7 @@ import { GeoLocation } from 'src/app/classes/geolocation.class';
 import { Shelter } from 'src/app/interfaces/graphql/shelter.type';
 import { ContentType } from 'src/app/utils/ContentType';
 import { BaseListItemComponent } from './base-item.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'wci-shelter-list-item',
@@ -13,11 +14,12 @@ import { BaseListItemComponent } from './base-item.component';
 export class ShelterListItemComponent extends BaseListItemComponent implements OnInit {
   @Input() data: Shelter;
   @Input() currentLocation: GeoLocation;
+  @Input() showCategory: boolean;
 
   protected itemSection = ContentType.SHELTERS;
 
-  constructor(protected router: Router) {
-    super(router);
+  constructor(protected router: Router, public dialog: MatDialog) {
+    super(router, dialog);
   }
 
   ngOnInit() {}

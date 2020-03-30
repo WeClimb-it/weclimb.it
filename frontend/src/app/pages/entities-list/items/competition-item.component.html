@@ -1,8 +1,11 @@
-<div class="container" (click)="goToDetailUrl(data.slug)">
+<div class="container">
   <div class="metadata">
     <mat-chip-list>
       <mat-chip class="no-mouse" color="accent" selected>
         <span [innerHTML]="data.coords | distance: currentLocation"></span>
+      </mat-chip>
+      <mat-chip *ngIf="showCategory" class="no-mouse category" selected>
+        <span>COMPETITION</span>
       </mat-chip>
     </mat-chip-list>
   </div>
@@ -11,7 +14,7 @@
       <div *ngIf="startDate"><mat-icon>event_available</mat-icon> {{ startDate | amCalendar }}</div>
       <div *ngIf="endDate"><mat-icon>event_busy</mat-icon> {{ endDate | amCalendar }}</div>
     </div>
-    <h4>
+    <h4 (click)="goToDetailUrl(data.slug)">
       {{ data.title }}
       <mat-icon color="accent" *ngIf="hasBeenDisputed" aria-label="Competition already disputed">done_outline</mat-icon>
     </h4>

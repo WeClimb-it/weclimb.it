@@ -4,50 +4,74 @@
 <div class="title-actions">
   <button mat-stroked-button (click)="closeList()"><mat-icon>public</mat-icon>go to the map</button>
 </div>
-<ng-container *ngIf="items.length > 0">
+<ng-container *ngIf="items && items.length > 0">
   <perfect-scrollbar class="list">
     <div *ngFor="let item of items">
-      <ng-container [ngSwitch]="contentType">
-        <ng-container *ngSwitchDefault>???</ng-container>
-        <ng-container *ngSwitchCase="'crags'">
+      <ng-container [ngSwitch]="typeOfItem(item)">
+        <ng-container *ngSwitchCase="'Crag'">
           <div class="item crag">
-            <wci-crag-list-item [data]="item" [currentLocation]="currentLocation"></wci-crag-list-item>
+            <wci-crag-list-item
+              [data]="item"
+              [currentLocation]="currentLocation"
+              [showCategory]="contentType === 'search'"
+            ></wci-crag-list-item>
           </div>
         </ng-container>
-        <ng-container *ngSwitchCase="'hikes'">
+        <ng-container *ngSwitchCase="'Hike'">
           <div class="item hike">
-            <wci-hike-list-item [data]="item" [currentLocation]="currentLocation"></wci-hike-list-item>
+            <wci-hike-list-item
+              [data]="item"
+              [currentLocation]="currentLocation"
+              [showCategory]="contentType === 'search'"
+            ></wci-hike-list-item>
           </div>
         </ng-container>
-        <ng-container *ngSwitchCase="'shelters'">
+        <ng-container *ngSwitchCase="'Shelter'">
           <div class="item shelter">
-            <wci-shelter-list-item [data]="item" [currentLocation]="currentLocation"></wci-shelter-list-item>
+            <wci-shelter-list-item
+              [data]="item"
+              [currentLocation]="currentLocation"
+              [showCategory]="contentType === 'search'"
+            ></wci-shelter-list-item>
           </div>
         </ng-container>
-        <ng-container *ngSwitchCase="'places'">
+        <ng-container *ngSwitchCase="'Place'">
           <div class="item place">
-            <wci-place-list-item [data]="item" [currentLocation]="currentLocation"></wci-place-list-item>
+            <wci-place-list-item
+              [data]="item"
+              [currentLocation]="currentLocation"
+              [showCategory]="contentType === 'search'"
+            ></wci-place-list-item>
           </div>
         </ng-container>
-        <ng-container *ngSwitchCase="'competitions'">
+        <ng-container *ngSwitchCase="'Competition'">
           <div class="item competition">
-            <wci-competition-list-item [data]="item" [currentLocation]="currentLocation"></wci-competition-list-item>
+            <wci-competition-list-item
+              [data]="item"
+              [currentLocation]="currentLocation"
+              [showCategory]="contentType === 'search'"
+            ></wci-competition-list-item>
           </div>
         </ng-container>
       </ng-container>
     </div>
     <mat-paginator
       *ngIf="navVisible"
-      [length]="navTotalItems"
       [hidePageSize]="true"
+      [showFirstLastButtons]="true"
+      [pageIndex]="navCurrentPage - 1"
+      [length]="navTotalItems"
       [pageSize]="navPageSize"
       (page)="onPageChange($event)"
     >
     </mat-paginator>
   </perfect-scrollbar>
 </ng-container>
-<ng-container *ngIf="items.length == 0">
+<ng-container *ngIf="!isLoading && (!items || items.length == 0)">
   <div class="no-results">
-    <h4>Nothing to see here...</h4>
+    <h4>There are no results</h4>
   </div>
+</ng-container>
+<ng-container *ngIf="isLoading">
+  <wci-loader></wci-loader>
 </ng-container>

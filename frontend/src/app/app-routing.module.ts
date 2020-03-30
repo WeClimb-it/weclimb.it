@@ -3,7 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { DetailComponent } from './pages/detail/detail.component';
 import { EntitiesListComponent } from './pages/entities-list/entities-list.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
-import { SearchResultsComponent } from './pages/search-results/search-results.component';
 import { ContentType } from './utils/ContentType';
 
 /**
@@ -37,8 +36,8 @@ const routes: Routes = [
   { path: 'news/page/:page', component: EntitiesListComponent, data: { type: ContentType.NEWS } },
   { path: 'news/:slug', component: DetailComponent, data: { type: 'news' } },
 
-  { path: 'search/:query', component: SearchResultsComponent },
-  { path: 'search/page/:query', component: SearchResultsComponent },
+  { path: 'search/:query', component: EntitiesListComponent, data: { type: ContentType.SEARCH } },
+  { path: 'search/:query/page/:page', component: EntitiesListComponent, data: { type: ContentType.SEARCH } },
 
   { path: '404', component: NotFoundComponent },
   { path: '**', component: NotFoundComponent },

@@ -10,13 +10,22 @@ import {
   NewsResult,
   PlacesResult,
   SheltersResult,
+  SearchResult,
 } from 'src/app/graphql/queries';
 import { AppStoreService } from 'src/app/services/appState.service';
 import { WciApiService } from 'src/app/services/wciApi.service';
 import { ContentType } from 'src/app/utils/ContentType';
 import { Poi } from 'src/app/utils/Poi';
+import { SearchOptions } from 'src/app/components/header/header.component';
 
-type Results = CragsResult | HikesResult | SheltersResult | PlacesResult | CompetitionsResult | NewsResult;
+type Results =
+  | CragsResult
+  | HikesResult
+  | SheltersResult
+  | PlacesResult
+  | CompetitionsResult
+  | NewsResult
+  | SearchResult;
 
 const DEFAULT_START = 0;
 // On the server we have the same pageSize and it is not possible to be changed.
@@ -31,6 +40,8 @@ export class EntitiesListComponent implements OnInit, OnDestroy {
   title = '';
   items: Poi[] = [];
 
+  specialItems: Record<string, Poi[]> = {};
+
   currentLocation: GeoLocation;
   contentType: ContentType;
 
@@ -42,6 +53,9 @@ export class EntitiesListComponent implements OnInit, OnDestroy {
   navStart = DEFAULT_START;
   navEnd = DEFAULT_END;
   navVisible = false;
+
+  isLoading = true;
+  firstLoad = true;
 
   private appStoreSub$: Subscription;
 
@@ -63,6 +77,11 @@ export class EntitiesListComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
+      // Load date on query change
+      if (params.query && !this.firstLoad) {
+        this.doLoad();
+      }
+
       if (params.page) {
         if (isNaN(params.page)) {
           this.router.navigate(['404']);
@@ -74,6 +93,8 @@ export class EntitiesListComponent implements OnInit, OnDestroy {
         this.navCurrentPage = +params.page;
         this.navStart = this.navPageSize * (page - 1);
         this.navEnd = this.navStart + this.navPageSize;
+
+        console.log(this.navStart, this.navEnd);
       }
     });
   }
@@ -82,6 +103,9 @@ export class EntitiesListComponent implements OnInit, OnDestroy {
     this.appStoreSub$.unsubscribe();
   }
 
+  /**
+   *
+   */
   onPageChange($event: PageEvent): void {
     this.router.navigate([this.navCurrentEndpoint, 'page', $event.pageIndex + 1]);
     this.navCurrentPage = $event.pageIndex;
@@ -100,7 +124,15 @@ export class EntitiesListComponent implements OnInit, OnDestroy {
   /**
    *
    */
-  private doLoad() {
+  typeOfItem(item: any): string {
+    return item.__typename;
+  }
+
+  /**
+   *
+   */
+  private doLoad(): void {
+    this.firstLoad = false;
     this.loadData({
       lat: this.currentLocation.lat,
       lng: this.currentLocation.lng,
@@ -112,10 +144,11 @@ export class EntitiesListComponent implements OnInit, OnDestroy {
   /**
    *
    */
-  private loadData(opts: { lat: number; lng: number; start: number; end: number }): void {
+  private loadData(opts: { lat: number; lng: number; start: number; end: number } | SearchOptions): void {
     let query;
     let resultPayloadProperty: ContentType;
     resultPayloadProperty = this.navCurrentEndpoint = this.route.snapshot.data.type;
+
     switch (this.contentType) {
       default:
         throw new Error(`Unexpected content type was given [${this.contentType}].`);
@@ -149,15 +182,29 @@ export class EntitiesListComponent implements OnInit, OnDestroy {
         // TODO: i18n
         this.title = 'News';
         break;
+      case ContentType.SEARCH:
+        query = this.api.getSearchResults;
+        // TODO: i18n
+        this.title = 'Search results';
+        opts = {
+          ...opts,
+          query: this.route.snapshot.params.query,
+        };
+        this.navCurrentEndpoint = `${this.route.snapshot.data.type}/${opts.query}`;
+        break;
     }
 
     if (typeof query === 'function') {
+      this.isLoading = true;
+
       const sub$ = query(opts).subscribe((res: Results) => {
         if (res.errors) {
           throw new Error('Something went wrong during the nearby query');
         }
 
         if (!res.loading) {
+          this.isLoading = false;
+
           const result = res.data[resultPayloadProperty];
 
           if (this.navCurrentPage > 1 && this.navCurrentPage > result.pagination.pageCount) {
@@ -165,13 +212,34 @@ export class EntitiesListComponent implements OnInit, OnDestroy {
             return;
           }
 
-          this.items = result.items;
+          if (resultPayloadProperty !== ContentType.SEARCH) {
+            this.items = result.items;
+            this.navTotalItems = result.pagination.total;
+          } else {
+            this.items = [
+              ...result.crags,
+              ...result.events,
+              ...result.places,
+              ...result.competitions,
+              ...result.shelters,
+              ...result.hikes,
+            ];
+            this.specialItems = {
+              locations: result.locations,
+              sectors: result.sectors,
+              routes: result.routes,
+              news: result.news,
+            };
+            // TODO: In case of search, the BE does not return
+            // a precise total items count yet.
+            this.navTotalItems = result.pagination.size * result.pagination.pageCount;
+          }
+
           this.navVisible = result.pagination.pageCount > 1;
           this.navCurrentPage = result.pagination.currentPage;
           this.navPageCount = result.pagination.pageCount;
           this.navPageSize = result.pagination.size;
-          this.navTotalItems = result.pagination.total;
-          console.log(this.items);
+
           sub$.unsubscribe();
         }
       });

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router, RouterEvent } from '@angular/router';
 import { GeoLocation } from './classes/geolocation.class';
 import { SearchOptions } from './components/header/header.component';
-import { LatestResult, NearbyResult, SearchResult as QuerySearchResult, UserInfoResult } from './graphql/queries';
+import { LatestResult, NearbyResult, UserInfoResult } from './graphql/queries';
 import { MapUpdateEvent } from './interfaces/events/map-update.interface';
 import { SearchResult } from './interfaces/graphql/searchresult.type';
 import { UserInfo } from './interfaces/graphql/userinfo.type';
@@ -58,20 +58,19 @@ export class AppComponent implements OnInit {
   }
 
   /**
-   * TODO: This should go to the search route where the
-   * actual search should take place.
+   *
    */
   onSearch(searchOptions: SearchOptions): void {
     this.latestSearchOptions = searchOptions;
-    const searchSubscription = this.api
-      .getSearchResults(this.latestSearchOptions)
-      .subscribe((res: QuerySearchResult) => {
-        if (res.errors) {
-          throw new Error('Something went wrong during the search query');
-        }
+    this.appStore.setProperty('searchOptions', searchOptions);
+    this.router.navigate(['search', searchOptions.query]);
+  }
 
-        searchSubscription.unsubscribe();
-      });
+  /**
+   *
+   */
+  onSectionSelected(endpoint: string): void {
+    this.router.navigate([endpoint]);
   }
 
   /**

@@ -4,6 +4,7 @@ import { GeoLocation } from 'src/app/classes/geolocation.class';
 import { Place } from 'src/app/interfaces/graphql/place.type';
 import { ContentType } from 'src/app/utils/ContentType';
 import { BaseListItemComponent } from './base-item.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'wci-place-list-item',
@@ -13,11 +14,12 @@ import { BaseListItemComponent } from './base-item.component';
 export class PlaceListItemComponent extends BaseListItemComponent implements OnInit {
   @Input() data: Place;
   @Input() currentLocation: GeoLocation;
+  @Input() showCategory: boolean;
 
   protected itemSection = ContentType.PLACES;
 
-  constructor(protected router: Router) {
-    super(router);
+  constructor(protected router: Router, public dialog: MatDialog) {
+    super(router, dialog);
   }
 
   ngOnInit() {}

@@ -28,8 +28,7 @@ export class SidebarComponent {
   @Input() pois: EntitiesPayload;
 
   @Output() poiSelected: EventEmitter<Entity> = new EventEmitter<Entity>();
-
-  constructor(private router: Router) {}
+  @Output() sectionSelected: EventEmitter<string> = new EventEmitter<string>();
 
   /**
    *
@@ -42,6 +41,6 @@ export class SidebarComponent {
    *
    */
   goToSection(endpoint: string): void {
-    this.router.navigateByUrl(`/${endpoint}`);
+    this.sectionSelected.emit(endpoint);
   }
 }

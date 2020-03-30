@@ -6,6 +6,32 @@
   }
 }
 
+.media {
+  margin-bottom: 15px;
+
+  .image {
+    @include mat-elevation(2, black, 0.25);
+    border: 1px solid rgba(black, 0.05);
+    background: white;
+    border-radius: 4px;
+    padding: 5px;
+    margin-top: 10px;
+    margin-right: 10px;
+    display: inline-block;
+
+    &:last-child {
+      margin-right: 0;
+    }
+
+    width: 150px;
+
+    img {
+      width: 100%;
+      vertical-align: middle;
+    }
+  }
+}
+
 @mixin reducedWidthRules() {
   .extra {
     .chip {

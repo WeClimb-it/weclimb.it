@@ -16,6 +16,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
 import { MapComponent } from './components/map/map.component';
+import { MediaPlayerComponent } from './components/media-player/media-player.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { GraphQLModule } from './graphql.module';
 import { MaterialModule } from './material.module';
@@ -27,33 +28,34 @@ import { HikeListItemComponent } from './pages/entities-list/items/hike-item.com
 import { PlaceListItemComponent } from './pages/entities-list/items/place-item.component';
 import { ShelterListItemComponent } from './pages/entities-list/items/shelter-item.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
-import { SearchResultsComponent } from './pages/search-results/search-results.component';
 import { CapitalizeFirstPipe } from './pipes/capitalizeFirst/capitalize-first.pipe';
 import { DistancePipe } from './pipes/distance/distance.pipe';
+import { LoaderComponent } from './components/loader/loader.component';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
 };
 
 const pipes = [DistancePipe, CapitalizeFirstPipe];
+const appComponents = [
+  AppComponent,
+  MapComponent,
+  HeaderComponent,
+  SidebarComponent,
+  NotFoundComponent,
+  EntitiesListComponent,
+  DetailComponent,
+  CragListItemComponent,
+  HikeListItemComponent,
+  ShelterListItemComponent,
+  PlaceListItemComponent,
+  CompetitionListItemComponent,
+  MediaPlayerComponent,
+  LoaderComponent,
+];
 
 @NgModule({
-  declarations: [
-    ...pipes,
-    AppComponent,
-    MapComponent,
-    HeaderComponent,
-    SidebarComponent,
-    NotFoundComponent,
-    EntitiesListComponent,
-    SearchResultsComponent,
-    DetailComponent,
-    CragListItemComponent,
-    HikeListItemComponent,
-    ShelterListItemComponent,
-    PlaceListItemComponent,
-    CompetitionListItemComponent,
-  ],
+  declarations: [...pipes, ...appComponents],
   imports: [
     BrowserModule,
     AppRoutingModule,

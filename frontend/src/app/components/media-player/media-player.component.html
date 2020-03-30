@@ -1,0 +1,20 @@
+<h1 mat-dialog-title>
+  {{ data.title || data.name | capitalizeFirst }}
+  <div class="title-actions">
+    <button mat-flat-button color="primary"><mat-icon>forward</mat-icon>OPEN DETAIL</button>
+  </div>
+</h1>
+<div class="selected">
+  <img src="{{ data.media[selectedIndex] }}" />
+</div>
+<div mat-dialog-content *ngIf="data.media.length > 1">
+  <perfect-scrollbar>
+    <div class="thumbnails">
+      <ng-container *ngFor="let image of data.media; let i = index">
+        <div class="thumbnail" [ngClass]="{ highlight: selectedIndex === i }" (click)="selectMedia(i)">
+          <img src="{{ image }}" />
+        </div>
+      </ng-container>
+    </div>
+  </perfect-scrollbar>
+</div>

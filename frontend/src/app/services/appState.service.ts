@@ -1,3 +1,5 @@
+// TODO: Instead of using hard-coded string as keys, provide a enum or something
+
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Observable } from 'rxjs';

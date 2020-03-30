@@ -57,10 +57,6 @@ export default class {
           crags {
             slug
             title
-            descr
-            altitude
-            rock_type
-            notes
             coords {
               lat
               lng
@@ -72,11 +68,9 @@ export default class {
             resource_url
           }
           places {
-            social_id
             slug
             title
             descr
-            notes
             coords {
               lat
               lng

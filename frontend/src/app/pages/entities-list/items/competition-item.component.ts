@@ -6,6 +6,7 @@ import { ContentType } from 'src/app/utils/ContentType';
 import { BaseListItemComponent } from './base-item.component';
 
 import _ from 'lodash';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'wci-competition-list-item',
@@ -15,6 +16,7 @@ import _ from 'lodash';
 export class CompetitionListItemComponent extends BaseListItemComponent implements OnInit, OnChanges {
   @Input() data: Competition;
   @Input() currentLocation: GeoLocation;
+  @Input() showCategory: boolean;
 
   hasBeenDisputed = false;
   types = [];
@@ -25,8 +27,8 @@ export class CompetitionListItemComponent extends BaseListItemComponent implemen
 
   protected itemSection = ContentType.COMPETITIONS;
 
-  constructor(protected router: Router) {
-    super(router);
+  constructor(protected router: Router, public dialog: MatDialog) {
+    super(router, dialog);
   }
 
   ngOnInit() {}

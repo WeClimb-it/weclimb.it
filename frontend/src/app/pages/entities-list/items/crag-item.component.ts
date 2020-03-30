@@ -5,6 +5,7 @@ import { GeoLocation } from 'src/app/classes/geolocation.class';
 import { BaseListItemComponent } from './base-item.component';
 import { Router } from '@angular/router';
 import { ContentType } from 'src/app/utils/ContentType';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'wci-crag-list-item',
@@ -14,6 +15,7 @@ import { ContentType } from 'src/app/utils/ContentType';
 export class CragListItemComponent extends BaseListItemComponent implements OnInit {
   @Input() data: Crag;
   @Input() currentLocation: GeoLocation;
+  @Input() showCategory: boolean;
 
   ROUTES_COUNT_GOOD_THRESHOLD = 20;
   ROUTES_COUNT_AWESOME_THRESHOLD = 60;
@@ -23,8 +25,8 @@ export class CragListItemComponent extends BaseListItemComponent implements OnIn
 
   protected itemSection = ContentType.CRAGS;
 
-  constructor(protected router: Router) {
-    super(router);
+  constructor(protected router: Router, public dialog: MatDialog) {
+    super(router, dialog);
   }
 
   ngOnInit() {}

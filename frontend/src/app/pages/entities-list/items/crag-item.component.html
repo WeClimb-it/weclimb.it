@@ -1,4 +1,4 @@
-<div class="container" (click)="goToDetailUrl(data.slug)">
+<div class="container">
   <div class="metadata">
     <mat-chip-list>
       <mat-icon
@@ -16,10 +16,13 @@
       <mat-chip class="no-mouse" color="accent" selected>
         <span [innerHTML]="data.coords | distance: currentLocation"></span>
       </mat-chip>
+      <mat-chip *ngIf="showCategory" class="no-mouse category" selected>
+        <span>CRAG</span>
+      </mat-chip>
     </mat-chip-list>
   </div>
   <div class="text">
-    <h4>{{ data.title }}</h4>
+    <h4 (click)="goToDetailUrl(data.slug)">{{ data.title }}</h4>
     <div class="description">{{ data.descr | capitalizeFirst }}</div>
   </div>
   <div class="extra">
@@ -34,7 +37,7 @@
           >&nbsp;routes</mat-chip
         >
       </mat-chip-list>
-      <div class="coeff" aria-label="Climate trend">
+      <div *ngIf="data.quality_rank.weather !== null" class="coeff" aria-label="Climate trend">
         <mat-icon aria-hidden="false" aria-label="Warm">brightness_high</mat-icon
         ><mat-progress-bar mode="determinate" value="{{ data.quality_rank.weather * 100 }}"></mat-progress-bar>
         <div class="progress-info">

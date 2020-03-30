@@ -4,16 +4,6 @@
 @import '../../../colors';
 @import '../../../mixins';
 
-.container {
-  cursor: pointer;
-
-  &:hover {
-    h4 {
-      text-decoration: underline;
-    }
-  }
-}
-
 .metadata {
   margin-top: 10px;
   margin-bottom: 10px;
@@ -26,15 +16,28 @@
     font-size: 12px;
     min-height: 24px;
     margin-right: 5px;
+    border: 1px solid rgba(black, 0.05);
 
     &:last-child {
       margin-right: 0;
+    }
+
+    &.category {
+      background-color: rgba(black, 0.05);
+      letter-spacing: 1px;
+      text-transform: capitalize;
     }
   }
 }
 
 .text {
   h4 {
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
+
     color: black;
     font-size: 23px;
     font-weight: lighter;

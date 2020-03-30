@@ -5,4 +5,5 @@ export enum ContentType {
   PLACES = 'places',
   COMPETITIONS = 'competitions',
   NEWS = 'news',
+  SEARCH = 'search',
 }
