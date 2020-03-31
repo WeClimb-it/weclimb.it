@@ -81,11 +81,12 @@ h2 {
 
 .no-results {
   h4 {
-    padding-top: 30px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 300;
+    padding-top: 10vh;
     text-align: center;
     font-size: 40px;
-    font-weight: lighter;
-    color: rgba(black, 0.7);
+    color: rgba(black, 0.5);
     cursor: default;
 
     strong {
