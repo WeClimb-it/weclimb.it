@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { NavigationEnd, Router, RouterEvent } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router, RouterEvent } from '@angular/router';
+import moment from 'moment-timezone';
 import { GeoLocation } from './classes/geolocation.class';
 import { SearchOptions } from './components/header/header.component';
 import { LatestResult, NearbyResult, UserInfoResult } from './graphql/queries';
 import { MapUpdateEvent } from './interfaces/events/map-update.interface';
 import { SearchResult } from './interfaces/graphql/searchresult.type';
 import { UserInfo } from './interfaces/graphql/userinfo.type';
+import { AppStoreService } from './services/appState.service';
 import { PlaceSuggestion } from './services/geo.service';
 import { WciApiService } from './services/wciApi.service';
 import { Poi } from './utils/Poi';
-import { AppStoreService } from './services/appState.service';
-import moment from 'moment-timezone';
 
 @Component({
   selector: 'wci-root',
@@ -25,15 +25,22 @@ export class AppComponent implements OnInit {
   latestPois: SearchResult;
 
   showContent = false;
+  isFloatingContent = false;
 
   private mapData: MapUpdateEvent;
   private userData: UserInfo;
   private latestSearchOptions: SearchOptions;
 
-  constructor(private api: WciApiService, private router: Router, private appStore: AppStoreService) {
+  constructor(
+    private api: WciApiService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private appStore: AppStoreService,
+  ) {
     this.router.events.subscribe((event: RouterEvent) => {
       if (event instanceof NavigationEnd) {
-        this.showContent = event.url !== '/';
+        this.showContent = !!this.route.root.firstChild.snapshot.data.type;
+        this.isFloatingContent = this.route.root.firstChild.snapshot.data.isFloatingContent;
       }
     });
   }

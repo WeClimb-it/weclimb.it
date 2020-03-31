@@ -1,0 +1,12 @@
+@import '~@angular/material/theming';
+@import '../../../common';
+
+.detail-card {
+  @include mat-elevation(6, black, 0.5);
+
+  width: calc(100% - 40px);
+  height: calc(100% - 40px);
+  background: white;
+  border-radius: 30px;
+  padding: 20px;
+}

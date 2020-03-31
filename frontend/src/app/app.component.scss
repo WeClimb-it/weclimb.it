@@ -27,6 +27,7 @@
   position: relative;
   z-index: $maxZIndex;
   width: $sidebarWidth;
+  flex: 0 0 $sidebarWidthEm;
   height: 100%;
   background: $sidebarBg;
   box-shadow: -2px 0 6px rgba(black, 0.25);

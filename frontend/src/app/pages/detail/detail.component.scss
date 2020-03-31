@@ -1,0 +1,28 @@
+@import '../../../common';
+
+.detail-container {
+  position: absolute;
+  bottom: 50px;
+  width: calc(100vw - #{$sidebarWidth});
+  height: 60vh;
+  min-height: 320px;
+
+  wci-detail-card {
+    display: inline-block;
+    width: calc(100vw - #{$sidebarWidth} - 80px);
+    max-width: 920px;
+  }
+}
+
+@media only screen and (max-width: $mobileBreakpointWidth) {
+  .detail-container {
+    left: 0;
+    bottom: 0;
+    width: 100vw;
+
+    wci-detail-card {
+      width: 100%;
+      max-width: 100%;
+    }
+  }
+}

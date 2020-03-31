@@ -1,4 +1,4 @@
-<div class="main" [ngClass]="{ 'has-content': showContent }" fxLayout="row">
+<div class="main" [ngClass]="{ 'has-content': showContent && !isFloatingContent }" fxLayout="row">
   <div class="map">
     <wci-header
       class="header"
@@ -24,9 +24,12 @@
       (poiSelected)="onPoiSelected($event)"
     ></wci-sidebar>
   </div>
-  <div class="content" *ngIf="showContent">
+  <div class="content" *ngIf="showContent && !isFloatingContent">
     <div class="section">
       <router-outlet></router-outlet>
     </div>
   </div>
 </div>
+<ng-container *ngIf="showContent && isFloatingContent">
+  <router-outlet></router-outlet>
+</ng-container>

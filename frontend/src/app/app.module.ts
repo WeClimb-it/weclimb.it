@@ -31,6 +31,7 @@ import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { CapitalizeFirstPipe } from './pipes/capitalizeFirst/capitalize-first.pipe';
 import { DistancePipe } from './pipes/distance/distance.pipe';
 import { LoaderComponent } from './components/loader/loader.component';
+import { DetailCardComponent } from './components/detail-card/detail-card.component';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -55,7 +56,7 @@ const appComponents = [
 ];
 
 @NgModule({
-  declarations: [...pipes, ...appComponents],
+  declarations: [...pipes, ...appComponents, DetailCardComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
