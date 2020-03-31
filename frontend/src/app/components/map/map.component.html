@@ -107,17 +107,19 @@
   </mgl-layer>
   <!-- / -->
 
-  <mgl-popup
-    *ngIf="selectedFeature"
-    [lngLat]="selectedFeature.geometry.coordinates"
-    [closeOnClick]="true"
-    (close)="popupClosed()"
-  >
+  <mgl-popup *ngIf="selectedFeature" [lngLat]="selectedFeature.geometry.coordinates" [closeOnClick]="true">
+    <div class="popup-close-button">
+      <button mat-icon-button (click)="popupClosed()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
     <div class="popup-content">
       <div class="title">{{ selectedFeature.properties.title || selectedFeature.properties.name }}</div>
-      <div class="description" *ngIf="selectedFeature.properties.descr && selectedFeature.properties.descr != 'null'">{{ selectedFeature.properties.descr }}</div>
+      <div class="description" *ngIf="selectedFeature.properties.descr && selectedFeature.properties.descr != 'null'">
+        {{ selectedFeature.properties.descr }}
+      </div>
       <div class="link">
-        <a routerLink="{{selectedFeature.properties.internal_link}}">Apri dettaglio</a>
+        <a routerLink="{{ selectedFeature.properties.internal_link }}">Apri dettaglio</a>
       </div>
     </div>
   </mgl-popup>
