@@ -45,7 +45,7 @@
     padding-left: 30px;
     padding-top: 30px;
     padding-bottom: 20px;
-    padding-right: calc(#{$sidebarWidth} + 10px);
+    padding-right: calc(#{$sidebarWidth} + 20px);
     height: calc(100% - 52px);
   }
 }
@@ -53,9 +53,10 @@
 @media only screen and (max-width: $mobileBreakpointWidth) {
   .content {
     .section {
+      width: 90%;
       padding-top: 20px;
-      padding-left: 15px;
-      padding-right: 15px;
+      padding-left: 30px;
+      padding-right: 30px;
     }
   }
 }
