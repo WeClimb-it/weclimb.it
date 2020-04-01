@@ -37,7 +37,7 @@
   position: absolute;
   z-index: $maxZIndex - 1;
   bottom: 0;
-  width: 100%;
+  width: calc(100% - #{$sidebarWidth});
   height: calc(100% - #{$headerHeight});
   background-color: $contentBg;
 
@@ -45,13 +45,15 @@
     padding-left: 30px;
     padding-top: 30px;
     padding-bottom: 20px;
-    padding-right: calc(#{$sidebarWidth} + 20px);
+    padding-right: 20px;
     height: calc(100% - 52px);
   }
 }
 
 @media only screen and (max-width: $mobileBreakpointWidth) {
   .content {
+    width: 100%;
+
     .section {
       width: 90%;
       padding-top: 20px;
