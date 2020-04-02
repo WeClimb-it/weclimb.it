@@ -16,12 +16,19 @@ const cache = new InMemoryCache({
     switch (object.__typename) {
       case 'Crag':
         if (object.sectors) {
-          return `deep-${object._id}`;
+          return `deep-${object.slug}`;
         } else {
-          return object._id;
+          return object.slug;
         }
       default:
-        return object._id;
+        return (
+          object.slug ||
+          object.id ||
+          object._id ||
+          Math.random()
+            .toString(36)
+            .substr(2, 5)
+        );
     }
   },
 });
