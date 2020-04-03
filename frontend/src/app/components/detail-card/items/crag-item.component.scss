@@ -1,0 +1,29 @@
+@import 'common';
+
+@include item-extras();
+
+.extra {
+  .weather {
+    width: 100%;
+    height: 180px;
+    color: white;
+    background: rgba(black, 0.05);
+
+    &.clear-day {
+      background: rgb(92, 175, 255);
+      background: linear-gradient(180deg, rgba(92, 175, 255, 1) 0%, rgba(202, 229, 255, 1) 100%);
+    }
+    &.clear-night {
+      background: rgb(0, 75, 147);
+      background: linear-gradient(180deg, rgba(0, 75, 147, 1) 0%, rgba(14, 45, 74, 1) 100%);
+    }
+    &.rainy-day {
+      background: rgb(142, 177, 209);
+      background: linear-gradient(180deg, rgba(142, 177, 209, 1) 0%, rgba(61, 117, 157, 1) 100%);
+    }
+    &.rainy-night {
+      background: rgb(51, 69, 84);
+      background: linear-gradient(180deg, rgba(51, 69, 84, 1) 0%, rgba(22, 57, 82, 1) 100%);
+    }
+  }
+}

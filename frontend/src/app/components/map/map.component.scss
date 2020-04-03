@@ -18,6 +18,7 @@ mgl-map {
     position: absolute;
     z-index: $maxZIndex - 1;
     color: rgba(black, 0.4);
+    background: white;
 
     &:hover {
       color: rgba(black, 0.8);

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { GeoLocation } from '../classes/geolocation.class';
 
 import { getDistance } from 'geolib';
+import moment from 'moment';
 
 const WINDOW: any = window || {};
 
@@ -12,8 +13,17 @@ export interface PlaceSuggestion {
   geo?: GeoLocation;
 }
 
+export enum JourneyMode {
+  WALK = 'walk',
+  CAR = 'car',
+}
+
 @Injectable({ providedIn: 'root' })
 export class GeoService {
+  // in km/h
+  private avgHumanSpeed = 3.6;
+  private avgCarSpeed = 85;
+
   /**
    *
    */
@@ -72,6 +82,24 @@ export class GeoService {
       ) / 1000;
 
     return distance.toFixed(2);
+  }
+
+  /**
+   *
+   */
+  getDistanceInTime(metricValue: number, mode: JourneyMode): string {
+    let avgSpeed = 0;
+    switch (mode) {
+      default:
+      case JourneyMode.WALK:
+        avgSpeed = this.avgHumanSpeed;
+        break;
+      case JourneyMode.CAR:
+        avgSpeed = this.avgCarSpeed;
+        break;
+    }
+
+    return moment.utc(moment.duration(metricValue / avgSpeed, 'hours').asMilliseconds()).format('HH:mm');
   }
 
   private getGeocoderInstance(): any {

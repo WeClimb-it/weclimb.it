@@ -10,6 +10,10 @@ export const environment = {
   i18n: {
     defaultLang: 'en-EN',
   },
+  mapbox: {
+    // Don't worry, referrers are white-listed ;-)
+    token: 'pk.eyJ1Ijoid2VjbGltYml0IiwiYSI6ImNrNzlha3B0YzA4aWgzbXJ6dDQ1ZXF4dWEifQ.NX6j-UOi0l9Ut3o-77FA4w',
+  },
 };
 
 /*
@@ -19,4 +23,4 @@ export const environment = {
  * This import should be commented out in production mode because it will have a negative impact
  * on performance if an error is thrown.
  */
-// import 'zone.js/dist/zone-error';  // Included with Angular CLI.
+import 'zone.js/dist/zone-error';

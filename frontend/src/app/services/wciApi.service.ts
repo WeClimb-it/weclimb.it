@@ -20,6 +20,9 @@ import Queries, {
   SheltersResult,
   CompetitionsResult,
   NewsResult,
+  HikeResult,
+  ShelterResult,
+  CompetitionResult,
 } from '../graphql/queries';
 import {
   CragQueryArgs,
@@ -35,9 +38,12 @@ import {
   SearchQueryArgs,
   SectorQueryArgs,
   HikesQueryArgs,
+  ShelterQueryArgs,
   SheltersQueryArgs,
   CompetitionsQueryArgs,
   NewsQueryArgs,
+  HikeQueryArgs,
+  CompetitionQueryArgs,
 } from '../interfaces/graphql/query.type';
 
 @Injectable({ providedIn: 'root' })
@@ -58,6 +64,7 @@ export class WciApiService {
     this.getEvents = this.getEvents.bind(this);
     this.getEvent = this.getEvent.bind(this);
     this.getSearchResults = this.getSearchResults.bind(this);
+    this.getHike = this.getHike.bind(this);
     this.getHikes = this.getHikes.bind(this);
     this.getShelters = this.getShelters.bind(this);
     this.getCompetitions = this.getCompetitions.bind(this);
@@ -166,6 +173,13 @@ export class WciApiService {
     }).valueChanges as Observable<SearchResult>;
   }
 
+  getHike(opts: HikeQueryArgs): Observable<HikeResult> {
+    return this.apollo.watchQuery({
+      query: Queries.hike,
+      variables: opts,
+    }).valueChanges as Observable<HikeResult>;
+  }
+
   getHikes(opts: HikesQueryArgs): Observable<HikesResult> {
     return this.apollo.watchQuery({
       query: Queries.hikes,
@@ -173,11 +187,25 @@ export class WciApiService {
     }).valueChanges as Observable<HikesResult>;
   }
 
+  getShelter(opts: ShelterQueryArgs): Observable<ShelterResult> {
+    return this.apollo.watchQuery({
+      query: Queries.shelter,
+      variables: opts,
+    }).valueChanges as Observable<ShelterResult>;
+  }
+
   getShelters(opts: SheltersQueryArgs): Observable<SheltersResult> {
     return this.apollo.watchQuery({
       query: Queries.shelters,
       variables: opts,
     }).valueChanges as Observable<SheltersResult>;
+  }
+
+  getCompetition(opts: CompetitionQueryArgs): Observable<CompetitionResult> {
+    return this.apollo.watchQuery({
+      query: Queries.competition,
+      variables: opts,
+    }).valueChanges as Observable<CompetitionResult>;
   }
 
   getCompetitions(opts: CompetitionsQueryArgs): Observable<CompetitionsResult> {

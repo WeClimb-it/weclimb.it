@@ -109,7 +109,7 @@
 
   <mgl-popup *ngIf="selectedFeature" [lngLat]="selectedFeature.geometry.coordinates" [closeOnClick]="true">
     <div class="popup-close-button">
-      <button mat-icon-button (click)="popupClosed()">
+      <button mat-icon-button (click)="closePopup()">
         <mat-icon>close</mat-icon>
       </button>
     </div>

@@ -1,12 +1,27 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Router } from '@angular/router';
+import { ContentType } from 'src/app/utils/ContentType';
+import { Poi } from 'src/app/utils/Poi';
+import { GeoLocation } from 'src/app/classes/geolocation.class';
 
 @Component({
   selector: 'wci-detail-card',
   templateUrl: './detail-card.component.html',
   styleUrls: ['./detail-card.component.scss'],
 })
-export class DetailCardComponent implements OnInit {
-  constructor() {}
+export class DetailCardComponent {
+  @Input() type: ContentType;
+  @Input() data: Poi;
+  @Input() currentLocation: GeoLocation;
+  @Input() loading: boolean;
+  @Input() errored: boolean;
 
-  ngOnInit(): void {}
+  constructor(private router: Router) {}
+
+  /**
+   *
+   */
+  close(): void {
+    this.router.navigate(['/']);
+  }
 }

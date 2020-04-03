@@ -122,7 +122,7 @@ export class AppComponent implements OnInit {
    */
   private bootstrap(): void {
     // First, let's retrieve some information about the user
-    const userInfoSubscription = this.api.getUserInfo().subscribe((res: UserInfoResult) => {
+    const sub$ = this.api.getUserInfo().subscribe((res: UserInfoResult) => {
       if (res.errors) {
         throw new Error('Something wrong happened loading the user info');
       }
@@ -142,7 +142,7 @@ export class AppComponent implements OnInit {
         );
         this.userLocation = this.currentLocation;
         this.updateCurrentLocationInStore();
-        userInfoSubscription.unsubscribe();
+        sub$.unsubscribe();
 
         // First load
         this.getLatest(this.userData.geo.coords.lng, this.userData.geo.coords.lat);

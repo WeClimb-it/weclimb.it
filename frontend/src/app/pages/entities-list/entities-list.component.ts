@@ -14,7 +14,7 @@ import {
 } from 'src/app/graphql/queries';
 import { AppStoreService } from 'src/app/services/appState.service';
 import { WciApiService } from 'src/app/services/wciApi.service';
-import { ContentType } from 'src/app/utils/ContentType';
+import { ContentType, typeOfItem } from 'src/app/utils/ContentType';
 import { Poi } from 'src/app/utils/Poi';
 import { SearchOptions } from 'src/app/components/header/header.component';
 
@@ -57,7 +57,10 @@ export class EntitiesListComponent implements OnInit, OnDestroy {
   isLoading = true;
   firstLoad = true;
 
+  typeOfItem = typeOfItem;
+
   private appStoreSub$: Subscription;
+  private routeSub$: Subscription;
 
   constructor(
     private route: ActivatedRoute,
@@ -76,8 +79,8 @@ export class EntitiesListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.route.params.subscribe((params: Params) => {
-      // Load date on query change
+    this.routeSub$ = this.route.params.subscribe((params: Params) => {
+      // Load data on query change
       if (params.query && !this.firstLoad) {
         this.doLoad();
       }
@@ -93,14 +96,17 @@ export class EntitiesListComponent implements OnInit, OnDestroy {
         this.navCurrentPage = +params.page;
         this.navStart = this.navPageSize * (page - 1);
         this.navEnd = this.navStart + this.navPageSize;
-
-        console.log(this.navStart, this.navEnd);
       }
     });
   }
 
   ngOnDestroy(): void {
-    this.appStoreSub$.unsubscribe();
+    if (this.appStoreSub$) {
+      this.appStoreSub$.unsubscribe();
+    }
+    if (this.routeSub$) {
+      this.routeSub$.unsubscribe();
+    }
   }
 
   /**
@@ -119,13 +125,6 @@ export class EntitiesListComponent implements OnInit, OnDestroy {
    */
   closeList(): void {
     this.router.navigate(['/']);
-  }
-
-  /**
-   *
-   */
-  typeOfItem(item: any): string {
-    return item.__typename;
   }
 
   /**

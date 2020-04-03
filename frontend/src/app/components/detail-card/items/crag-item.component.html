@@ -1,0 +1,61 @@
+<div *ngIf="data" class="container crag" fxLayout>
+  <div class="info">
+    <h4>{{ data.title }}</h4>
+    <div *ngIf="data.descr" class="description">
+      <perfect-scrollbar>{{ data.descr | capitalizeFirst }}</perfect-scrollbar>
+    </div>
+  </div>
+  <div class="extra">
+    <div class="stats" *ngIf="data._stats">
+      <div *ngIf="data.quality_rank.weather !== null" class="coeff" aria-label="Climate trend">
+        <mat-icon aria-hidden="false" aria-label="Warm">brightness_high</mat-icon>
+        <mat-progress-bar mode="determinate" value="{{ data.quality_rank.weather * 100 }}"></mat-progress-bar>
+      </div>
+      <div *ngIf="data.quality_rank.difficulty > 0" class="coeff" aria-label="Difficulty">
+        <mat-icon aria-hidden="false" aria-label="Hard">fitness_center</mat-icon>
+        <mat-progress-bar mode="determinate" value="{{ data.quality_rank.difficulty * 100 }}"></mat-progress-bar>
+      </div>
+      <div *ngIf="data.altitude > 0" class="coeff" aria-label="Accessibility">
+        <mat-icon aria-hidden="false" aria-label="Far">terrain</mat-icon>
+        <mat-progress-bar mode="determinate" value="{{ data.quality_rank.position * 100 }}"></mat-progress-bar>
+        <div class="progress-info">{{ data.altitude }} mt.</div>
+      </div>
+    </div>
+    <div class="sub-card">
+      <perfect-scrollbar>
+        <div class="static-map">
+          <div class="marker"></div>
+          <img src="{{ staticMapSrc }}" width="100%" height="100%" />
+        </div>
+        <div class="directions" fxLayout fxLayoutAlign="space-evenly" fxFlexAlign="center">
+          <div>
+            <mat-icon>directions</mat-icon
+            ><span class="direction-label"
+              ><span [innerHTML]="data.coords | distance: currentLocation:false:false:false"></span> kms</span
+            >
+          </div>
+          <div>
+            <mat-icon>directions_walk</mat-icon
+            ><span class="direction-label"
+              ><span [innerHTML]="data.coords | distance: currentLocation:true:false:false"></span> hrs</span
+            >
+          </div>
+          <div>
+            <mat-icon>directions_car</mat-icon
+            ><span class="direction-label"
+              ><span [innerHTML]="data.coords | distance: currentLocation:false:true:false"></span> hrs</span
+            >
+          </div>
+        </div>
+        <div *ngIf="hasForecast" class="weather" [class]="forecastClass">
+          <div class="today">
+            <wci-skycon [width]="60" [height]="60" [icon]="currentWeather.icon"></wci-skycon>
+          </div>
+        </div>
+        <div class="nearby">
+          <div class="title">Nearby</div>
+        </div>
+      </perfect-scrollbar>
+    </div>
+  </div>
+</div>

@@ -1,7 +1,7 @@
-@import '~@angular/material/theming';
 @import '../../../common';
 
 .detail-card {
+  position: relative;
   @include mat-elevation(6, black, 0.5);
 
   width: calc(100% - 40px);
@@ -9,4 +9,18 @@
   background: white;
   border-radius: 30px;
   padding: 20px;
+
+  .close-button {
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    opacity: 0.6;
+    background: white;
+    z-index: $maxZIndex - 1;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
 }

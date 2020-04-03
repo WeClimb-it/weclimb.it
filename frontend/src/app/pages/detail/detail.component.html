@@ -1,3 +1,9 @@
 <div class="detail-container" fxLayout="row" fxLayoutAlign="center">
-  <wci-detail-card></wci-detail-card>
+  <wci-detail-card
+    [type]="contentType"
+    [currentLocation]="currentLocation"
+    [data]="data"
+    [loading]="isLoading"
+    [errored]="isErrored"
+  ></wci-detail-card>
 </div>

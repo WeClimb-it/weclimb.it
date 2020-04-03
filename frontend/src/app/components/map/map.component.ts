@@ -183,7 +183,7 @@ export class MapComponent implements OnInit, OnChanges {
   /**
    *
    */
-  popupClosed(): void {
+  closePopup(): void {
     this.selectedFeature = undefined;
   }
 
