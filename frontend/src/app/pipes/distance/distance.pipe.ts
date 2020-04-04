@@ -53,8 +53,6 @@ export class DistancePipe implements PipeTransform {
       distance = +metricDistance > 500 ? Math.floor(+metricDistance).toString() : metricDistance;
     }
 
-    console.log(unit);
-
     // TODO: i18n
     return source.toString() !== destination.toString()
       ? showLabel
