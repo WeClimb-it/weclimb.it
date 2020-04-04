@@ -39,6 +39,7 @@ import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { CapitalizeFirstPipe } from './pipes/capitalizeFirst/capitalize-first.pipe';
 import { DistancePipe } from './pipes/distance/distance.pipe';
 import { SkyconComponent } from './components/skycon/skycon.component';
+import { MetricPipe } from './pipes/metric/metric.pipe';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -68,7 +69,7 @@ const appComponents = [
 ];
 
 @NgModule({
-  declarations: [...pipes, ...appComponents, DetailCardComponent, SkyconComponent],
+  declarations: [...pipes, ...appComponents, DetailCardComponent, SkyconComponent, MetricPipe],
   imports: [
     BrowserModule,
     AppRoutingModule,

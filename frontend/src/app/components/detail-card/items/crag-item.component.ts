@@ -23,6 +23,8 @@ export class CragCardItemComponent extends BaseCardItemComponent implements OnCh
   hasForecast = false;
   forecastClass = 'clear-day';
   currentWeather: CurrentWeather;
+  todayForecast: Forecast;
+  tomorrowForecast: Forecast;
   forecasts: Forecast[];
 
   private staticMapSizes = [303, 360];
@@ -49,6 +51,8 @@ export class CragCardItemComponent extends BaseCardItemComponent implements OnCh
             this.hasForecast = true;
             this.currentWeather = res.data.forecast.now;
             this.forecasts = res.data.forecast.forecast;
+            this.todayForecast = this.forecasts[0];
+            this.tomorrowForecast = this.forecasts[1];
           }
           sub$.unsubscribe();
         });

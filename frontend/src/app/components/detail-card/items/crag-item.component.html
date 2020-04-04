@@ -5,7 +5,9 @@
       <perfect-scrollbar>{{ data.descr | capitalizeFirst }}</perfect-scrollbar>
     </div>
   </div>
+
   <div class="extra">
+    <!-- The coeffs -->
     <div class="stats" *ngIf="data._stats">
       <div *ngIf="data.quality_rank.weather !== null" class="coeff" aria-label="Climate trend">
         <mat-icon aria-hidden="false" aria-label="Warm">brightness_high</mat-icon>
@@ -21,8 +23,12 @@
         <div class="progress-info">{{ data.altitude }} mt.</div>
       </div>
     </div>
+    <!-- -->
+
+    <!-- The lateral subcard -->
     <div class="sub-card">
       <perfect-scrollbar>
+        <!-- The static map -->
         <div class="static-map">
           <div class="marker"></div>
           <img src="{{ staticMapSrc }}" width="100%" height="100%" />
@@ -47,15 +53,65 @@
             >
           </div>
         </div>
+        <!-- -->
+
+        <!-- The weather -->
         <div *ngIf="hasForecast" class="weather" [class]="forecastClass">
-          <div class="today">
+          <div class="today" fxLayout>
+            <div class="when">now</div>
             <wci-skycon [width]="60" [height]="60" [icon]="currentWeather.icon"></wci-skycon>
+            <div class="figures">
+              <div>{{ currentWeather.temperature }} °C</div>
+              <div fxLayout>
+                <div class="figure">
+                  <i class="wi wi-raindrop"></i> {{ currentWeather.humidity | metric: 'coeff-to-percentage' }}%
+                </div>
+                <div class="figure">
+                  <i class="wi wi-showers"></i> {{ currentWeather.precipProbability | metric: 'coeff-to-percentage' }}%
+                </div>
+              </div>
+              <div fxLayout>
+                <div class="figure"><i class="wi wi-horizon-alt"></i> {{ currentWeather.uvIndex }} UVi</div>
+                <div class="figure">
+                  <i class="wi wi-strong-wind"></i>
+                  {{ currentWeather.windSpeed | metric: 'meters_second-to-kilometers_hour' }} km/h
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="tomorrow" fxLayout>
+            <div class="when">tomorrow</div>
+            <wci-skycon [width]="60" [height]="60" [icon]="currentWeather.icon"></wci-skycon>
+            <div class="figures">
+              <div>{{ tomorrowForecast.temperatureMax }} °C</div>
+              <div fxLayout>
+                <div class="figure">
+                  <i class="wi wi-raindrop"></i> {{ tomorrowForecast.humidity | metric: 'coeff-to-percentage' }}%
+                </div>
+                <div class="figure">
+                  <i class="wi wi-showers"></i>
+                  {{ tomorrowForecast.precipProbability | metric: 'coeff-to-percentage' }}%
+                </div>
+              </div>
+              <div fxLayout>
+                <div class="figure"><i class="wi wi-horizon-alt"></i> {{ tomorrowForecast.uvIndex }} UVi</div>
+                <div class="figure">
+                  <i class="wi wi-strong-wind"></i>
+                  {{ tomorrowForecast.windSpeed | metric: 'meters_second-to-kilometers_hour' }} km/h
+                </div>
+              </div>
+            </div>
           </div>
         </div>
+        <!-- -->
+
+        <!-- The nearby item -->
         <div class="nearby">
           <div class="title">Nearby</div>
         </div>
+        <!-- -->
       </perfect-scrollbar>
     </div>
+    <!-- -->
   </div>
 </div>
