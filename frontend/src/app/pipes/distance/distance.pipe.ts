@@ -38,24 +38,28 @@ export class DistancePipe implements PipeTransform {
     }
 
     const metricDistance = this.geo.getDistanceFromCoords(source as GeoLocation, destination as GeoLocation);
-    let unit = 'kms';
     let distance = '';
+    let unit = 'kms';
 
     if (byWalk) {
-      distance = this.geo.getDistanceInTime(+metricDistance, JourneyMode.WALK);
-      unit = 'hrs';
+      const oDistance = this.geo.getDistanceInTime(+metricDistance, JourneyMode.WALK);
+      distance = oDistance.value;
+      unit = oDistance.unit;
     } else if (byCar) {
-      distance = this.geo.getDistanceInTime(+metricDistance, JourneyMode.CAR);
-      unit = 'hrs';
+      const oDistance = this.geo.getDistanceInTime(+metricDistance, JourneyMode.CAR);
+      distance = oDistance.value;
+      unit = oDistance.unit;
     } else {
-      distance = metricDistance;
+      distance = +metricDistance > 500 ? Math.floor(+metricDistance).toString() : metricDistance;
     }
+
+    console.log(unit);
 
     // TODO: i18n
     return source.toString() !== destination.toString()
       ? showLabel
         ? this.sanitizer.bypassSecurityTrustHtml(`<strong>${distance}</strong> ${unit} from you`)
-        : distance
+        : `${distance} ${unit}`
       : showLabel
       ? 'You are here'
       : 0;

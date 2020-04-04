@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { GeoLocation } from '../classes/geolocation.class';
 
 import { getDistance } from 'geolib';
-import moment from 'moment';
+import moment, { Duration } from 'moment';
 
 const WINDOW: any = window || {};
 
@@ -87,7 +87,13 @@ export class GeoService {
   /**
    *
    */
-  getDistanceInTime(metricValue: number, mode: JourneyMode): string {
+  getDistanceInTime(
+    metricValue: number,
+    mode: JourneyMode,
+  ): {
+    value: string;
+    unit: 'hrs' | 'days';
+  } {
     let avgSpeed = 0;
     switch (mode) {
       default:
@@ -99,7 +105,16 @@ export class GeoService {
         break;
     }
 
-    return moment.utc(moment.duration(metricValue / avgSpeed, 'hours').asMilliseconds()).format('HH:mm');
+    const hours = metricValue / avgSpeed;
+    const duration: Duration = moment.duration(hours, 'hours');
+    const asDays = Math.ceil(duration.asDays());
+    const output = asDays > 0 ? asDays.toString() : moment.utc(duration.asMilliseconds()).format('HH:mm');
+
+    // TODO: i18n
+    return {
+      value: output,
+      unit: asDays > 0 ? 'days' : 'hrs',
+    };
   }
 
   private getGeocoderInstance(): any {
