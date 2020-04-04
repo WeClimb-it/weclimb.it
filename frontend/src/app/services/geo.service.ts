@@ -107,13 +107,15 @@ export class GeoService {
 
     const hours = metricValue / avgSpeed;
     const duration: Duration = moment.duration(hours, 'hours');
+    const asHours = duration.asHours();
     const asDays = Math.ceil(duration.asDays());
-    const output = asDays > 0 ? asDays.toString() : moment.utc(duration.asMilliseconds()).format('HH:mm');
+
+    const output = asHours >= 24 ? asDays.toString() : moment.utc(duration.asMilliseconds()).format('HH:mm');
 
     // TODO: i18n
     return {
       value: output,
-      unit: asDays > 0 ? 'days' : 'hrs',
+      unit: asHours >= 24 ? 'days' : 'hrs',
     };
   }
 
