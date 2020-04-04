@@ -12,9 +12,5 @@ export class CompetitionCardItemComponent extends BaseCardItemComponent implemen
   @Input() data: Competition;
   @Input() currentLocation: GeoLocation;
 
-  constructor() {
-    super();
-  }
-
   ngOnInit() {}
 }

@@ -1,9 +1,65 @@
 <div *ngIf="data" class="container crag" fxLayout>
   <div class="info">
+    <!-- The crag title -->
     <h4>{{ data.title }}</h4>
+    <!-- -->
+
+    <!-- The description + misc. info -->
     <div *ngIf="data.descr" class="description">
-      <perfect-scrollbar>{{ data.descr | capitalizeFirst }}</perfect-scrollbar>
+      <perfect-scrollbar>
+        {{ data.descr | capitalizeFirst }}
+
+        <div *ngIf="data.access_info" class="more">
+          <h5>How to reach it</h5>
+          <span>
+            {{ data.access_info | capitalizeFirst }}
+          </span>
+        </div>
+
+        <div *ngIf="data.notes" class="more">
+          <h5>Notes</h5>
+          <span>
+            {{ data.notes | capitalizeFirst }}
+          </span>
+        </div>
+
+        <!-- The sectors -->
+        <div *ngIf="data.sectors && data.sectors.length > 1" class="more sectors">
+          <h5>Sectors and routes</h5>
+          <mat-accordion>
+            <mat-expansion-panel *ngFor="let sector of data.sectors">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  {{ sector.title }}
+                </mat-panel-title>
+                <mat-panel-description>
+                  <span class="min-grade">{{ sector.min_grade }}</span>
+                  <span class="max-grade">{{ sector.max_grade }}</span>
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+
+              <mat-list *ngIf="sector.routes && sector.routes.length > 0">
+                <mat-list-item *ngFor="let route of sector.routes">
+                  <div fxLayout>
+                    <div *ngIf="route.grade" class="route-grade">
+                      <strong>{{ route.grade }}</strong>
+                    </div>
+                    <div class="route-title">{{ route.title | capitalizeFirst }}</div>
+                    <div class="route-info" fxLayout>
+                      <div *ngIf="route.length" class="route-info">{{ route.length }} mt.</div>
+                      <div *ngIf="route.pitons_num" class="route-info">{{ route.pitons_num }} pitons</div>
+                      <div *ngIf="route.gear_type" class="route-info">{{ route.gear_type }}</div>
+                    </div>
+                  </div>
+                </mat-list-item>
+              </mat-list>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </div>
+        <!-- -->
+      </perfect-scrollbar>
     </div>
+    <!-- -->
   </div>
 
   <div class="extra">
@@ -105,9 +161,13 @@
         </div>
         <!-- -->
 
-        <!-- The nearby item -->
-        <div class="nearby">
+        <!-- The nearby items -->
+        <div *ngIf="nearbyPois.length > 0" class="nearby">
           <div class="title">Nearby</div>
+          <div *ngFor="let item of nearbyPois" class="item">
+            <h4 (click)="goToDetailUrl(item)">{{ item.title || item.name }}</h4>
+            <div *ngIf="item.coords" [innerHTML]="item.coords | distance: currentLocation"></div>
+          </div>
         </div>
         <!-- -->
       </perfect-scrollbar>

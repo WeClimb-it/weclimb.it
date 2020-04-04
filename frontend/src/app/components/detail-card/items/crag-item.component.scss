@@ -17,69 +17,159 @@
     &.clear-night {
       background: rgb(0, 75, 147);
       background: linear-gradient(180deg, rgba(0, 75, 147, 1) 0%, rgba(14, 45, 74, 1) 100%);
+
+      .when {
+        color: rgba(white, 0.8) !important;
+      }
     }
-    &.rainy-day {
+    &.cloudy-day {
       background: rgb(142, 177, 209);
       background: linear-gradient(180deg, rgba(142, 177, 209, 1) 0%, rgba(61, 117, 157, 1) 100%);
     }
-    &.rainy-night {
+    &.cloudy-night {
       background: rgb(51, 69, 84);
       background: linear-gradient(180deg, rgba(51, 69, 84, 1) 0%, rgba(22, 57, 82, 1) 100%);
+
+      .when {
+        color: rgba(white, 0.8) !important;
+      }
+    }
+
+    .today,
+    .tomorrow {
+      position: relative;
+      margin: 0px 15px;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(white, 0.35);
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      .when {
+        color: rgba(black, 0.8);
+        text-shadow: none;
+        position: absolute;
+        top: 12px;
+        right: 10px;
+        text-transform: capitalize;
+      }
+
+      wci-skycon {
+        margin-top: 5px;
+        margin-right: 10px;
+      }
+
+      .figures {
+        font-weight: 600;
+
+        > div {
+          margin-bottom: 4px;
+
+          &:last-child {
+            margin-bottom: 0;
+          }
+        }
+
+        > div:nth-child(1) {
+          font-size: 26px;
+          line-height: 24px;
+        }
+        > div:nth-child(2),
+        > div:nth-child(3) {
+          font-size: 15px;
+          line-height: 18px;
+        }
+
+        .figure {
+          margin-right: 20px;
+
+          &:last-child {
+            margin-right: 0;
+          }
+        }
+      }
     }
   }
 
-  .today,
-  .tomorrow {
-    position: relative;
-    margin: 0px 15px;
-    padding: 10px 0;
-    border-bottom: 1px solid rgba(white, 0.35);
+  .nearby {
+    .item {
+      padding: 5px;
+      margin: 0 5px;
+      margin-bottom: 5px;
+      border-bottom: 1px solid rgba(black, 0.05);
 
-    &:last-child {
-      border-bottom: none;
+      &:last-child {
+        margin-bottom: 0;
+        border-bottom: none;
+      }
+
+      h4 {
+        text-transform: capitalize;
+        color: $primaryPale;
+        font-size: 16px;
+        line-height: 18px;
+        cursor: pointer;
+        margin-bottom: 4px;
+
+        &:hover {
+          color: $primaryAltDark;
+        }
+      }
+
+      > div {
+        font-size: 13px;
+        line-height: 13px;
+        color: rgba(black, 0.4);
+      }
     }
+  }
+}
 
-    .when {
-      color: rgba(black, 0.8);
-      text-shadow: none;
-      position: absolute;
-      top: 12px;
-      right: 10px;
-      text-transform: capitalize;
+.more.sectors {
+  mat-panel-description {
+    span {
+      margin-right: 5px;
+
+      &:last-child {
+        margin-right: 0;
+      }
     }
+    span.min-grade,
+    span.max-grade {
+      display: inline-block;
+      padding: 0 12px;
+      border-radius: 60px;
+    }
+    span.min-grade {
+      background: rgba($primary, 0.4);
+      border: 1px solid rgba($primary, 0.4);
+    }
+    span.max-grade {
+      background: rgba($acidRed, 0.4);
+      border: 1px solid rgba($acidRed, 0.4);
+    }
+  }
 
-    wci-skycon {
-      margin-top: 5px;
+  mat-list-item {
+    .route-grade {
+      strong {
+        color: rgba(black, 0.5);
+      }
       margin-right: 10px;
     }
 
-    .figures {
-      font-weight: 600;
+    .route-title {
+      font-weight: 700;
+    }
 
-      > div {
-        margin-bottom: 4px;
-
-        &:last-child {
-          margin-bottom: 0;
-        }
-      }
-
-      > div:nth-child(1) {
-        font-size: 26px;
-        line-height: 24px;
-      }
-      > div:nth-child(2),
-      > div:nth-child(3) {
-        font-size: 15px;
-        line-height: 18px;
-      }
-
-      .figure {
-        margin-right: 20px;
-
-        &:last-child {
-          margin-right: 0;
-        }
+    .route-info {
+      div::before {
+        display: inline-block;
+        content: '•';
+        text-align: center;
+        margin-left: 10px;
+        margin-right: 10px;
       }
     }
   }

@@ -12,9 +12,5 @@ export class ShelterCardItemComponent extends BaseCardItemComponent implements O
   @Input() data: Shelter;
   @Input() currentLocation: GeoLocation;
 
-  constructor() {
-    super();
-  }
-
   ngOnInit() {}
 }

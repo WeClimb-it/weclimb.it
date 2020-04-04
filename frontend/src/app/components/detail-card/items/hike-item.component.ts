@@ -12,9 +12,5 @@ export class HikeCardItemComponent extends BaseCardItemComponent implements OnIn
   @Input() data: Hike;
   @Input() currentLocation: GeoLocation;
 
-  constructor() {
-    super();
-  }
-
   ngOnInit() {}
 }

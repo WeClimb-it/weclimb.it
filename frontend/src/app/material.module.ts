@@ -8,6 +8,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSliderModule } from '@angular/material/slider';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatListModule } from '@angular/material/list';
 import { Ng5SliderModule } from 'ng5-slider';
 
 /**
@@ -24,6 +26,8 @@ import { Ng5SliderModule } from 'ng5-slider';
     MatProgressBarModule,
     MatPaginatorModule,
     MatDialogModule,
+    MatExpansionModule,
+    MatListModule,
     Ng5SliderModule,
   ],
 })

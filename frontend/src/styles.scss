@@ -24,7 +24,15 @@ $frontend-theme: mat-light-theme($frontend-primary, $frontend-accent, $frontend-
 // that you are using.
 @include angular-material-theme($frontend-theme);
 
-/* You can add global styles to this file, and also import other style files */
+$custom-typography: mat-typography-config(
+  $font-family: 'Open Sans, sans-serif',
+  $headline: mat-typography-level(32px, 48px, 700),
+  $body-1: mat-typography-level(16px, 24px, 300),
+);
+
+@include mat-base-typography($custom-typography);
+@include mat-checkbox-typography($custom-typography);
+@include angular-material-typography($custom-typography);
 
 html,
 body {

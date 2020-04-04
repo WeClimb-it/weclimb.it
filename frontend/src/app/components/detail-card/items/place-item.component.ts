@@ -12,9 +12,5 @@ export class PlaceCardItemComponent extends BaseCardItemComponent implements OnI
   @Input() data: Place;
   @Input() currentLocation: GeoLocation;
 
-  constructor() {
-    super();
-  }
-
   ngOnInit() {}
 }
