@@ -1,1 +1,13 @@
 @import 'common.scss';
+
+.fb-page-container {
+  margin-top: 20px;
+  display: block;
+  width: 100%;
+}
+
+.extra {
+  .sub-card {
+    top: 20px;
+  }
+}

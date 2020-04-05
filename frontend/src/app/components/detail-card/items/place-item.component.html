@@ -1,0 +1,72 @@
+<div *ngIf="data" class="container place" fxLayout>
+  <div class="info">
+    <!-- The item title -->
+    <h4>{{ data.title }}</h4>
+    <!-- -->
+
+    <div class="description" *ngIf="data.descr">
+      {{ data.descr | capitalizeFirst }}
+
+      <!-- The FB page -->
+      <div class="fb-page-container">
+        <div
+          class="fb-page"
+          [attr.data-href]="data.resource_url"
+          data-tabs="timeline"
+          data-width=""
+          data-height=""
+          data-small-header="false"
+          data-adapt-container-width="true"
+          data-hide-cover="false"
+          data-show-facepile="true"
+        ></div>
+      </div>
+      <!-- -->
+    </div>
+  </div>
+
+  <div class="extra">
+    <!-- The lateral subcard -->
+    <div class="sub-card">
+      <perfect-scrollbar>
+        <!-- The static map -->
+        <div class="static-map">
+          <div class="marker"></div>
+          <img src="{{ staticMapSrc }}" width="100%" height="100%" />
+        </div>
+        <div class="directions" fxLayout fxLayoutAlign="space-evenly" fxFlexAlign="center">
+          <div>
+            <mat-icon>directions</mat-icon
+            ><span class="direction-label"
+              ><span [innerHTML]="data.coords | distance: currentLocation:false:false:false"></span
+            ></span>
+          </div>
+          <div>
+            <mat-icon>directions_walk</mat-icon
+            ><span class="direction-label"
+              ><span [innerHTML]="data.coords | distance: currentLocation:true:false:false"></span
+            ></span>
+          </div>
+          <div>
+            <mat-icon>directions_car</mat-icon
+            ><span class="direction-label"
+              ><span [innerHTML]="data.coords | distance: currentLocation:false:true:false"></span
+            ></span>
+          </div>
+        </div>
+        <!-- -->
+
+        <!-- The nearby items -->
+        <div *ngIf="nearbyPois.length > 0" class="nearby">
+          <div class="title">Nearby</div>
+          <div *ngFor="let item of nearbyPois" class="item">
+            <h4 (click)="goToDetailUrl(item)">{{ item.title || item.name }}</h4>
+            <div *ngIf="item.coords" [innerHTML]="item.coords | distance: currentLocation"></div>
+          </div>
+        </div>
+        <!-- -->
+      </perfect-scrollbar>
+    </div>
+    <!-- -->
+  </div>
+</div>

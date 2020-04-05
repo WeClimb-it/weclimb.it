@@ -31,6 +31,7 @@ import { LoaderComponent } from './components/loader/loader.component';
 import { MapComponent } from './components/map/map.component';
 import { MediaPlayerComponent } from './components/media-player/media-player.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { SkyconComponent } from './components/skycon/skycon.component';
 import { GraphQLModule } from './graphql.module';
 import { MaterialModule } from './material.module';
 import { DetailComponent } from './pages/detail/detail.component';
@@ -38,7 +39,6 @@ import { EntitiesListComponent } from './pages/entities-list/entities-list.compo
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { CapitalizeFirstPipe } from './pipes/capitalizeFirst/capitalize-first.pipe';
 import { DistancePipe } from './pipes/distance/distance.pipe';
-import { SkyconComponent } from './components/skycon/skycon.component';
 import { MetricPipe } from './pipes/metric/metric.pipe';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {

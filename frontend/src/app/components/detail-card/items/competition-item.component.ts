@@ -22,7 +22,6 @@ export class CompetitionCardItemComponent extends BaseCardItemComponent implemen
 
   constructor(protected router: Router, protected api: WciApiService) {
     super(router, api);
-    this.data = super.data;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
