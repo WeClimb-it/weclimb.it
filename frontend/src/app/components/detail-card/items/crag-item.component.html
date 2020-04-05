@@ -166,7 +166,7 @@
           <div class="title">Nearby</div>
           <div *ngFor="let item of nearbyPois" class="item">
             <h4 (click)="goToDetailUrl(item)">{{ item.title || item.name }}</h4>
-            <div *ngIf="item.coords" [innerHTML]="item.coords | distance: currentLocation"></div>
+            <div *ngIf="item.coords" [innerHTML]="item.coords | distance: data.coords:false:false:false"></div>
           </div>
         </div>
         <!-- -->
