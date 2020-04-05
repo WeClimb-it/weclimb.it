@@ -23,6 +23,7 @@ import Queries, {
   HikeResult,
   ShelterResult,
   CompetitionResult,
+  OneNewsResult,
 } from '../graphql/queries';
 import {
   CragQueryArgs,
@@ -44,6 +45,7 @@ import {
   NewsQueryArgs,
   HikeQueryArgs,
   CompetitionQueryArgs,
+  OneNewsQueryArgs,
 } from '../interfaces/graphql/query.type';
 
 @Injectable({ providedIn: 'root' })
@@ -64,11 +66,14 @@ export class WciApiService {
     this.getEvents = this.getEvents.bind(this);
     this.getEvent = this.getEvent.bind(this);
     this.getSearchResults = this.getSearchResults.bind(this);
-    this.getHike = this.getHike.bind(this);
     this.getHikes = this.getHikes.bind(this);
+    this.getHike = this.getHike.bind(this);
     this.getShelters = this.getShelters.bind(this);
+    this.getShelter = this.getShelter.bind(this);
     this.getCompetitions = this.getCompetitions.bind(this);
+    this.getCompetition = this.getCompetition.bind(this);
     this.getNews = this.getNews.bind(this);
+    this.getOneNews = this.getOneNews.bind(this);
   }
 
   public defaultFetchPolicy: FetchPolicy = 'cache-first';
@@ -220,5 +225,12 @@ export class WciApiService {
       query: Queries.news,
       variables: opts,
     }).valueChanges as Observable<NewsResult>;
+  }
+
+  getOneNews(opts: OneNewsQueryArgs): Observable<OneNewsResult> {
+    return this.apollo.watchQuery({
+      query: Queries.oneNews,
+      variables: opts,
+    }).valueChanges as Observable<OneNewsResult>;
   }
 }
