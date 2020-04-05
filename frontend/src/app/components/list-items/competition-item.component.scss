@@ -14,7 +14,10 @@
   div {
     padding-top: 5px;
     padding-bottom: 5px;
-    margin-bottom: 10px;
+
+    &:last-child {
+      margin-bottom: 10px;
+    }
 
     font-size: 23px;
     color: rgba(black, 0.7);
@@ -25,10 +28,6 @@
       font-size: 32px;
       line-height: 32px;
       vertical-align: top;
-    }
-
-    &:last-child {
-      margin-bottom: 0;
     }
   }
 }
