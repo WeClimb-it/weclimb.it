@@ -165,6 +165,55 @@
   }
 }
 
-/*
+@media only screen and (max-width: 425px) {
+  .container {
+    display: block !important;
+    flex-direction: initial !important;
+    overflow: scroll;
+    overflow-x: hidden;
 
-*/
+    .info,
+    .extra,
+    .sub-card {
+      width: 100%;
+      margin: 0;
+    }
+    .sub-card {
+      position: relative;
+      top: initial;
+      bottom: initial;
+    }
+  }
+}
+
+@media only screen and (min-width: 425px) and (max-width: 768px) {
+  .extra {
+    .sub-card {
+      .direction-label {
+        font-size: 10px;
+      }
+
+      .weather {
+        .when {
+          zoom: 0.8;
+        }
+        .figures {
+          zoom: 0.86;
+
+          > div:nth-child(1) {
+            font-size: 20px !important;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (min-width: $mobileBreakpointWidth) and (max-width: $smallScreenBreakpointWidth) {
+  .extra {
+    .sub-card {
+      zoom: 0.7;
+      top: 260px;
+    }
+  }
+}

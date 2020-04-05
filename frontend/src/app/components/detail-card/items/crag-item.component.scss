@@ -25,6 +25,10 @@
     &.cloudy-day {
       background: rgb(142, 177, 209);
       background: linear-gradient(180deg, rgba(142, 177, 209, 1) 0%, rgba(61, 117, 157, 1) 100%);
+
+      .when {
+        color: rgba(white, 0.8) !important;
+      }
     }
     &.cloudy-night {
       background: rgb(51, 69, 84);
