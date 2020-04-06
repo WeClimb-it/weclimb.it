@@ -3,6 +3,8 @@ import { GeoLocation } from '../classes/geolocation.class';
 
 import { getDistance } from 'geolib';
 import moment, { Duration } from 'moment';
+import { HttpClient, HttpResponse } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 const WINDOW: any = window || {};
 
@@ -23,6 +25,8 @@ export class GeoService {
   // in km/h
   private avgHumanSpeed = 3.6;
   private avgCarSpeed = 85;
+
+  constructor(private httpClient: HttpClient) {}
 
   /**
    *
@@ -117,6 +121,25 @@ export class GeoService {
       value: output,
       unit: asHours >= 24 ? 'days' : 'hrs',
     };
+  }
+
+  /**
+   *
+   */
+  getGpxFileContent(url: string): Promise<string> {
+    return new Promise((resolve) => {
+      this.httpClient
+        .get(`${environment.rest.url}/track/${btoa(url)}`, { responseType: 'text' })
+        .subscribe((data) => resolve(data));
+    });
+  }
+
+  /**
+   *
+   */
+  openGpxFileContent(url: string): void {
+    // TODO: Use the Content-disposition header on the BE to download the file
+    window.open(`${environment.rest.url}/track/${btoa(url)}`);
   }
 
   private getGeocoderInstance(): any {

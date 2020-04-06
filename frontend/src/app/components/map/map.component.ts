@@ -25,6 +25,7 @@ import HikePin from './pins/hike';
 import PlacePin from './pins/place';
 import ShelterPin from './pins/shelter';
 import { PinUtils } from './pins/utils';
+import { GeoJSONFeature } from '../../interfaces/geo/GeoJSONFeature.interface';
 
 export enum POI_TYPE {
   CRAG = 'crag',
@@ -45,15 +46,6 @@ interface InputEntities {
   hikes: Entities;
 }
 
-interface GeoJSONFeature {
-  type: string;
-  properties?: object;
-  geometry: {
-    type: string;
-    coordinates: number[];
-  };
-}
-
 type Entity = Crag | Place | Competition | Shelter | Hike;
 type Entities = Crag[] | Place[] | Competition[] | Shelter[] | Hike[];
 
@@ -69,6 +61,7 @@ export class MapComponent implements OnInit, OnChanges {
   @Input() userLocation: GeoLocation;
   @Input() pois: InputEntities;
 
+  // TODO: Configure it
   @Input() mapStyle = 'mapbox://styles/weclimbit/ck76qiur612ur1imof17kauyo';
   @Input() tracks: GeoTrack[];
 
@@ -281,7 +274,7 @@ export class MapComponent implements OnInit, OnChanges {
   }
 
   /**
-   *
+   * TODO: Move it to a util class
    */
   private updateCenterGeoJSON(): void {
     this.centerGeoJson = {

@@ -4,24 +4,26 @@
     <h4>{{ data.title }}</h4>
     <!-- -->
 
-    <div class="description" *ngIf="data.descr">
-      {{ data.descr | capitalizeFirst }}
+    <div *ngIf="data.descr" class="description">
+      <perfect-scrollbar>
+        {{ data.descr | capitalizeFirst }}
 
-      <!-- The FB page -->
-      <div class="fb-page-container">
-        <div
-          class="fb-page"
-          [attr.data-href]="data.resource_url"
-          data-tabs="timeline"
-          data-width=""
-          data-height=""
-          data-small-header="false"
-          data-adapt-container-width="true"
-          data-hide-cover="false"
-          data-show-facepile="true"
-        ></div>
-      </div>
-      <!-- -->
+        <!-- The FB page -->
+        <div class="fb-page-container">
+          <div
+            class="fb-page"
+            [attr.data-href]="data.resource_url"
+            data-tabs="timeline"
+            data-width=""
+            data-height=""
+            data-small-header="false"
+            data-adapt-container-width="true"
+            data-hide-cover="false"
+            data-show-facepile="true"
+          ></div>
+        </div>
+        <!-- -->
+      </perfect-scrollbar>
     </div>
   </div>
 

@@ -7,6 +7,9 @@ export const environment = {
   graphql: {
     url: 'https://api.weclimb.it/graphql',
   },
+  rest: {
+    url: 'https://api.weclimb.it/s',
+  },
   i18n: {
     defaultLang: 'en-EN',
   },

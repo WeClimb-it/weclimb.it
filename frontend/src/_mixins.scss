@@ -13,11 +13,15 @@
     display: inline-block;
 
     mat-chip-list {
-      pointer-events: none;
-
       mat-chip {
+        pointer-events: none;
         color: $primaryAltDarker;
         overflow: hidden;
+
+        &.mouse-enabled {
+          cursor: pointer;
+          pointer-events: all;
+        }
       }
     }
 
