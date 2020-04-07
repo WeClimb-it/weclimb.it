@@ -55,14 +55,8 @@ export class BaseItemWithDynamicMapComponent extends BaseItemWithWeatherComponen
   /**
    *
    */
-  onMapMove(): void {
-    this.isMapMoving = true;
-  }
-  /**
-   *
-   */
-  onMapMoved(): void {
-    this.isMapMoving = false;
+  onMapBusy(state: boolean): void {
+    this.isMapMoving = state;
   }
 
   /**
