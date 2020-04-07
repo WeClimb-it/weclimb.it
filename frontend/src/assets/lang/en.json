@@ -70,5 +70,8 @@
   "PLACES": "Places",
   "COMPETITIONS": "Competitions",
   "NEWS": "News",
-  "GO_MAP": "Go to the map"
+  "GO_MAP": "Go to the map",
+  "NO_RESULTS": "There are no results :-(",
+  "404_TITLE": "Take!",
+  "404_MESSAGE": "The page you are looking for is not here..."
 }

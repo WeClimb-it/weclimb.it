@@ -70,5 +70,8 @@
   "PLACES": "Luoghi",
   "COMPETITIONS": "Gare",
   "NEWS": "Notizie",
-  "GO_MAP": "Torna alla mappa"
+  "GO_MAP": "Torna alla mappa",
+  "NO_RESULTS": "Non ci sono risultati :-(",
+  "404_TITLE": "Metti in tiro!",
+  "404_MESSAGE": "La pagina che cercavi non è qui..."
 }
