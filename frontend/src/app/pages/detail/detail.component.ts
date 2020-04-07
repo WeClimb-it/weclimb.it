@@ -1,11 +1,12 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ContentType } from 'src/app/utils/ContentType';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { WciApiService } from 'src/app/services/wciApi.service';
-import { CragResult, HikeResult, ShelterResult, PlaceResult, CompetitionResult } from 'src/app/graphql/queries';
 import { Subscription } from 'rxjs';
 import { GeoLocation } from 'src/app/classes/geolocation.class';
+import { CompetitionResult, CragResult, HikeResult, PlaceResult, ShelterResult } from 'src/app/graphql/queries';
 import { AppStoreService } from 'src/app/services/appState.service';
+import { WciApiService } from 'src/app/services/wciApi.service';
+import { ContentType } from 'src/app/utils/ContentType';
+import { Poi } from 'src/app/utils/Poi';
 
 type Results = CragResult | HikeResult | ShelterResult | PlaceResult | CompetitionResult;
 
@@ -17,7 +18,7 @@ type Results = CragResult | HikeResult | ShelterResult | PlaceResult | Competiti
 export class DetailComponent implements OnInit, OnDestroy {
   contentType: ContentType;
   currentLocation: GeoLocation;
-  data: Results;
+  data: Poi;
 
   isLoading = true;
   isErrored = false;
@@ -97,10 +98,26 @@ export class DetailComponent implements OnInit, OnDestroy {
           } else {
             this.isLoading = false;
             this.data = res.data[resultPayloadProperty];
+            this.updateCurrentLocationInStore();
             sub$.unsubscribe();
           }
         }
       });
+    }
+  }
+
+  /**
+   *
+   */
+  private updateCurrentLocationInStore(): void {
+    if (this.data.coords) {
+      const detailLocation = new GeoLocation(
+        this.data.coords.lat,
+        this.data.coords.lng,
+        undefined,
+        (this.data as any).title || (this.data as any).name,
+      );
+      this.appStore.setProperty('currentLocation', detailLocation);
     }
   }
 }

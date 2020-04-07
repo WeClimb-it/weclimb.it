@@ -11,6 +11,7 @@ import { AppStoreService } from './services/appState.service';
 import { PlaceSuggestion } from './services/geo.service';
 import { WciApiService } from './services/wciApi.service';
 import { Poi } from './utils/Poi';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'wci-root',
@@ -27,6 +28,7 @@ export class AppComponent implements OnInit {
   showContent = false;
   isFloatingContent = false;
 
+  private appStoreLocationSub$: Subscription;
   private mapData: MapUpdateEvent;
   private userData: UserInfo;
   private latestSearchOptions: SearchOptions;
@@ -41,6 +43,12 @@ export class AppComponent implements OnInit {
       if (event instanceof NavigationEnd) {
         this.showContent = !!this.route.root.firstChild.snapshot.data.type;
         this.isFloatingContent = this.route.root.firstChild.snapshot.data.isFloatingContent;
+      }
+    });
+
+    this.appStoreLocationSub$ = this.appStore.watchProperty('currentLocation').subscribe((location: GeoLocation) => {
+      if (location && location !== this.currentLocation) {
+        this.currentLocation = location;
       }
     });
   }
