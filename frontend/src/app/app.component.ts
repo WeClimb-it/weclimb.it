@@ -21,6 +21,8 @@ import { environment } from 'src/environments/environment';
 })
 export class AppComponent implements OnInit {
   zoom = 9;
+  year = new Date().getFullYear();
+
   currentLocation: GeoLocation = new GeoLocation(0, 0);
   userLocation: GeoLocation;
   nearbyPois: SearchResult;
@@ -28,6 +30,8 @@ export class AppComponent implements OnInit {
 
   showContent = false;
   isFloatingContent = false;
+
+  environment = environment;
 
   private mapData: MapUpdateEvent;
   private userData: UserInfo;
@@ -124,6 +128,14 @@ export class AppComponent implements OnInit {
   onOptionsUpdated(searchOptions: SearchOptions): void {
     this.latestSearchOptions = searchOptions;
     this.getNearby();
+  }
+
+  /**
+   *
+   */
+  onLanguageSelected(index: number): void {
+    this.translate.use(environment.i18n.availableLangs[index]);
+    this.onSectionSelected('/');
   }
 
   /**

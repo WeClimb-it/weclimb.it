@@ -58,10 +58,17 @@
   "NEAR_SHELTERS": "Rifugi che puoi visitare",
   "NEAR_PLACES": "Luoghi nei dintorni",
   "NEAR_COMPETITIONS": "Gare a cui puoi partecipare",
-  "NEWS": "News",
+  "ONE_NEWS": "Notizia",
   "SEARCH_RESULTS": "Risultati della ricerca",
   "FROM_YOU": "da te",
   "YOU_ARE_HERE": "Sei qui",
   "DAYS": "giorni",
-  "HRS": "ore"
+  "HRS": "ore",
+  "CRAGS": "Falesie",
+  "HIKES": "Escursioni",
+  "SHELTERS": "Rifugi",
+  "PLACES": "Luoghi",
+  "COMPETITIONS": "Gare",
+  "NEWS": "Notizie",
+  "GO_MAP": "Torna alla mappa"
 }

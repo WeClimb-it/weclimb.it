@@ -58,10 +58,17 @@
   "NEAR_SHELTERS": "Shelters you can visit",
   "NEAR_PLACES": "Places nearby",
   "NEAR_COMPETITIONS": "Competitions you can attend",
-  "NEWS": "News",
+  "ONE_NEWS": "News",
   "SEARCH_RESULTS": "Search results",
   "FROM_YOU": "from you",
   "YOU_ARE_HERE": "You are here",
   "DAYS": "days",
-  "HRS": "hrs"
+  "HRS": "hrs",
+  "CRAGS": "Crags",
+  "HIKES": "Hikes",
+  "SHELTERS": "Shelters",
+  "PLACES": "Places",
+  "COMPETITIONS": "Competitions",
+  "NEWS": "News",
+  "GO_MAP": "Go to the map"
 }

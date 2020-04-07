@@ -33,6 +33,32 @@
   box-shadow: -2px 0 6px rgba(black, 0.25);
 }
 
+.actions {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: $maxZIndex + 1;
+
+  .mat-flat-button.mat-primary,
+  .mat-raised-button.mat-primary,
+  .mat-fab.mat-primary,
+  .mat-mini-fab.mat-primary {
+    @include mat-elevation(3, black, 0.4);
+
+    background-color: rgba(white, 1);
+    color: rgba(black, 0.5);
+    margin-right: 10px;
+
+    &:hover {
+      color: rgba(black, 0.8);
+    }
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}
+
 .content {
   position: absolute;
   z-index: $maxZIndex - 1;

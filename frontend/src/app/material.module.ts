@@ -4,12 +4,13 @@ import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSliderModule } from '@angular/material/slider';
-import { MatExpansionModule } from '@angular/material/expansion';
-import { MatListModule } from '@angular/material/list';
 import { Ng5SliderModule } from 'ng5-slider';
 
 /**
@@ -28,6 +29,7 @@ import { Ng5SliderModule } from 'ng5-slider';
     MatDialogModule,
     MatExpansionModule,
     MatListModule,
+    MatMenuModule,
     Ng5SliderModule,
   ],
 })

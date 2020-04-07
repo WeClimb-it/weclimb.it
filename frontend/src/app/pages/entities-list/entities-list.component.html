@@ -2,7 +2,7 @@
   {{ title }}
 </h2>
 <div class="title-actions">
-  <button mat-stroked-button (click)="closeList()"><mat-icon>public</mat-icon>go to the map</button>
+  <button mat-stroked-button (click)="closeList()"><mat-icon>public</mat-icon>{{ 'GO_MAP' | translate }}</button>
 </div>
 <ng-container *ngIf="items && items.length > 0">
   <perfect-scrollbar class="list">

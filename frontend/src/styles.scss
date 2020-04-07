@@ -97,6 +97,38 @@ a:visited {
 }
 
 // Global MD customizations --
+.menu,
+.languages-menu {
+  @include mat-elevation(3, black, 0.4);
+
+  margin-top: 10px;
+  border-radius: 10px !important;
+  background: rgba(white, 1);
+
+  width: 230px;
+
+  .mat-menu-item {
+    &:hover {
+      background: white;
+      font-weight: 700;
+    }
+  }
+
+  .separator {
+    width: calc(100% - 20px);
+    margin: 0 10px;
+    line-height: 1px;
+    height: 1px;
+    border-top: 1px solid rgba(black, 0.05);
+  }
+
+  .copyleft {
+    color: rgba(black, 0.6);
+    padding: 10px 15px;
+    font-size: 12px;
+  }
+}
+
 .media-dialog .mat-dialog-container {
   width: 60vw !important;
 }
