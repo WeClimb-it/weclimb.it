@@ -56,36 +56,6 @@ export class BaseCardItemComponent implements OnChanges {
   }
 
   /**
-   * TODO: i18n
-   */
-  getNearbyCategoryTag(item: Poi): string {
-    switch (typeOfItem(item)) {
-      default:
-      case 'Crag':
-        return 'C';
-      case 'Hike':
-        return 'H';
-      case 'Shelter':
-        return 'S';
-    }
-  }
-
-  /**
-   *
-   */
-  getNearbyCategoryClass(item: Poi): string {
-    switch (typeOfItem(item)) {
-      default:
-      case 'Crag':
-        return 'crag';
-      case 'Hike':
-        return 'hike';
-      case 'Shelter':
-        return 'shelter';
-    }
-  }
-
-  /**
    *
    */
   getNearby(): void {

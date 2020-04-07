@@ -16,6 +16,7 @@ import { environment } from 'src/environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DetailCardComponent } from './components/detail-card/detail-card.component';
+import { DetailNearbyComponent } from './components/detail-card/detail-nearby/detail-nearby.component';
 import { CompetitionCardItemComponent } from './components/detail-card/items/competition-item.component';
 import { CragCardItemComponent } from './components/detail-card/items/crag-item.component';
 import { HikeCardItemComponent } from './components/detail-card/items/hike-item.component';
@@ -45,7 +46,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
 };
 
-const pipes = [DistancePipe, CapitalizeFirstPipe];
+const pipes = [DistancePipe, CapitalizeFirstPipe, MetricPipe];
 const appComponents = [
   AppComponent,
   MapComponent,
@@ -66,10 +67,13 @@ const appComponents = [
   CompetitionCardItemComponent,
   MediaPlayerComponent,
   LoaderComponent,
+  DetailCardComponent,
+  SkyconComponent,
+  DetailNearbyComponent,
 ];
 
 @NgModule({
-  declarations: [...pipes, ...appComponents, DetailCardComponent, SkyconComponent, MetricPipe],
+  declarations: [...pipes, ...appComponents],
   imports: [
     BrowserModule,
     AppRoutingModule,

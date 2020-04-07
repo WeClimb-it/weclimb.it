@@ -80,16 +80,10 @@
         <!-- -->
 
         <!-- The nearby items -->
-        <div *ngIf="nearbyPois.length > 0" class="nearby">
-          <div class="title">Nearby</div>
-          <div *ngFor="let item of nearbyPois" class="item">
-            <div class="category {{ getNearbyCategoryClass(item) }}">{{ getNearbyCategoryTag(item) }}</div>
-            <h4 (click)="goToDetailUrl(item)">
-              {{ item.title || item.name }}
-            </h4>
-            <div *ngIf="item.coords" [innerHTML]="item.coords | distance: data.coords:false:false:false"></div>
-          </div>
-        </div>
+        <ng-container *ngIf="nearbyPois.length > 0">
+          <wci-detail-nearby [items]="nearbyPois" [distanceCoords]="data.coords" (poiSelected)="goToDetailUrl($event)">
+          </wci-detail-nearby>
+        </ng-container>
         <!-- -->
       </perfect-scrollbar>
     </div>

@@ -8,15 +8,15 @@ import { Shelter } from 'src/app/interfaces/graphql/shelter.type';
 import { Router } from '@angular/router';
 
 interface EntitiesPayload {
-  crags: Entities;
-  places: Entities;
-  competitions: Entities;
-  shelters: Entities;
-  hikes: Entities;
+  crags: Pois;
+  places: Pois;
+  competitions: Pois;
+  shelters: Pois;
+  hikes: Pois;
 }
 
-type Entities = Crag[] | Place[] | Competition[] | Shelter[] | Hike[];
-type Entity = Crag | Place | Competition | Shelter | Hike;
+type Pois = Crag[] | Place[] | Competition[] | Shelter[] | Hike[];
+type Poi = Crag | Place | Competition | Shelter | Hike;
 
 @Component({
   selector: 'wci-sidebar',
@@ -27,13 +27,13 @@ export class SidebarComponent {
   @Input() currentLocation: GeoLocation;
   @Input() pois: EntitiesPayload;
 
-  @Output() poiSelected: EventEmitter<Entity> = new EventEmitter<Entity>();
+  @Output() poiSelected: EventEmitter<Poi> = new EventEmitter<Poi>();
   @Output() sectionSelected: EventEmitter<string> = new EventEmitter<string>();
 
   /**
    *
    */
-  onEntitySelected(entity: Entity): void {
+  onEntitySelected(entity: Poi): void {
     this.poiSelected.emit(entity);
   }
 
