@@ -17,6 +17,7 @@ import { WciApiService } from 'src/app/services/wciApi.service';
 import { ContentType, typeOfItem } from 'src/app/utils/ContentType';
 import { Poi } from 'src/app/utils/Poi';
 import { SearchOptions } from 'src/app/components/header/header.component';
+import { TranslateService } from '@ngx-translate/core';
 
 type Results =
   | CragsResult
@@ -67,6 +68,7 @@ export class EntitiesListComponent implements OnInit, OnDestroy {
     private router: Router,
     private api: WciApiService,
     private appStore: AppStoreService,
+    private translateService: TranslateService,
   ) {
     this.contentType = this.route.snapshot.data.type;
 
@@ -153,38 +155,31 @@ export class EntitiesListComponent implements OnInit, OnDestroy {
         throw new Error(`Unexpected content type was given [${this.contentType}].`);
       case ContentType.CRAGS:
         query = this.api.getCrags;
-        // TODO: i18n
-        this.title = 'Near crags';
+        this.title = this.translateService.instant('NEAR_CRAGS');
         break;
       case ContentType.HIKES:
         query = this.api.getHikes;
-        // TODO: i18n
-        this.title = 'Hikes for you';
+        this.title = this.translateService.instant('NEAR_HIKES');
         break;
       case ContentType.SHELTERS:
         query = this.api.getShelters;
-        // TODO: i18n
-        this.title = 'Shelters you can visit';
+        this.title = this.translateService.instant('NEAR_SHELTERS');
         break;
       case ContentType.PLACES:
         query = this.api.getPlaces;
-        // TODO: i18n
-        this.title = 'Places nearby';
+        this.title = this.translateService.instant('NEAR_PLACES');
         break;
       case ContentType.COMPETITIONS:
         query = this.api.getCompetitions;
-        // TODO: i18n
-        this.title = 'Competitions you can attend';
+        this.title = this.translateService.instant('NEAR_COMPETITIONS');
         break;
       case ContentType.NEWS:
         query = this.api.getNews;
-        // TODO: i18n
-        this.title = 'News';
+        this.title = this.translateService.instant('NEWS');
         break;
       case ContentType.SEARCH:
         query = this.api.getSearchResults;
-        // TODO: i18n
-        this.title = 'Search results';
+        this.title = this.translateService.instant('SEARCH_RESULTS');
         opts = {
           ...opts,
           query: this.route.snapshot.params.query,

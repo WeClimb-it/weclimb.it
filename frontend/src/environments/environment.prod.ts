@@ -8,6 +8,16 @@ export const environment = {
   },
   i18n: {
     defaultLang: 'en-EN',
+    availableLangs: [
+      {
+        label: 'Italiano',
+        code: 'it-IT',
+      },
+      {
+        label: 'English',
+        code: 'en-EN',
+      },
+    ],
   },
   mapbox: {
     // Don't worry, referrers are white-listed ;-)

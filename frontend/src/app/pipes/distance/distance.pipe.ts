@@ -4,12 +4,13 @@ import { GeoService, JourneyMode } from 'src/app/services/geo.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Coords } from 'src/app/interfaces/graphql/coords.type';
 import _ from 'lodash';
+import { TranslateService } from '@ngx-translate/core';
 
 @Pipe({
   name: 'distance',
 })
 export class DistancePipe implements PipeTransform {
-  constructor(private geo: GeoService, private sanitizer: DomSanitizer) {}
+  constructor(private geo: GeoService, private sanitizer: DomSanitizer, private translateService: TranslateService) {}
 
   transform(
     source: GeoLocation | Coords,
@@ -59,13 +60,14 @@ export class DistancePipe implements PipeTransform {
       distance = +metricDistance > 500 ? Math.floor(+metricDistance).toString() : metricDistance;
     }
 
-    // TODO: i18n
     return source.toString() !== destination.toString()
       ? showLabel
-        ? this.sanitizer.bypassSecurityTrustHtml(`<strong>${distance}</strong> ${unit} from you`)
+        ? this.sanitizer.bypassSecurityTrustHtml(
+            `<strong>${distance}</strong> ${unit} ${this.translateService.instant('FROM_YOU')}`,
+          )
         : `${distance} ${unit}`
       : showLabel
-      ? 'You are here'
+      ? this.translateService.instant('YOU_ARE_HERE')
       : 0;
   }
 }

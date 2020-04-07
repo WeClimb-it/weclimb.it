@@ -5,7 +5,7 @@
         <span [innerHTML]="data.coords | distance: currentLocation"></span>
       </mat-chip>
       <mat-chip *ngIf="showCategory" class="no-mouse category" selected>
-        <span>HIKE</span>
+        <span>{{ 'HIKE' | translate | uppercase }}</span>
       </mat-chip>
     </mat-chip-list>
   </div>
@@ -16,23 +16,25 @@
   <div class="extra">
     <mat-chip-list>
       <mat-chip *ngIf="data.difficulty" class="chip" color="primary" selected
-        ><mat-icon aria-hidden="false" aria-label="Difficulty">fitness_center</mat-icon>&nbsp;Difficulty:&nbsp;
+        ><mat-icon aria-hidden="false">fitness_center</mat-icon>&nbsp;{{ 'DIFFICULTY' | translate }}:&nbsp;
         <strong>{{ data.difficulty }}</strong></mat-chip
       >
       <mat-chip *ngIf="data.elevation.low" class="chip" color="primary" selected
-        ><mat-icon aria-hidden="false" aria-label="Min. elevation">arrow_downward</mat-icon>&nbsp;Min
-        elevation:&nbsp;<strong>{{ data.elevation.low }} mt.</strong></mat-chip
+        ><mat-icon aria-hidden="false">arrow_downward</mat-icon>&nbsp;{{ 'MIN_ELEVATION' | translate }}:&nbsp;<strong
+          >{{ data.elevation.low }} mt.</strong
+        ></mat-chip
       >
       <mat-chip *ngIf="data.elevation.high" class="chip" color="primary" selected
-        ><mat-icon aria-hidden="false" aria-label="Max. elevation">arrow_upward</mat-icon>&nbsp;Max
-        elevation:&nbsp;<strong>{{ data.elevation.high }} mt.</strong></mat-chip
+        ><mat-icon aria-hidden="false">arrow_upward</mat-icon>&nbsp;{{ 'MAX_ELEVATION' | translate }}:&nbsp;<strong
+          >{{ data.elevation.high }} mt.</strong
+        ></mat-chip
       >
       <mat-chip *ngIf="data.tracks.length > 0" color="primary" selected
-        ><mat-icon aria-hidden="false" aria-label="Has GPS tracks">directions</mat-icon>&nbsp; GPS track</mat-chip
+        ><mat-icon aria-hidden="false">directions</mat-icon>&nbsp; {{ 'HAS_GPS_TRACK' | translate }}</mat-chip
       >
     </mat-chip-list>
   </div>
   <div class="source-link">
-    source: <a href="{{ data.resource_url }}" target="_blank">{{ data.resource_url }}</a>
+    {{ 'SOURCE' | translate }}: <a href="{{ data.resource_url }}" target="_blank">{{ data.resource_url }}</a>
   </div>
 </div>

@@ -25,7 +25,7 @@
 
         <!-- The sectors -->
         <div *ngIf="data.sectors && data.sectors.length > 1" class="more sectors">
-          <h5>Sectors and routes</h5>
+          <h5>{{ 'SECTORS_ROUTES' | translate }}</h5>
           <mat-accordion>
             <mat-expansion-panel *ngFor="let sector of data.sectors">
               <mat-expansion-panel-header>
@@ -46,8 +46,12 @@
                     </div>
                     <div class="route-title">{{ route.title | capitalizeFirst }}</div>
                     <div class="route-info" fxLayout>
-                      <div *ngIf="route.length" class="route-info">{{ route.length }} mt.</div>
-                      <div *ngIf="route.pitons_num" class="route-info">{{ route.pitons_num }} pitons</div>
+                      <div *ngIf="route.length" class="route-info">
+                        {{ route.length }} {{ 'METERS_ABB' | translate }}.
+                      </div>
+                      <div *ngIf="route.pitons_num" class="route-info">
+                        {{ route.pitons_num }} {{ 'PITONS' | translate }}
+                      </div>
                       <div *ngIf="route.gear_type" class="route-info">{{ route.gear_type }}</div>
                     </div>
                   </div>
@@ -65,16 +69,16 @@
   <div class="extra">
     <!-- The coeffs -->
     <div class="stats" *ngIf="data._stats">
-      <div *ngIf="data.quality_rank.weather !== null" class="coeff" aria-label="Climate trend">
-        <mat-icon aria-hidden="false" aria-label="Warm">brightness_high</mat-icon>
+      <div *ngIf="data.quality_rank.weather !== null" class="coeff">
+        <mat-icon aria-hidden="false">brightness_high</mat-icon>
         <mat-progress-bar mode="determinate" value="{{ data.quality_rank.weather * 100 }}"></mat-progress-bar>
       </div>
-      <div *ngIf="data.quality_rank.difficulty > 0" class="coeff" aria-label="Difficulty">
-        <mat-icon aria-hidden="false" aria-label="Hard">fitness_center</mat-icon>
+      <div *ngIf="data.quality_rank.difficulty > 0" class="coeff">
+        <mat-icon aria-hidden="false">fitness_center</mat-icon>
         <mat-progress-bar mode="determinate" value="{{ data.quality_rank.difficulty * 100 }}"></mat-progress-bar>
       </div>
-      <div *ngIf="data.altitude > 0" class="coeff" aria-label="Accessibility">
-        <mat-icon aria-hidden="false" aria-label="Far">terrain</mat-icon>
+      <div *ngIf="data.altitude > 0" class="coeff">
+        <mat-icon aria-hidden="false">terrain</mat-icon>
         <mat-progress-bar mode="determinate" value="{{ data.quality_rank.position * 100 }}"></mat-progress-bar>
         <div class="progress-info">{{ data.altitude }} mt.</div>
       </div>
@@ -114,7 +118,7 @@
         <!-- The weather -->
         <div *ngIf="hasForecast" class="weather" [class]="forecastClass">
           <div class="today" fxLayout>
-            <div class="when">now</div>
+            <div class="when">{{ 'NOW' | translate }}</div>
             <wci-skycon [width]="60" [height]="60" [icon]="currentWeather.icon"></wci-skycon>
             <div class="figures">
               <div>{{ currentWeather.temperature }} °C</div>
@@ -136,7 +140,7 @@
             </div>
           </div>
           <div class="tomorrow" fxLayout>
-            <div class="when">tomorrow</div>
+            <div class="when">{{ 'TOMORROW' | translate }}</div>
             <wci-skycon [width]="60" [height]="60" [icon]="currentWeather.icon"></wci-skycon>
             <div class="figures">
               <div>{{ tomorrowForecast.temperatureMax }} °C</div>

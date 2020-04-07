@@ -5,6 +5,7 @@ import { getDistance } from 'geolib';
 import moment, { Duration } from 'moment';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { TranslateService } from '@ngx-translate/core';
 
 const WINDOW: any = window || {};
 
@@ -26,7 +27,7 @@ export class GeoService {
   private avgHumanSpeed = 3.6;
   private avgCarSpeed = 85;
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient, private translateService: TranslateService) {}
 
   /**
    *
@@ -116,10 +117,9 @@ export class GeoService {
 
     const output = asHours >= 24 ? asDays.toString() : moment.utc(duration.asMilliseconds()).format('HH:mm');
 
-    // TODO: i18n
     return {
       value: output,
-      unit: asHours >= 24 ? 'days' : 'hrs',
+      unit: asHours >= 24 ? this.translateService.instant('DAYS') : this.translateService.instant('HRS'),
     };
   }
 

@@ -17,7 +17,7 @@
         <span [innerHTML]="data.coords | distance: currentLocation"></span>
       </mat-chip>
       <mat-chip *ngIf="showCategory" class="no-mouse category" selected>
-        <span>CRAG</span>
+        <span>{{ 'CRAG' | translate | uppercase }}</span>
       </mat-chip>
     </mat-chip-list>
   </div>
@@ -37,26 +37,26 @@
           >&nbsp;routes</mat-chip
         >
       </mat-chip-list>
-      <div *ngIf="data.quality_rank.weather !== null" class="coeff" aria-label="Climate trend">
-        <mat-icon aria-hidden="false" aria-label="Warm">brightness_high</mat-icon
+      <div *ngIf="data.quality_rank.weather !== null" class="coeff">
+        <mat-icon aria-hidden="false">brightness_high</mat-icon
         ><mat-progress-bar mode="determinate" value="{{ data.quality_rank.weather * 100 }}"></mat-progress-bar>
         <div class="progress-info">
-          {{ data.quality_rank.weatherExtended[currentMonth].value }} °C in
+          {{ data.quality_rank.weatherExtended[currentMonth].value }} °C {{ 'IN_MONTH' | translate }}
           <div class="capitalize">{{ currentMonthHuman }}</div>
         </div>
       </div>
-      <div *ngIf="data.quality_rank.difficulty > 0" class="coeff" aria-label="Difficulty">
-        <mat-icon aria-hidden="false" aria-label="Hard">fitness_center</mat-icon
+      <div *ngIf="data.quality_rank.difficulty > 0" class="coeff">
+        <mat-icon aria-hidden="false">fitness_center</mat-icon
         ><mat-progress-bar mode="determinate" value="{{ data.quality_rank.difficulty * 100 }}"></mat-progress-bar>
       </div>
-      <div *ngIf="data.altitude > 0" class="coeff" aria-label="Accessibility">
-        <mat-icon aria-hidden="false" aria-label="Far">terrain</mat-icon
+      <div *ngIf="data.altitude > 0" class="coeff">
+        <mat-icon aria-hidden="false">terrain</mat-icon
         ><mat-progress-bar mode="determinate" value="{{ data.quality_rank.position * 100 }}"></mat-progress-bar>
-        <div class="progress-info">{{ data.altitude }} mt.</div>
+        <div class="progress-info">{{ data.altitude }} {{ 'METERS_ABB' | translate }}</div>
       </div>
     </div>
   </div>
   <div class="source-link">
-    source: <a href="{{ data.resource_url }}" target="_blank">{{ data.resource_url }}</a>
+    {{ 'SOURCE' | translate }}: <a href="{{ data.resource_url }}" target="_blank">{{ data.resource_url }}</a>
   </div>
 </div>

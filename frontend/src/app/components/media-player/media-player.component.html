@@ -1,7 +1,9 @@
 <h1 mat-dialog-title>
   {{ data.title || data.name | capitalizeFirst }}
   <div class="title-actions">
-    <button mat-flat-button color="primary"><mat-icon>forward</mat-icon>OPEN DETAIL</button>
+    <button mat-flat-button color="primary">
+      <mat-icon>forward</mat-icon>{{ 'OPEN_DETAIL' | translate | uppercase }}
+    </button>
   </div>
 </h1>
 <div class="selected">

@@ -26,6 +26,7 @@
     "@angular/router": "^9.1.0",
     "@mapbox/togeojson": "^0.16.0",
     "@ngx-translate/core": "^12.1.2",
+    "@ngx-translate/http-loader": "^4.0.0",
     "@types/googlemaps": "^3.39.3",
     "@types/moment-timezone": "^0.5.13",
     "apollo-angular": "^1.8.0",

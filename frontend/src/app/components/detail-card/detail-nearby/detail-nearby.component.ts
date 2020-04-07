@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Poi } from 'src/app/utils/Poi';
 import { typeOfItem } from 'src/app/utils/ContentType';
 import { Coords } from 'src/app/interfaces/graphql/coords.type';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'wci-detail-nearby',
@@ -13,6 +14,8 @@ export class DetailNearbyComponent {
   @Input() distanceCoords: Coords;
   @Output() poiSelected: EventEmitter<Poi> = new EventEmitter<Poi>();
 
+  constructor(private translateService: TranslateService) {}
+
   /**
    *
    */
@@ -21,17 +24,17 @@ export class DetailNearbyComponent {
   }
 
   /**
-   * TODO: i18n
+   *
    */
   getNearbyCategoryTag(item: Poi): string {
     switch (typeOfItem(item)) {
       default:
       case 'Crag':
-        return 'C';
+        return this.translateService.instant('CRAG')[0];
       case 'Hike':
-        return 'H';
+        return this.translateService.instant('HIKE')[0];
       case 'Shelter':
-        return 'S';
+        return this.translateService.instant('SHELTER')[0];
     }
   }
 

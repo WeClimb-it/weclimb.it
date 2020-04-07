@@ -1,10 +1,10 @@
-import { HttpClientModule } from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { NgModule, APP_INITIALIZER, Injector } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateLoader, TranslateService } from '@ngx-translate/core';
 import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 import { MomentModule } from 'ngx-moment';
 import {
@@ -41,6 +41,10 @@ import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { CapitalizeFirstPipe } from './pipes/capitalizeFirst/capitalize-first.pipe';
 import { DistancePipe } from './pipes/distance/distance.pipe';
 import { MetricPipe } from './pipes/metric/metric.pipe';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { LOCATION_INITIALIZED } from '@angular/common';
+import { take } from 'lodash';
+import { resolve } from 'dns';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -72,13 +76,39 @@ const appComponents = [
   DetailNearbyComponent,
 ];
 
+export function createTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/lang/', '.json');
+}
+
+export function appInitializerFactory(translateService: TranslateService, injector: Injector): () => Promise<any> {
+  return () =>
+    new Promise<any>((resolve: any) => {
+      const locationInitialized = injector.get(LOCATION_INITIALIZED, Promise.resolve(null));
+      locationInitialized.then(() => {
+        translateService.addLangs(environment.i18n.availableLangs);
+        translateService.setDefaultLang('en');
+
+        const browserLang = translateService.getBrowserLang();
+        translateService.use(browserLang);
+
+        resolve(null);
+      });
+    });
+}
+
 @NgModule({
   declarations: [...pipes, ...appComponents],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    TranslateModule.forRoot(),
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: createTranslateLoader,
+        deps: [HttpClient],
+      },
+    }),
     GraphQLModule,
     HttpClientModule,
     FlexLayoutModule,
@@ -94,6 +124,12 @@ const appComponents = [
     {
       provide: PERFECT_SCROLLBAR_CONFIG,
       useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG,
+    },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: appInitializerFactory,
+      deps: [TranslateService, Injector],
+      multi: true,
     },
   ],
   bootstrap: [AppComponent],

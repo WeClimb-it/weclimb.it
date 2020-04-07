@@ -5,7 +5,7 @@
         <span [innerHTML]="data.coords | distance: currentLocation"></span>
       </mat-chip>
       <mat-chip *ngIf="showCategory" class="no-mouse category" selected>
-        <span>INDOOR</span>
+        <span>{{ 'INDOOR' | translate }}</span>
       </mat-chip>
     </mat-chip-list>
   </div>
@@ -14,6 +14,6 @@
     <div *ngIf="data.descr" class="description">{{ data.descr | capitalizeFirst }}</div>
   </div>
   <div class="source-link">
-    source: <a href="{{ data.resource_url }}" target="_blank">{{ data.resource_url }}</a>
+    {{ 'SOURCE' | translate }}: <a href="{{ data.resource_url }}" target="_blank">{{ data.resource_url }}</a>
   </div>
 </div>

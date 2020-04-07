@@ -1,9 +1,9 @@
 <div class="map-location">
   <div class="content">
-    <h4>current location</h4>
+    <h4>{{ 'CURRENT_LOCATION' | translate }}</h4>
     <span class="city">{{ currentLocation.city }}</span>
     <span class="coords">
-      <mat-icon aria-hidden="false" aria-label="Current coordinates">gps_fixed</mat-icon>
+      <mat-icon aria-hidden="false">gps_fixed</mat-icon>
       <span>{{ currentLocation.lat }}, {{ currentLocation.lng }}</span>
     </span>
   </div>
@@ -11,7 +11,7 @@
 <ng-container *ngIf="pois">
   <div class="panel crags-boulders">
     <div class="visual">
-      crags & boulders
+      {{ 'CRAGS_N_BOULDERS' | translate }}
     </div>
     <ng-container *ngIf="pois.crags.length > 0">
       <perfect-scrollbar class="list">
@@ -20,12 +20,14 @@
           <span [innerHTML]="item.coords | distance: currentLocation"></span>
         </div>
       </perfect-scrollbar>
-      <div class="links"><a (click)="goToSection('crags')">See the full list</a></div>
+      <div class="links">
+        <a (click)="goToSection('crags')">{{ 'SEE_FULL_LIST' | translate }}</a>
+      </div>
     </ng-container>
-    <div *ngIf="pois.crags.length == 0" class="no-results">No crags nearby</div>
+    <div *ngIf="pois.crags.length == 0" class="no-results">{{ 'NO_CRAGS_NEARBY' | translate }}</div>
   </div>
   <div class="panel hikes-shelters">
-    <div class="visual">hikes & shelters</div>
+    <div class="visual">{{ 'HIKES_N_SHELTERS' | translate }}</div>
     <ng-container *ngIf="pois.hikes.length > 0 || pois.shelters.length > 0">
       <perfect-scrollbar class="list">
         <div *ngIf="pois.hikes.length > 0">
@@ -43,14 +45,16 @@
         </div>
       </perfect-scrollbar>
       <div class="links">
-        <a (click)="goToSection('hikes')">More hikes</a>
-        <a (click)="goToSection('shelters')">More shelters</a>
+        <a (click)="goToSection('hikes')">{{ 'MORE_HIKES' | translate }}</a>
+        <a (click)="goToSection('shelters')">{{ 'MORE_SHELTERS' | translate }}</a>
       </div>
     </ng-container>
-    <div *ngIf="pois.shelters.length == 0 && pois.hikes.length == 0" class="no-results">No shelters or hikes</div>
+    <div *ngIf="pois.shelters.length == 0 && pois.hikes.length == 0" class="no-results">
+      {{ 'NO_SHELTERS_NO_HIKES' | translate }}
+    </div>
   </div>
   <div class="panel gyms-competitions">
-    <div class="visual">places & competitions</div>
+    <div class="visual">{{ 'PLACES_N_COMPETITIONS' | translate }}</div>
     <ng-container *ngIf="pois.places.length > 0 || pois.competitions.length > 0">
       <perfect-scrollbar class="list">
         <div *ngIf="pois.places.length > 0">
@@ -68,12 +72,12 @@
         </div>
       </perfect-scrollbar>
       <div class="links">
-        <a (click)="goToSection('places')">More places</a>
-        <a (click)="goToSection('competitions')">More competitions</a>
+        <a (click)="goToSection('places')">{{ 'MORE_PLACES' | translate }}</a>
+        <a (click)="goToSection('competitions')">{{ 'MORE_COMPETITIONS' | translate }}</a>
       </div>
     </ng-container>
     <div *ngIf="pois.places.length == 0 && pois.competitions.length == 0" class="no-results">
-      No places nor competitions
+      {{ 'NO_PLACES_NO_COMPETITIONS' | translate }}
     </div>
   </div>
 </ng-container>

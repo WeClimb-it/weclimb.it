@@ -1,5 +1,5 @@
 <div class="nearby">
-  <div class="title">Nearby</div>
+  <div class="title">{{ 'NEARBY_THIS_PLACE' | translate }}</div>
   <div *ngFor="let item of items" class="item">
     <div class="category {{ getNearbyCategoryClass(item) }}">{{ getNearbyCategoryTag(item) }}</div>
     <h4 (click)="onEntitySelected(item)">

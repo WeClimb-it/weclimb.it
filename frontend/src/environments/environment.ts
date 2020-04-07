@@ -11,7 +11,9 @@ export const environment = {
     url: 'https://api.weclimb.it/s',
   },
   i18n: {
-    defaultLang: 'en-EN',
+    defaultLang: 'en',
+    availableLangs: ['it', 'en'],
+    availableLangsLabels: ['Italiano', 'English'],
   },
   mapbox: {
     // Don't worry, referrers are white-listed ;-)

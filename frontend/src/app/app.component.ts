@@ -11,7 +11,8 @@ import { AppStoreService } from './services/appState.service';
 import { PlaceSuggestion } from './services/geo.service';
 import { WciApiService } from './services/wciApi.service';
 import { Poi } from './utils/Poi';
-import { Subscription } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'wci-root',
@@ -33,6 +34,7 @@ export class AppComponent implements OnInit {
   private latestSearchOptions: SearchOptions;
 
   constructor(
+    private translate: TranslateService,
     private api: WciApiService,
     private router: Router,
     private route: ActivatedRoute,
@@ -137,8 +139,7 @@ export class AppComponent implements OnInit {
       if (!res.loading) {
         this.userData = res.data.userInfo;
 
-        moment.locale(this.userData.geo.isoCode);
-        moment.tz.setDefault(this.userData.geo.timeZone);
+        this.initI18n();
 
         // We set the user location as current one so the map is updated (it will trigger the "onMapUpdate" event)
         this.currentLocation = new GeoLocation(
@@ -219,5 +220,25 @@ export class AppComponent implements OnInit {
    */
   private updateUserLocationInStore(): void {
     this.appStore.setProperty('currentUserLocation', this.userLocation);
+  }
+
+  /**
+   *
+   */
+  private initI18n(): void {
+    /*
+    // NOTE: Currently we use the browser language in the app.component
+    // instead of deriving it from the BE.
+
+    const lang = this.userData.geo.isoCode.toLowerCase();
+    if (environment.i18n.availableLangs.includes(lang)) {
+      this.translate.use(lang);
+    } else {
+      this.translate.use(environment.i18n.defaultLang);
+    }
+    */
+
+    moment.locale(this.userData.geo.isoCode);
+    moment.tz.setDefault(this.userData.geo.timeZone);
   }
 }

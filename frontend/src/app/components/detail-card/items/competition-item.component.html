@@ -10,11 +10,13 @@
         {{ data.info.details.text | capitalizeFirst }}
 
         <div *ngIf="data.info.details.event_website">
-          <a href="{{ data.info.details.event_website }}" target="_blank">Further info on the event's website.</a>
+          <a href="{{ data.info.details.event_website }}" target="_blank"
+            >{{ 'FURTHER_EVENT_INFO_WEBSITE' | translate }}.</a
+          >
         </div>
 
         <div *ngIf="data.info.details.info_sheet">
-          <a href="{{ data.info.details.info_sheet }}" target="_blank">Download the information sheet.</a>
+          <a href="{{ data.info.details.info_sheet }}" target="_blank">{{ 'DOWNLOAD_INFO_SHEET' | translate }}.</a>
         </div>
 
         <div *ngIf="data.people.length > 0">

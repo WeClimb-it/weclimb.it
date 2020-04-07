@@ -5,7 +5,7 @@
         <span [innerHTML]="data.coords | distance: currentLocation"></span>
       </mat-chip>
       <mat-chip *ngIf="showCategory" class="no-mouse category" selected>
-        <span>COMPETITION</span>
+        <span>{{ 'COMPETITION' | translate | uppercase }}</span>
       </mat-chip>
     </mat-chip-list>
   </div>
@@ -16,7 +16,7 @@
     </div>
     <h4 (click)="goToDetailUrl(data.slug)">
       {{ data.title }}
-      <mat-icon color="accent" *ngIf="hasBeenDisputed" aria-label="Competition already disputed">done_outline</mat-icon>
+      <mat-icon color="accent" *ngIf="hasBeenDisputed">done_outline</mat-icon>
     </h4>
     <span class="categories">{{ categories.join(', ') }}</span>
     <div *ngIf="data.info.details.text" class="description">{{ data.info.details.text | capitalizeFirst }}</div>
@@ -29,6 +29,6 @@
     </mat-chip-list>
   </div>
   <div class="source-link">
-    source: <a href="{{ data.resource_url }}" target="_blank">{{ data.resource_url }}</a>
+    {{ 'SOURCE' | translate }}: <a href="{{ data.resource_url }}" target="_blank">{{ data.resource_url }}</a>
   </div>
 </div>

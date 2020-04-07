@@ -9,18 +9,18 @@
         {{ data.descr | capitalizeFirst }}
 
         <div *ngIf="data.starting_point">
-          <strong>Starting from:</strong> {{ data.starting_point | capitalizeFirst }}
+          <strong>{{ 'STARTING_FROM' | translate }}:</strong> {{ data.starting_point | capitalizeFirst }}
         </div>
 
         <div *ngIf="data.access_info" class="more">
-          <h5>How to reach it</h5>
+          <h5>{{ 'HOW_REACH' | translate }}</h5>
           <span>
             {{ data.access_info | capitalizeFirst }}
           </span>
         </div>
 
         <div *ngIf="data.notes" class="more">
-          <h5>Notes</h5>
+          <h5>{{ 'NOTES' | translate }}</h5>
           <span>
             {{ data.notes | capitalizeFirst }}
           </span>
@@ -35,19 +35,21 @@
   <div class="extra">
     <mat-chip-list>
       <mat-chip *ngIf="data.difficulty" class="chip" color="primary" selected>
-        <mat-icon aria-hidden="false" aria-label="Difficulty">fitness_center</mat-icon>&nbsp;Difficulty:&nbsp;
+        <mat-icon aria-hidden="false">fitness_center</mat-icon>&nbsp;{{ 'DIFFICULTY' | translate }}:&nbsp;
         <strong>{{ data.difficulty }}</strong>
       </mat-chip>
       <mat-chip *ngIf="data.elevation.low" class="chip" color="primary" selected>
-        <mat-icon aria-hidden="false" aria-label="Min. elevation">arrow_downward</mat-icon>&nbsp;Min
-        elevation:&nbsp;<strong>{{ data.elevation.low }} mt.</strong>
+        <mat-icon aria-hidden="false">arrow_downward</mat-icon>&nbsp;{{ 'MIN_ELEVATION' | translate }}:&nbsp;<strong
+          >{{ data.elevation.low }} mt.</strong
+        >
       </mat-chip>
       <mat-chip *ngIf="data.elevation.high" class="chip" color="primary" selected>
-        <mat-icon aria-hidden="false" aria-label="Max. elevation">arrow_upward</mat-icon>&nbsp;Max
-        elevation:&nbsp;<strong>{{ data.elevation.high }} mt.</strong>
+        <mat-icon aria-hidden="false">arrow_upward</mat-icon>&nbsp;{{ 'MAX_ELEVATION' | translate }}:&nbsp;<strong
+          >{{ data.elevation.high }} mt.</strong
+        >
       </mat-chip>
       <mat-chip *ngIf="data.length" class="chip" color="primary" selected>
-        <mat-icon aria-hidden="false" aria-label="Max. elevation">arrow_forward</mat-icon>&nbsp;Length:&nbsp;<strong
+        <mat-icon aria-hidden="false">arrow_forward</mat-icon>&nbsp;{{ 'LENGTH' | translate }}:&nbsp;<strong
           >{{ data.length }} mt.</strong
         >
       </mat-chip>
@@ -58,7 +60,8 @@
         selected
         (click)="downloadGpsTrack(data.tracks[0])"
       >
-        <mat-icon aria-hidden="false" aria-label="Has GPS tracks">directions</mat-icon>&nbsp; Download GPS track
+        <mat-icon aria-hidden="false">directions</mat-icon>&nbsp;
+        {{ 'DOWNLOAD_GPS_TRACK' | translate }}
       </mat-chip>
     </mat-chip-list>
 
@@ -160,7 +163,7 @@
         <!-- The weather -->
         <div *ngIf="hasForecast" class="weather" [class]="forecastClass">
           <div class="today" fxLayout>
-            <div class="when">now</div>
+            <div class="when">{{ 'NOW' | translate }}</div>
             <wci-skycon [width]="60" [height]="60" [icon]="currentWeather.icon"></wci-skycon>
             <div class="figures">
               <div>{{ currentWeather.temperature }} °C</div>
@@ -182,7 +185,7 @@
             </div>
           </div>
           <div class="tomorrow" fxLayout>
-            <div class="when">tomorrow</div>
+            <div class="when">{{ 'TOMORROW' | translate }}</div>
             <wci-skycon [width]="60" [height]="60" [icon]="currentWeather.icon"></wci-skycon>
             <div class="figures">
               <div>{{ tomorrowForecast.temperatureMax }} °C</div>

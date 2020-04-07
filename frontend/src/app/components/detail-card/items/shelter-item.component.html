@@ -20,8 +20,8 @@
   <div class="extra">
     <mat-chip-list>
       <mat-chip *ngIf="data.altitude" class="chip" color="primary" selected>
-        <mat-icon aria-hidden="false" aria-label="Altitude">arrow_upward</mat-icon>
-        &nbsp;Altitude:&nbsp;<strong>{{ data.altitude }} mt.</strong>
+        <mat-icon aria-hidden="false">arrow_upward</mat-icon>
+        &nbsp;{{ 'ALTITUDE' | translate }}:&nbsp;<strong>{{ data.altitude }} mt.</strong>
       </mat-chip>
       <mat-chip
         *ngIf="data.accomodations_food && data.accomodations_food.length < 4"
@@ -29,7 +29,7 @@
         color="primary"
         selected
       >
-        <mat-icon aria-hidden="false" aria-label="Sits">restaurant_menu</mat-icon>Sits:&nbsp;<strong>{{
+        <mat-icon aria-hidden="false">restaurant_menu</mat-icon>{{ 'SITS' | translate }}:&nbsp;<strong>{{
           data.accomodations_food
         }}</strong>
       </mat-chip>
@@ -39,31 +39,23 @@
         color="primary"
         selected
       >
-        <mat-icon aria-hidden="false" aria-label="Rooms">home</mat-icon>
-        Rooms:&nbsp;<strong>{{ data.accomodations_rooms }}</strong>
+        <mat-icon aria-hidden="false">home</mat-icon>
+        {{ 'ROOMS' | translate }}:&nbsp;<strong>{{ data.accomodations_rooms }}</strong>
       </mat-chip>
       <mat-chip *ngIf="data.beds" class="chip" color="primary" selected>
-        <mat-icon aria-hidden="false" aria-label="Beds">hotel</mat-icon>
-        Beds:&nbsp;<strong>{{ data.beds }}</strong>
+        <mat-icon aria-hidden="false">hotel</mat-icon>
+        {{ 'BEDS' | translate }}:&nbsp;<strong>{{ data.beds }}</strong>
       </mat-chip>
     </mat-chip-list>
-    <div *ngIf="data.opening" class="info-box" aria-label="Opening info">
+    <div *ngIf="data.opening" class="info-box">
       <mat-icon aria-hidden="false">calendar_today</mat-icon>
       <div class="capitalize">{{ data.opening }}</div>
     </div>
-    <div
-      *ngIf="data.accomodations_food && data.accomodations_food.length > 4"
-      class="info-box"
-      aria-label="Accomodation info"
-    >
+    <div *ngIf="data.accomodations_food && data.accomodations_food.length > 4" class="info-box">
       <mat-icon aria-hidden="false">restaurant_menu</mat-icon>
       <div class="capitalize">{{ data.accomodations_food }}</div>
     </div>
-    <div
-      *ngIf="data.accomodations_rooms && data.accomodations_rooms.length > 4"
-      class="info-box"
-      aria-label="Rooms info"
-    >
+    <div *ngIf="data.accomodations_rooms && data.accomodations_rooms.length > 4" class="info-box">
       <mat-icon aria-hidden="false">home</mat-icon>
       <div class="capitalize">{{ data.accomodations_rooms }}</div>
     </div>
@@ -138,7 +130,7 @@
         <!-- The weather -->
         <div *ngIf="hasForecast" class="weather" [class]="forecastClass">
           <div class="today" fxLayout>
-            <div class="when">now</div>
+            <div class="when">{{ 'NOW' | translate }}</div>
             <wci-skycon [width]="60" [height]="60" [icon]="currentWeather.icon"></wci-skycon>
             <div class="figures">
               <div>{{ currentWeather.temperature }} °C</div>
@@ -160,7 +152,7 @@
             </div>
           </div>
           <div class="tomorrow" fxLayout>
-            <div class="when">tomorrow</div>
+            <div class="when">{{ 'TOMORROW' | translate }}</div>
             <wci-skycon [width]="60" [height]="60" [icon]="currentWeather.icon"></wci-skycon>
             <div class="figures">
               <div>{{ tomorrowForecast.temperatureMax }} °C</div>
