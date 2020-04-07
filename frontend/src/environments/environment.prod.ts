@@ -12,5 +12,6 @@ export const environment = {
   mapbox: {
     // Don't worry, referrers are white-listed ;-)
     token: 'pk.eyJ1Ijoid2VjbGltYml0IiwiYSI6ImNrOGtlZ2lvdzAwdW8zZ25vbjUxbHIycnAifQ.lwM-V6-SoRqiTWLWMEWDzw',
+    style: 'mapbox://styles/weclimbit/ck76qiur612ur1imof17kauyo',
   },
 };

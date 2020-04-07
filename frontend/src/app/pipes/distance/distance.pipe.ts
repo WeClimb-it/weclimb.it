@@ -30,10 +30,16 @@ export class DistancePipe implements PipeTransform {
     }
 
     if (!(source instanceof GeoLocation)) {
-      // TODO: Put a nice condition here
+      if (!source.hasOwnProperty('lat') || !source.hasOwnProperty('lng')) {
+        throw new Error('Invalid geo object was given.');
+      }
       source = new GeoLocation((source as Coords).lat, (source as Coords).lng);
     }
+
     if (!(destination instanceof GeoLocation)) {
+      if (!destination.hasOwnProperty('lat') || !destination.hasOwnProperty('lng')) {
+        throw new Error('Invalid geo object was given.');
+      }
       destination = new GeoLocation((destination as Coords).lat, (destination as Coords).lng);
     }
 

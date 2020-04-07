@@ -6,6 +6,8 @@ import { GeoJSONFeature } from 'src/app/interfaces/geo/GeoJSONFeature.interface'
 import { WciApiService } from 'src/app/services/wciApi.service';
 import { BaseItemWithWeatherComponent } from './withWeather-item.component';
 import { GeoService } from 'src/app/services/geo.service';
+import { environment } from 'src/environments/environment';
+import { getGeoJsonFromCoords } from 'src/app/utils/Map';
 
 @Component({
   selector: 'wci-with-dynamic-map-card-item',
@@ -20,8 +22,7 @@ export class BaseItemWithDynamicMapComponent extends BaseItemWithWeatherComponen
   renderMap = false;
   isMapMoving = false;
 
-  // TODO: Configure it
-  mapStyle = 'mapbox://styles/weclimbit/ck76qiur612ur1imof17kauyo';
+  mapStyle = environment.mapbox.style;
   centerCoords: number[];
   centerGeoJson: {
     type: 'FeatureCollection';
@@ -67,21 +68,10 @@ export class BaseItemWithDynamicMapComponent extends BaseItemWithWeatherComponen
   }
 
   /**
-   * TODO: Move it to a util class
+   *
    */
   private updateCenterGeoJSON(): void {
-    this.centerGeoJson = {
-      type: 'FeatureCollection',
-      features: [
-        {
-          type: 'Feature',
-          geometry: {
-            type: 'Point',
-            coordinates: this.centerCoords,
-          },
-        },
-      ],
-    };
+    this.centerGeoJson = getGeoJsonFromCoords(this.centerCoords);
   }
 
   /**

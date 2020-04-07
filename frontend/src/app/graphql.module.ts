@@ -5,32 +5,14 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import { ApolloLink } from 'apollo-link';
 import { environment } from 'src/environments/environment';
 import { I18nService } from './services/i18n.service';
+import { getEntityCacheId } from './utils/Poi';
 
 const cache = new InMemoryCache({
   // Why this? B/c in certain cases we need an expanded version of the GraphQL item (i.e. crag with sectors)
   // since the same item might be loaded somewhere else w/o expanded props (i.e. sectors) and thus stored in the cache,
   // this would override the already cached item.
   // In such a case we create an ad-hoc cache key prepending the "deep" label.
-  // TODO: Move the cache-key policies in a separated file
-  dataIdFromObject: (object: any) => {
-    switch (object.__typename) {
-      case 'Crag':
-        if (object.sectors) {
-          return `deep-${object.slug}`;
-        } else {
-          return object.slug;
-        }
-      default:
-        return (
-          object.slug ||
-          object.id ||
-          object._id ||
-          Math.random()
-            .toString(36)
-            .substr(2, 5)
-        );
-    }
-  },
+  dataIdFromObject: getEntityCacheId,
 });
 
 const userLangMiddleware = new ApolloLink((operation, forward) => {

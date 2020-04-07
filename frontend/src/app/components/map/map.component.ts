@@ -26,6 +26,8 @@ import PlacePin from './pins/place';
 import ShelterPin from './pins/shelter';
 import { PinUtils } from './pins/utils';
 import { GeoJSONFeature } from '../../interfaces/geo/GeoJSONFeature.interface';
+import { environment } from 'src/environments/environment';
+import { getGeoJsonFromCoords } from 'src/app/utils/Map';
 
 export enum POI_TYPE {
   CRAG = 'crag',
@@ -61,8 +63,7 @@ export class MapComponent implements OnInit, OnChanges {
   @Input() userLocation: GeoLocation;
   @Input() pois: InputEntities;
 
-  // TODO: Configure it
-  @Input() mapStyle = 'mapbox://styles/weclimbit/ck76qiur612ur1imof17kauyo';
+  @Input() mapStyle = environment.mapbox.style;
   @Input() tracks: GeoTrack[];
 
   @Output() ready = new EventEmitter<MapUpdateEvent>();
@@ -137,9 +138,11 @@ export class MapComponent implements OnInit, OnChanges {
       this.contructGeoJSONFromChange(changes.pois);
     }
 
+    /*
     if (changes.tracks) {
-      // TODO: Render tracks
+      // Note: tracks are not supported at the moment in the main map
     }
+    */
   }
 
   /**
@@ -274,21 +277,10 @@ export class MapComponent implements OnInit, OnChanges {
   }
 
   /**
-   * TODO: Move it to a util class
+   *
    */
   private updateCenterGeoJSON(): void {
-    this.centerGeoJson = {
-      type: 'FeatureCollection',
-      features: [
-        {
-          type: 'Feature',
-          geometry: {
-            type: 'Point',
-            coordinates: this.centerCoords,
-          },
-        },
-      ],
-    };
+    this.centerGeoJson = getGeoJsonFromCoords(this.centerCoords);
   }
 
   /**

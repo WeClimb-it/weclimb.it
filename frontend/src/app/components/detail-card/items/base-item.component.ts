@@ -2,7 +2,7 @@ import { Component, SimpleChanges, Input, OnChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { WciApiService } from 'src/app/services/wciApi.service';
 import { Poi } from 'src/app/utils/Poi';
-import { typeOfItem } from 'src/app/utils/ContentType';
+import { typeOfItem, getSectionFromItem } from 'src/app/utils/ContentType';
 import { environment } from 'src/environments/environment';
 import { GeoLocation } from 'src/app/classes/geolocation.class';
 import { NearbyResult } from 'src/app/graphql/queries';
@@ -38,20 +38,7 @@ export class BaseCardItemComponent implements OnChanges {
    *
    */
   goToDetailUrl(item: Poi) {
-    // TODO: Implement a common way to derive sections from the types.
-    let section;
-    switch (typeOfItem(item)) {
-      default:
-      case 'Crag':
-        section = 'crags';
-        break;
-      case 'Hike':
-        section = 'hikes';
-        break;
-      case 'Shelter':
-        section = 'shelters';
-        break;
-    }
+    const section = getSectionFromItem(item);
     this.router.navigate([section, item.slug]);
   }
 
