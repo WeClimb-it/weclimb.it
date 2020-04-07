@@ -2,12 +2,13 @@
 @import '../../../../colors';
 @import '../../../../mixins';
 
-.description {
-  height: 94%;
-}
-
 .container {
   height: 100%;
+
+  .description {
+    height: 94%;
+    border-radius: 4px;
+  }
 
   .info {
     width: 60%;
@@ -74,6 +75,20 @@
           }
         }
       }
+    }
+  }
+
+  .media {
+    width: calc(100% - 10px);
+    margin: 0 auto;
+
+    img {
+      @include mat-elevation(3, black, 0.15);
+      width: calc(100% - 20px);
+      margin-top: 10px;
+      margin-bottom: 10px;
+      border-radius: 4px;
+      padding: 10px;
     }
   }
 }

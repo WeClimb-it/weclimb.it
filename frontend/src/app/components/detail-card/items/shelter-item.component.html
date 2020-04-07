@@ -8,8 +8,11 @@
       <perfect-scrollbar>
         {{ data.descr | capitalizeFirst }}
 
-        <!-- TODO: Add media -->
-        <!--                 -->
+        <div class="media">
+          <div class="image" *ngFor="let image of data.media">
+            <img src="{{ image }}" />
+          </div>
+        </div>
       </perfect-scrollbar>
     </div>
   </div>
