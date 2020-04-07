@@ -90,6 +90,7 @@
 
             <!-- The GPX track -->
             <mgl-layer
+              *ngIf="gpxTrack"
               id="gpx-track"
               type="line"
               [source]="{
