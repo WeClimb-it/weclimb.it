@@ -79,7 +79,7 @@ export class MapComponent implements OnInit, OnChanges {
   ENTITY_NAMESPACE = {
     CRAG: 'crags',
     PLACE: 'places',
-    EVENT: 'events',
+    EVENT: 'competitions',
     SHELTER: 'shelters',
     HIKE: 'hikes',
   };

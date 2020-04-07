@@ -1,15 +1,3 @@
 @import 'common.scss';
 
 @include item-extras();
-
-.dynamic-map {
-  position: relative;
-  width: 100%;
-  height: 360px;
-  background: rgba(black, 0.05);
-
-  mgl-map {
-    height: 100%;
-    width: 100%;
-  }
-}

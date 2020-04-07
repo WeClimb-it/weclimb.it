@@ -1,5 +1,6 @@
 @import '../../../colors';
 @import '../../../common';
+@import '../../../mixins';
 
 mgl-map {
   height: 100%;
@@ -37,6 +38,7 @@ mgl-map {
     height: 180px;
 
     .title {
+      @include multilineTruncate(3);
       text-transform: uppercase;
       font-size: 14px;
       line-height: 16px;

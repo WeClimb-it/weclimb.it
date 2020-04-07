@@ -80,8 +80,8 @@
             [center]="centerCoords"
             [minZoom]="minZoom"
             [maxZoom]="maxZoom"
-            (moveStart)="onMapMove($event)"
-            (moveEnd)="onMapMoved($event)"
+            (moveStart)="onMapMove()"
+            (moveEnd)="onMapMoved()"
           >
             <!-- The map controls -->
             <mgl-control mglNavigation position="bottom-left"></mgl-control>

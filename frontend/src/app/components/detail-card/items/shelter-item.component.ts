@@ -1,16 +1,23 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { GeoLocation } from 'src/app/classes/geolocation.class';
+import { Component, OnChanges, SimpleChanges } from '@angular/core';
+import { Router } from '@angular/router';
 import { Shelter } from 'src/app/interfaces/graphql/shelter.type';
-import { BaseCardItemComponent } from './base-item.component';
+import { GeoService } from 'src/app/services/geo.service';
+import { WciApiService } from 'src/app/services/wciApi.service';
+import { BaseItemWithDynamicMapComponent } from './withDynamicMap-item.component';
 
 @Component({
   selector: 'wci-shelter-card-item',
   templateUrl: 'shelter-item.component.html',
   styleUrls: ['shelter-item.component.scss'],
 })
-export class ShelterCardItemComponent extends BaseCardItemComponent implements OnInit {
-  @Input() data: Shelter;
-  @Input() currentLocation: GeoLocation;
+export class ShelterCardItemComponent extends BaseItemWithDynamicMapComponent implements OnChanges {
+  data: Shelter;
 
-  ngOnInit() {}
+  constructor(protected router: Router, protected api: WciApiService, protected geoApi: GeoService) {
+    super(router, api, geoApi);
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    super.ngOnChanges(changes);
+  }
 }
