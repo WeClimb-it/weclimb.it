@@ -13,6 +13,7 @@ export class DetailCardComponent {
   @Input() type: ContentType;
   @Input() data: Poi;
   @Input() currentLocation: GeoLocation;
+  @Input() userLocation: GeoLocation;
   @Input() loading: boolean;
   @Input() errored: boolean;
 

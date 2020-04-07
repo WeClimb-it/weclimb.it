@@ -93,19 +93,19 @@
           <div>
             <mat-icon>directions</mat-icon
             ><span class="direction-label"
-              ><span [innerHTML]="data.coords | distance: currentLocation:false:false:false"></span
+              ><span [innerHTML]="data.coords | distance: userLocation:false:false:false"></span
             ></span>
           </div>
           <div>
             <mat-icon>directions_walk</mat-icon
             ><span class="direction-label"
-              ><span [innerHTML]="data.coords | distance: currentLocation:true:false:false"></span
+              ><span [innerHTML]="data.coords | distance: userLocation:true:false:false"></span
             ></span>
           </div>
           <div>
             <mat-icon>directions_car</mat-icon
             ><span class="direction-label"
-              ><span [innerHTML]="data.coords | distance: currentLocation:false:true:false"></span
+              ><span [innerHTML]="data.coords | distance: userLocation:false:true:false"></span
             ></span>
           </div>
         </div>
@@ -165,6 +165,7 @@
         <div *ngIf="nearbyPois.length > 0" class="nearby">
           <div class="title">Nearby</div>
           <div *ngFor="let item of nearbyPois" class="item">
+            <div class="category {{ getNearbyCategoryClass(item) }}">{{ getNearbyCategoryTag(item) }}</div>
             <h4 (click)="goToDetailUrl(item)">{{ item.title || item.name }}</h4>
             <div *ngIf="item.coords" [innerHTML]="item.coords | distance: data.coords:false:false:false"></div>
           </div>

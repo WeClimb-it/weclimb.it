@@ -18,22 +18,34 @@ type Results = CragResult | HikeResult | ShelterResult | PlaceResult | Competiti
 export class DetailComponent implements OnInit, OnDestroy {
   contentType: ContentType;
   currentLocation: GeoLocation;
+  userLocation: GeoLocation;
   data: Poi;
 
   isLoading = true;
   isErrored = false;
 
-  private appStoreSub$: Subscription;
+  private appStoreCurrentLocationSub$: Subscription;
+  private appStoreUserLocationSub$: Subscription;
   private routeSub$: Subscription;
 
   constructor(private route: ActivatedRoute, private api: WciApiService, private appStore: AppStoreService) {
     this.contentType = this.route.snapshot.data.type;
 
-    this.appStoreSub$ = this.appStore.watchProperty('currentLocation').subscribe((location: GeoLocation) => {
-      if (location) {
-        this.currentLocation = location;
-      }
-    });
+    this.appStoreCurrentLocationSub$ = this.appStore
+      .watchProperty('currentLocation')
+      .subscribe((location: GeoLocation) => {
+        if (location) {
+          this.currentLocation = location;
+        }
+      });
+
+    this.appStoreUserLocationSub$ = this.appStore
+      .watchProperty('currentUserLocation')
+      .subscribe((location: GeoLocation) => {
+        if (location) {
+          this.userLocation = location;
+        }
+      });
   }
 
   ngOnInit(): void {
@@ -48,8 +60,11 @@ export class DetailComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.appStoreSub$) {
-      this.appStoreSub$.unsubscribe();
+    if (this.appStoreCurrentLocationSub$) {
+      this.appStoreCurrentLocationSub$.unsubscribe();
+    }
+    if (this.appStoreUserLocationSub$) {
+      this.appStoreUserLocationSub$.unsubscribe();
     }
     if (this.routeSub$) {
       this.routeSub$.unsubscribe();

@@ -28,7 +28,6 @@ export class AppComponent implements OnInit {
   showContent = false;
   isFloatingContent = false;
 
-  private appStoreLocationSub$: Subscription;
   private mapData: MapUpdateEvent;
   private userData: UserInfo;
   private latestSearchOptions: SearchOptions;
@@ -46,7 +45,7 @@ export class AppComponent implements OnInit {
       }
     });
 
-    this.appStoreLocationSub$ = this.appStore.watchProperty('currentLocation').subscribe((location: GeoLocation) => {
+    this.appStore.watchProperty('currentLocation').subscribe((location: GeoLocation) => {
       if (location && location !== this.currentLocation) {
         this.currentLocation = location;
       }
@@ -150,6 +149,7 @@ export class AppComponent implements OnInit {
         );
         this.userLocation = this.currentLocation;
         this.updateCurrentLocationInStore();
+        this.updateUserLocationInStore();
         sub$.unsubscribe();
 
         // First load
@@ -212,5 +212,12 @@ export class AppComponent implements OnInit {
    */
   private updateCurrentLocationInStore(): void {
     this.appStore.setProperty('currentLocation', this.currentLocation);
+  }
+
+  /**
+   *
+   */
+  private updateUserLocationInStore(): void {
+    this.appStore.setProperty('currentUserLocation', this.userLocation);
   }
 }

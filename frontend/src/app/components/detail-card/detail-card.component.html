@@ -6,19 +6,39 @@
   </div>
   <ng-container [ngSwitch]="type">
     <ng-container *ngSwitchCase="'crag'">
-      <wci-crag-card-item [data]="data" [currentLocation]="currentLocation"></wci-crag-card-item>
+      <wci-crag-card-item
+        [data]="data"
+        [currentLocation]="currentLocation"
+        [userLocation]="userLocation"
+      ></wci-crag-card-item>
     </ng-container>
     <ng-container *ngSwitchCase="'hike'">
-      <wci-hike-card-item [data]="data" [currentLocation]="currentLocation"></wci-hike-card-item>
+      <wci-hike-card-item
+        [data]="data"
+        [currentLocation]="currentLocation"
+        [userLocation]="userLocation"
+      ></wci-hike-card-item>
     </ng-container>
     <ng-container *ngSwitchCase="'place'">
-      <wci-place-card-item [data]="data" [currentLocation]="currentLocation"></wci-place-card-item>
+      <wci-place-card-item
+        [data]="data"
+        [currentLocation]="currentLocation"
+        [userLocation]="userLocation"
+      ></wci-place-card-item>
     </ng-container>
     <ng-container *ngSwitchCase="'shelter'">
-      <wci-shelter-card-item [data]="data" [currentLocation]="currentLocation"></wci-shelter-card-item>
+      <wci-shelter-card-item
+        [data]="data"
+        [currentLocation]="currentLocation"
+        [userLocation]="userLocation"
+      ></wci-shelter-card-item>
     </ng-container>
     <ng-container *ngSwitchCase="'competition'">
-      <wci-competition-card-item [data]="data" [currentLocation]="currentLocation"></wci-competition-card-item>
+      <wci-competition-card-item
+        [data]="data"
+        [currentLocation]="currentLocation"
+        [userLocation]="userLocation"
+      ></wci-competition-card-item>
     </ng-container>
     <ng-container *ngSwitchDefault>???</ng-container>
   </ng-container>
