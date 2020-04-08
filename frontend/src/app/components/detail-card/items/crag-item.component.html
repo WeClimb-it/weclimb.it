@@ -33,8 +33,8 @@
                   {{ sector.title }}
                 </mat-panel-title>
                 <mat-panel-description>
-                  <span class="min-grade">{{ sector.min_grade }}</span>
-                  <span class="max-grade">{{ sector.max_grade }}</span>
+                  <span *ngIf="sector.min_grade" class="min-grade">{{ sector.min_grade }}</span>
+                  <span *ngIf="sector.max_grade" class="max-grade">{{ sector.max_grade }}</span>
                 </mat-panel-description>
               </mat-expansion-panel-header>
 
