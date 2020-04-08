@@ -38,7 +38,8 @@ const routes: Routes = [
 
   { path: 'news', component: EntitiesListComponent, data: { type: ContentType.NEWS } },
   { path: 'news/page/:page', component: EntitiesListComponent, data: { type: ContentType.NEWS } },
-  { path: 'news/:slug', component: DetailComponent, data: { type: ContentType.ONE_NEWS, isFloatingContent: true } },
+  // Not supported yet
+  // { path: 'news/:slug', component: DetailComponent, data: { type: ContentType.ONE_NEWS, isFloatingContent: true } },
 
   { path: 'search/:query', component: EntitiesListComponent, data: { type: ContentType.SEARCH } },
   { path: 'search/:query/page/:page', component: EntitiesListComponent, data: { type: ContentType.SEARCH } },

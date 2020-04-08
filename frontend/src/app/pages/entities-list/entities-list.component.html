@@ -53,6 +53,15 @@
             ></wci-competition-list-item>
           </div>
         </ng-container>
+        <ng-container *ngSwitchCase="'News'">
+          <div class="item news">
+            <wci-news-list-item
+              [data]="item"
+              [currentLocation]="currentLocation"
+              [showCategory]="contentType === 'search'"
+            ></wci-news-list-item>
+          </div>
+        </ng-container>
       </ng-container>
     </div>
     <mat-paginator

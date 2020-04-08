@@ -1,0 +1,22 @@
+<div class="container">
+  <div class="metadata">
+    <mat-chip-list>
+      <mat-chip *ngIf="showCategory" class="no-mouse category" selected>
+        <span>{{ 'NEWS' | translate | uppercase }}</span>
+      </mat-chip>
+    </mat-chip-list>
+  </div>
+  <div class="text">
+    <h4 (click)="goToExternalNews(data.resource_url)">{{ data.title }}</h4>
+    <span class="date">{{ creationDate | amDateFormat: 'LL' }}</span>
+    <div *ngIf="data.summary" class="summary">{{ data.summary }}</div>
+  </div>
+  <div class="extra">
+    <div *ngIf="data.media.thumb" class="media">
+      <img src="{{ data.media.thumb }}" />
+    </div>
+  </div>
+  <div class="source-link">
+    {{ 'SOURCE' | translate }}: <a href="{{ data.resource_url }}" target="_blank">{{ data.resource_url }}</a>
+  </div>
+</div>

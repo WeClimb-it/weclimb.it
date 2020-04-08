@@ -104,22 +104,21 @@ a:visited {
   margin-top: 10px;
   border-radius: 10px !important;
   background: rgba(white, 1);
+  padding: 0 10px;
 
   width: 230px;
 
   .mat-menu-item {
+    border-bottom: 1px solid rgba(black, 0.05);
+
+    &:last-child {
+      border-bottom: none;
+    }
+
     &:hover {
       background: white;
       font-weight: 700;
     }
-  }
-
-  .separator {
-    width: calc(100% - 20px);
-    margin: 0 10px;
-    line-height: 1px;
-    height: 1px;
-    border-top: 1px solid rgba(black, 0.05);
   }
 
   .copyleft {

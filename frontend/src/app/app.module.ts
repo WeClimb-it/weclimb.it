@@ -1,10 +1,12 @@
-import { HttpClientModule, HttpClient } from '@angular/common/http';
-import { NgModule, APP_INITIALIZER, Injector } from '@angular/core';
+import { LOCATION_INITIALIZED } from '@angular/common';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { APP_INITIALIZER, Injector, NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { TranslateModule, TranslateLoader, TranslateService } from '@ngx-translate/core';
+import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 import { MomentModule } from 'ngx-moment';
 import {
@@ -26,6 +28,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { CompetitionListItemComponent } from './components/list-items/competition-item.component';
 import { CragListItemComponent } from './components/list-items/crag-item.component';
 import { HikeListItemComponent } from './components/list-items/hike-item.component';
+import { NewsListItemComponent } from './components/list-items/news-item.component';
 import { PlaceListItemComponent } from './components/list-items/place-item.component';
 import { ShelterListItemComponent } from './components/list-items/shelter-item.component';
 import { LoaderComponent } from './components/loader/loader.component';
@@ -41,10 +44,6 @@ import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { CapitalizeFirstPipe } from './pipes/capitalizeFirst/capitalize-first.pipe';
 import { DistancePipe } from './pipes/distance/distance.pipe';
 import { MetricPipe } from './pipes/metric/metric.pipe';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { LOCATION_INITIALIZED } from '@angular/common';
-import { take } from 'lodash';
-import { resolve } from 'dns';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -64,6 +63,7 @@ const appComponents = [
   ShelterListItemComponent,
   PlaceListItemComponent,
   CompetitionListItemComponent,
+  NewsListItemComponent,
   CragCardItemComponent,
   HikeCardItemComponent,
   ShelterCardItemComponent,
