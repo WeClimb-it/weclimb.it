@@ -24,7 +24,7 @@ export const getEntityCacheId = (object: any) => {
         object._id ||
         Math.random()
           .toString(36)
-          .substr(2, 5)
+          .substr(2, 10)
       );
   }
 };

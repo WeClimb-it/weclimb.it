@@ -71,13 +71,6 @@ export class EntitiesListComponent implements OnInit, OnDestroy {
     private translateService: TranslateService,
   ) {
     this.contentType = this.route.snapshot.data.type;
-
-    this.appStoreSub$ = this.appStore.watchProperty('currentLocation').subscribe((location: GeoLocation) => {
-      if (location) {
-        this.currentLocation = location;
-        this.doLoad();
-      }
-    });
   }
 
   ngOnInit(): void {
@@ -100,6 +93,13 @@ export class EntitiesListComponent implements OnInit, OnDestroy {
         this.navEnd = this.navStart + this.navPageSize;
       }
     });
+
+    this.appStoreSub$ = this.appStore.watchProperty('currentLocation').subscribe((location: GeoLocation) => {
+      if (location) {
+        this.currentLocation = location;
+        this.doLoad();
+      }
+    });
   }
 
   ngOnDestroy(): void {
@@ -115,11 +115,11 @@ export class EntitiesListComponent implements OnInit, OnDestroy {
    *
    */
   onPageChange($event: PageEvent): void {
-    this.router.navigate([this.navCurrentEndpoint, 'page', $event.pageIndex + 1]);
     this.navCurrentPage = $event.pageIndex;
     this.navStart = this.navPageSize * $event.pageIndex;
     this.navEnd = this.navStart + this.navPageSize;
     this.doLoad();
+    this.router.navigate([this.navCurrentEndpoint, 'page', $event.pageIndex + 1]);
   }
 
   /**
