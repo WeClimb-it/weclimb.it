@@ -23,7 +23,16 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "aot": true,
-            "assets": ["src/favicon.ico", "src/assets"],
+            "assets": [
+              "src/ads.txt",
+              "src/browserconfig.xml",
+              "src/channel.html",
+              "src/crossdomain.xml",
+              "src/humans.txt",
+              "src/robots.txt",
+              "src/sitemap.txt",
+              "src/assets"
+            ],
             "styles": [
               "src/styles.scss",
               "src/assets/vendor/css/weather-icons.min.css",
@@ -91,7 +100,16 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
-            "assets": ["src/favicon.ico", "src/assets"],
+            "assets": [
+              "src/ads.txt",
+              "src/browserconfig.xml",
+              "src/channel.html",
+              "src/crossdomain.xml",
+              "src/humans.txt",
+              "src/robots.txt",
+              "src/sitemap.txt",
+              "src/assets"
+            ],
             "styles": ["src/styles.scss"],
             "scripts": []
           }
