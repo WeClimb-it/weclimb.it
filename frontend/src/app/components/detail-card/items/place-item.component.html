@@ -1,6 +1,6 @@
 <div *ngIf="data" class="container place" fxLayout>
   <div class="info">
-    <perfect-scrollbar>
+    <perfect-scrollbar [disabled]="disablePerfectScrollbar">
       <!-- The item title -->
       <h4>{{ data.title }}</h4>
       <!-- -->
@@ -30,7 +30,7 @@
   <div class="extra">
     <!-- The lateral subcard -->
     <div class="sub-card">
-      <perfect-scrollbar>
+      <perfect-scrollbar [disabled]="disablePerfectScrollbar">
         <!-- The static map -->
         <div class="static-map">
           <div class="marker"></div>

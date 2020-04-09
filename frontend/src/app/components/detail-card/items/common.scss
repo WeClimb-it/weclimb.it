@@ -294,16 +294,6 @@
     overflow: scroll;
     overflow-x: hidden;
 
-    perfect-scrollbar {
-      pointer-events: none;
-    }
-    ::ng-deep .info,
-    ::ng-deep .sub-card {
-      .ps-content {
-        pointer-events: all !important;
-      }
-    }
-
     .info,
     .extra,
     .sub-card {

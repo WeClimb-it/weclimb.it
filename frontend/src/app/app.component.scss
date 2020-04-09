@@ -8,8 +8,8 @@
 }
 
 .main.has-content {
-  .header {
-    background-color: rgba(white, 0.5);
+  ::ng-deep mgl-map {
+    opacity: 0.5;
   }
 }
 

@@ -1,4 +1,4 @@
-import { Component, SimpleChanges, Input, OnChanges } from '@angular/core';
+import { Component, SimpleChanges, Input, OnChanges, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { WciApiService } from 'src/app/services/wciApi.service';
 import { Poi } from 'src/app/utils/Poi';
@@ -20,8 +20,11 @@ export class BaseCardItemComponent implements OnChanges {
   staticMapSrc = '';
 
   nearbyPois: Poi[] = [];
+  disablePerfectScrollbar = false;
 
   protected staticMapSizes = [303, 360];
+
+  private disablePerfectScrollbarBreakpoint = 650;
 
   constructor(protected router: Router, protected api: WciApiService) {}
 
@@ -63,5 +66,10 @@ export class BaseCardItemComponent implements OnChanges {
           sub$.unsubscribe();
         });
     }
+  }
+
+  @HostListener('window:resize', ['$event'])
+  getScreenSize() {
+    this.disablePerfectScrollbar = window.innerWidth < this.disablePerfectScrollbarBreakpoint;
   }
 }

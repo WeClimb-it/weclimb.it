@@ -1,6 +1,6 @@
 <div *ngIf="data" class="container hike" fxLayout>
   <div class="info">
-    <perfect-scrollbar>
+    <perfect-scrollbar [disabled]="disablePerfectScrollbar">
       <!-- The item title -->
       <h4>{{ data.title }}</h4>
       <!-- -->
@@ -72,7 +72,7 @@
         top: !data.difficulty && !data.elevation.low && !data.elevation.high && !data.length && data.tracks.length == 0
       }"
     >
-      <perfect-scrollbar [disabled]="isMapMoving">
+      <perfect-scrollbar [disabled]="isMapMoving || disablePerfectScrollbar">
         <!-- The static map -->
         <div class="dynamic-map">
           <mgl-map
