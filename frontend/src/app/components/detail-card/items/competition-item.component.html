@@ -1,12 +1,12 @@
 <div *ngIf="data" class="container competition" fxLayout>
   <div class="info">
-    <!-- The item title -->
-    <h4>{{ data.title }}</h4>
-    <!-- -->
+    <perfect-scrollbar>
+      <!-- The item title -->
+      <h4>{{ data.title }}</h4>
+      <!-- -->
 
-    <!-- The description + misc. info -->
-    <div *ngIf="data.info.details.text" class="description">
-      <perfect-scrollbar>
+      <!-- The description + misc. info -->
+      <div *ngIf="data.info.details.text" class="description">
         {{ data.info.details.text | capitalizeFirst }}
 
         <div *ngIf="data.info.details.event_website">
@@ -33,9 +33,9 @@
         <!--                          -->
         <!-- TODO: Related videos     -->
         <!--                          -->
-      </perfect-scrollbar>
-    </div>
-    <!-- -->
+      </div>
+      <!-- -->
+    </perfect-scrollbar>
   </div>
 
   <div class="extra">

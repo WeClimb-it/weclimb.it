@@ -1,11 +1,11 @@
 <div *ngIf="data" class="container hike" fxLayout>
   <div class="info">
-    <!-- The item title -->
-    <h4>{{ data.title }}</h4>
-    <!-- -->
+    <perfect-scrollbar>
+      <!-- The item title -->
+      <h4>{{ data.title }}</h4>
+      <!-- -->
 
-    <div *ngIf="data.descr" class="description">
-      <perfect-scrollbar>
+      <div *ngIf="data.descr" class="description">
         {{ data.descr | capitalizeFirst }}
 
         <div *ngIf="data.starting_point">
@@ -28,8 +28,8 @@
 
         <!-- TODO: Add media -->
         <!--                 -->
-      </perfect-scrollbar>
-    </div>
+      </div>
+    </perfect-scrollbar>
   </div>
 
   <div class="extra">

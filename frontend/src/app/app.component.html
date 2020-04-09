@@ -27,13 +27,15 @@
     </mat-menu>
   </div>
   <div class="map">
-    <wci-header
-      class="header"
-      (search)="onSearch($event)"
-      (queryChanged)="onSearchQueryChanged($event)"
-      (suggestionSelected)="onSuggestionSelected($event)"
-      (optionsUpdated)="onOptionsUpdated($event)"
-    ></wci-header>
+    <div class="header-container">
+      <wci-header
+        class="header"
+        (search)="onSearch($event)"
+        (queryChanged)="onSearchQueryChanged($event)"
+        (suggestionSelected)="onSuggestionSelected($event)"
+        (optionsUpdated)="onOptionsUpdated($event)"
+      ></wci-header>
+    </div>
     <wci-map
       [zoom]="zoom"
       [centerLocation]="currentLocation"

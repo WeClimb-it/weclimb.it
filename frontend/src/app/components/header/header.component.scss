@@ -1,7 +1,7 @@
 @import '../../../common';
 @import '../../../colors';
 
-$panelsMinWidth: 320px;
+$panelsMinWidth: 280px;
 $panelsMaxWidth: 660px;
 
 .header-content {
@@ -21,6 +21,7 @@ $panelsMaxWidth: 660px;
 
   .search {
     @include mat-elevation(6, black, 0.25);
+
     width: 100%;
     min-width: $panelsMinWidth;
     max-width: $panelsMaxWidth;

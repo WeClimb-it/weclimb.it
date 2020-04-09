@@ -1,12 +1,12 @@
 <div *ngIf="data" class="container crag" fxLayout>
   <div class="info">
-    <!-- The crag title -->
-    <h4>{{ data.title }}</h4>
-    <!-- -->
+    <perfect-scrollbar>
+      <!-- The crag title -->
+      <h4>{{ data.title }}</h4>
+      <!-- -->
 
-    <!-- The description + misc. info -->
-    <div *ngIf="data.descr" class="description">
-      <perfect-scrollbar>
+      <!-- The description + misc. info -->
+      <div *ngIf="data.descr" class="description">
         {{ data.descr | capitalizeFirst }}
 
         <div *ngIf="data.access_info" class="more">
@@ -61,9 +61,9 @@
           </mat-accordion>
         </div>
         <!-- -->
-      </perfect-scrollbar>
-    </div>
-    <!-- -->
+      </div>
+      <!-- -->
+    </perfect-scrollbar>
   </div>
 
   <div class="extra">

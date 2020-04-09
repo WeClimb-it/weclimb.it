@@ -1,11 +1,11 @@
 <div *ngIf="data" class="container shelter" fxLayout>
   <div class="info">
-    <!-- The item title -->
-    <h4>{{ data.name }}</h4>
-    <!-- -->
+    <perfect-scrollbar>
+      <!-- The item title -->
+      <h4>{{ data.name }}</h4>
+      <!-- -->
 
-    <div *ngIf="data.descr" class="description">
-      <perfect-scrollbar>
+      <div *ngIf="data.descr" class="description">
         {{ data.descr | capitalizeFirst }}
 
         <div class="media">
@@ -13,8 +13,8 @@
             <img src="{{ image }}" />
           </div>
         </div>
-      </perfect-scrollbar>
-    </div>
+      </div>
+    </perfect-scrollbar>
   </div>
 
   <div class="extra">
