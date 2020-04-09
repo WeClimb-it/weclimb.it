@@ -294,11 +294,26 @@
     overflow: scroll;
     overflow-x: hidden;
 
+    perfect-scrollbar {
+      pointer-events: none;
+    }
+    ::ng-deep .info,
+    ::ng-deep .sub-card {
+      .ps-content {
+        pointer-events: all !important;
+      }
+    }
+
     .info,
     .extra,
     .sub-card {
       width: 100%;
       margin: 0;
+    }
+
+    .info {
+      display: flex;
+      flex-direction: column;
     }
 
     .extra,
@@ -310,6 +325,12 @@
       position: relative;
       top: initial;
       bottom: initial;
+
+      .static-map {
+        img {
+          object-fit: cover;
+        }
+      }
     }
   }
 }
@@ -319,6 +340,12 @@
     .sub-card {
       .direction-label {
         font-size: 10px;
+      }
+
+      .static-map {
+        img {
+          object-fit: cover;
+        }
       }
 
       .weather {
