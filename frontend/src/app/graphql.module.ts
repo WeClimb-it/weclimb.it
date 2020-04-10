@@ -3,6 +3,7 @@ import { ApolloModule, APOLLO_OPTIONS } from 'apollo-angular';
 import { HttpLink, HttpLinkModule } from 'apollo-angular-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { ApolloLink } from 'apollo-link';
+import { RetryLink } from 'apollo-link-retry';
 import { environment } from 'src/environments/environment';
 import { I18nService } from './services/i18n.service';
 import { getEntityCacheId } from './utils/Poi';
@@ -34,7 +35,7 @@ export function createApollo(httpLink: HttpLink) {
   return {
     cache,
     ssrMode: true,
-    link: ApolloLink.from([userLangMiddleware, httpLink.create({ uri: environment.graphql.url })]),
+    link: ApolloLink.from([new RetryLink(), userLangMiddleware, httpLink.create({ uri: environment.graphql.url })]),
   };
 }
 

@@ -65,14 +65,7 @@ export class AppComponent implements OnInit {
   /**
    *
    */
-  onMapReady($event: MapUpdateEvent): void {
-    this.mapData = $event;
-  }
-
-  /**
-   *
-   */
-  onMapUpdate($event: MapUpdateEvent): void {
+  onMapReadyOrUpdate($event: MapUpdateEvent): void {
     this.mapData = $event;
     this.getNearby();
   }

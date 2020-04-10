@@ -41,8 +41,8 @@
       [centerLocation]="currentLocation"
       [userLocation]="userLocation"
       [pois]="nearbyPois"
-      (ready)="onMapReady($event)"
-      (update)="onMapUpdate($event)"
+      (ready)="onMapReadyOrUpdate($event)"
+      (update)="onMapReadyOrUpdate($event)"
     ></wci-map>
   </div>
   <div class="sidenav" fxShow="false" fxShow.gt-sm>

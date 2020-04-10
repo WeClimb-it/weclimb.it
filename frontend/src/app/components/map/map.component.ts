@@ -40,7 +40,7 @@ export enum POI_TYPE {
   COMPETITION = 'competition',
 }
 
-interface InputEntities {
+interface Pois {
   crags: Entities;
   places: Entities;
   competitions: Entities;
@@ -61,7 +61,7 @@ export class MapComponent implements OnInit, OnChanges {
   @Input() zoom: number;
   @Input() centerLocation: GeoLocation;
   @Input() userLocation: GeoLocation;
-  @Input() pois: InputEntities;
+  @Input() pois: Pois;
 
   @Input() mapStyle = environment.mapbox.style;
   @Input() tracks: GeoTrack[];
