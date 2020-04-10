@@ -1,22 +1,27 @@
-dist: bionic
-os:
-    - linux
+dist: trusty
+sudo: false
+
 language: node_js
 node_js:
-    - '12.16.1'
+    - '10'
+
 addons:
     apt:
+        sources:
+            - google-chrome
         packages:
-            - dpkg
-    chrome: stable
+            - google-chrome-stable
+
 cache:
     directories:
-        - node_modules
+        - ./node_modules
+
 before_install:
-    - npm install -g @angular/cli
     - cd ./frontend
+
 install:
-    - npm ci
+    - npm install
+
 script:
-    - ng test --watch=false
-    - ng e2e
+    - npm run test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
+    - npm run e2e -- --protractor-config=e2e/protractor-ci.conf.js
