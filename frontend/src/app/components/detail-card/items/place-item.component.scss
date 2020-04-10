@@ -1,4 +1,4 @@
-@import 'common.scss';
+@import 'common';
 
 @include item-extras();
 
@@ -13,3 +13,5 @@
     top: 20px;
   }
 }
+
+@include breakpoints();

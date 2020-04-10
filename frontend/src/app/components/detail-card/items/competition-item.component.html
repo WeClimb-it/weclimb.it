@@ -5,6 +5,15 @@
       <h4>{{ data.title }}</h4>
       <!-- -->
 
+      <!-- The competition categories -->
+      <div class="categories">
+        <mat-chip-list>
+          <mat-chip *ngFor="let type of types" color="primary" selected>{{ type }}</mat-chip>
+          <mat-chip *ngFor="let specialty of specialties" color="primary" selected>{{ specialty }}</mat-chip>
+        </mat-chip-list>
+      </div>
+      <!-- -->
+
       <!-- The description + misc. info -->
       <div *ngIf="data.info.details.text" class="description">
         {{ data.info.details.text | capitalizeFirst }}
@@ -44,12 +53,6 @@
       <div *ngIf="endDate"><mat-icon>event_busy</mat-icon> {{ endDate | amCalendar }}</div>
     </div>
     <div *ngIf="data.info.place" class="place"><mat-icon>place</mat-icon> {{ data.info.place }}</div>
-    <div class="categories">
-      <mat-chip-list>
-        <mat-chip *ngFor="let type of types" color="primary" selected>{{ type }}</mat-chip>
-        <mat-chip *ngFor="let specialty of specialties" color="primary" selected>{{ specialty }}</mat-chip>
-      </mat-chip-list>
-    </div>
 
     <!-- The lateral subcard -->
     <div class="sub-card">

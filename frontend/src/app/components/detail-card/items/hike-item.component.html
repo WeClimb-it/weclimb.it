@@ -63,17 +63,17 @@
       }"
     >
       <perfect-scrollbar [disabled]="isMapMoving || disablePerfectScrollbar">
-        <!-- The mini-map actions -->
-        <div class="google-button" (click)="goToGoogle(data.coords)">
-          <button mat-button>{{ 'OPEN_DIRECTIONS' | translate }}</button>
-        </div>
-        <div *ngIf="data.tracks.length > 0" class="download-gpx-button" (click)="downloadGpsTrack(data.tracks[0])">
-          <button mat-button>{{ 'DOWNLOAD_GPS_TRACK' | translate }}</button>
-        </div>
-        <!-- -->
-
         <!-- The dynamic map -->
         <div class="dynamic-map">
+          <!-- The mini-map actions -->
+          <div class="google-button" (click)="goToGoogle(data.coords)">
+            <button mat-button>{{ 'OPEN_DIRECTIONS' | translate }}</button>
+          </div>
+          <div *ngIf="data.tracks.length > 0" class="download-gpx-button" (click)="downloadGpsTrack(data.tracks[0])">
+            <button mat-button>{{ 'DOWNLOAD_GPS_TRACK' | translate }}</button>
+          </div>
+          <!-- -->
+
           <mgl-map
             #map
             *ngIf="renderMap"

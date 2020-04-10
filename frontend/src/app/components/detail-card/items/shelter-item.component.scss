@@ -1,3 +1,5 @@
-@import 'common.scss';
+@import 'common';
 
 @include item-extras();
+
+@include breakpoints();

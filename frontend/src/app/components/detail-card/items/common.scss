@@ -100,12 +100,13 @@
   .sub-card {
     @include mat-elevation(2, black, 0.15);
 
+    max-width: 303px;
+    min-width: 303px;
     border-radius: 6px;
     overflow: hidden;
     position: absolute;
     top: 190px;
     bottom: 20px;
-    margin-right: 54px;
     background: rgba(black, 0.015);
 
     &.top {
@@ -122,6 +123,19 @@
     mgl-map {
       height: 100%;
       width: 100%;
+    }
+  }
+
+  .info-box {
+    line-height: 15px;
+    width: 80% !important;
+
+    mat-icon {
+      float: left;
+    }
+
+    > div {
+      @include multilineTruncate(2);
     }
   }
 
@@ -289,78 +303,83 @@
   }
 }
 
-@media only screen and (max-width: 650px) {
-  .container {
-    display: block !important;
-    flex-direction: initial !important;
-    overflow: scroll;
-    overflow-x: hidden;
+@mixin breakpoints() {
+  @media only screen and (max-width: 650px) {
+    .container {
+      display: block !important;
+      flex-direction: initial !important;
+      overflow: scroll;
+      overflow-x: hidden;
 
-    .info,
-    .extra,
-    .sub-card {
-      width: 100%;
-      margin: 0;
-    }
-
-    .info {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .extra {
-      margin-top: 10px;
-    }
-
-    .sub-card {
-      margin-top: 30px;
-      position: relative;
-      top: initial;
-      bottom: initial;
-
-      .static-map {
-        img {
-          object-fit: cover;
-        }
-      }
-    }
-  }
-}
-
-@media only screen and (min-width: 651px) and (max-width: 768px) {
-  .extra {
-    .sub-card {
-      .direction-label {
-        font-size: 10px;
+      .info,
+      .extra,
+      .sub-card {
+        min-width: initial;
+        width: 100%;
+        margin: 0;
       }
 
-      .static-map {
-        img {
-          object-fit: cover;
-        }
+      .info {
+        display: flex;
+        flex-direction: column;
       }
 
-      .weather {
-        .when {
-          zoom: 0.8;
-        }
-        .figures {
-          zoom: 0.86;
+      .extra {
+        margin-top: 10px;
+      }
 
-          > div:nth-child(1) {
-            font-size: 20px !important;
+      .sub-card {
+        margin-top: 30px;
+        position: relative;
+        top: initial;
+        bottom: initial;
+
+        .static-map {
+          img {
+            object-fit: cover;
           }
         }
       }
     }
   }
-}
 
-@media only screen and (min-width: $mobileBreakpointWidth) and (max-width: $smallScreenBreakpointWidth) {
-  .extra {
-    .sub-card {
-      zoom: 0.7;
-      top: 260px;
+  @media only screen and (min-width: 651px) and (max-width: 768px) {
+    .extra {
+      .sub-card {
+        min-width: initial;
+
+        .direction-label {
+          font-size: 10px;
+        }
+
+        .static-map {
+          img {
+            object-fit: cover;
+          }
+        }
+
+        .weather {
+          .when {
+            zoom: 0.8;
+          }
+          .figures {
+            zoom: 0.86;
+
+            > div:nth-child(1) {
+              font-size: 20px !important;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @media only screen and (min-width: $mobileBreakpointWidth) and (max-width: $smallScreenBreakpointWidth) {
+    .extra {
+      .sub-card {
+        zoom: 0.7;
+        top: 260px;
+      }
     }
   }
 }

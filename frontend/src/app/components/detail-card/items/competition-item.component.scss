@@ -1,8 +1,10 @@
-@import 'common.scss';
+@import 'common';
 
 @import '../../list-items/competition-item.component';
 
 .description {
+  margin-top: 25px !important;
+
   div {
     margin-top: 15px;
   }
@@ -18,3 +20,11 @@
     }
   }
 }
+
+.extra {
+  .sub-card {
+    top: 150px;
+  }
+}
+
+@include breakpoints();
