@@ -1,25 +1,22 @@
-dist: trusty
-sudo: false
-
+dist: bionic
+os:
+    - linux
 language: node_js
 node_js:
-    - '8'
-
+    - '12.16.1'
 addons:
     apt:
-        sources:
-            - google-chrome
         packages:
-            - google-chrome-stable
-
+            - dpkg
+    chrome: stable
 cache:
     directories:
-        - ./node_modules
-
-before_install: cd ./frontend
-
+        - node_modules
+before_install:
+    - npm install -g @angular/cli
+    - cd ./frontend
 install:
-    - npm install
-
+    - npm ci
 script:
-    - npm run test -- --watch=false --no-progress --browsers=ChromeHeadlessNoSandbox
+    - ng test --watch=false
+    - ng e2e
