@@ -111,6 +111,7 @@ export class HeaderComponent {
         item.geo = new GeoLocation(geometry.location.lat(), geometry.location.lng(), undefined, city);
 
         this.suggestionsKeyboardSelectionIndex = this.suggestedPlaces.indexOf(item);
+        this.closePanels();
         this.suggestionSelected.emit(item);
       })
       .catch((err: Error) => {
@@ -132,6 +133,7 @@ export class HeaderComponent {
           : ++this.suggestionsKeyboardSelectionIndex;
     } else if ($event.keyCode === this.ENTER_KEY) {
       $event.stopImmediatePropagation();
+      this.closePanels();
       this.onSuggestionSelected(this.suggestedPlaces[this.suggestionsKeyboardSelectionIndex]);
     }
   }
@@ -149,5 +151,13 @@ export class HeaderComponent {
       minWeather: this.minWeatherCoeff,
       maxWeather: this.maxWeatherCoeff,
     });
+  }
+
+  /**
+   *
+   */
+  private closePanels(): void {
+    this.showSettings = false;
+    this.showSuggestions = false;
   }
 }

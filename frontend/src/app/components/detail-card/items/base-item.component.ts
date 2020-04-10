@@ -26,7 +26,9 @@ export class BaseCardItemComponent implements OnChanges {
 
   private disablePerfectScrollbarBreakpoint = 650;
 
-  constructor(protected router: Router, protected api: WciApiService) {}
+  constructor(protected router: Router, protected api: WciApiService) {
+    this.checkPerfectScrollbarPermit();
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.data && changes.data.currentValue && changes.data.currentValue !== changes.data.previousValue) {
@@ -68,8 +70,11 @@ export class BaseCardItemComponent implements OnChanges {
     }
   }
 
+  /**
+   * Disables the perfect-scrollbar in case of small device.
+   */
   @HostListener('window:resize', ['$event'])
-  getScreenSize() {
+  checkPerfectScrollbarPermit() {
     this.disablePerfectScrollbar = window.innerWidth < this.disablePerfectScrollbarBreakpoint;
   }
 }
