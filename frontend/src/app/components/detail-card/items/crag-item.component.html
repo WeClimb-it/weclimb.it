@@ -88,13 +88,76 @@
     <!-- The lateral subcard -->
     <div class="sub-card">
       <perfect-scrollbar [disabled]="disablePerfectScrollbar">
-        <!-- The static map -->
-        <div class="static-map">
+        <!-- The dynamic map -->
+        <div class="dynamic-map">
+          <!-- The mini-map actions -->
           <div class="google-button" (click)="goToGoogle(data.coords)">
             <button mat-button>{{ 'OPEN_DIRECTIONS' | translate }}</button>
           </div>
-          <div class="marker"></div>
-          <img src="{{ staticMapSrc }}" width="100%" height="100%" />
+          <!-- -->
+
+          <mgl-map
+            #map
+            *ngIf="renderMap"
+            [style]="mapStyle"
+            [zoom]="[zoom]"
+            [center]="centerCoords"
+            [minZoom]="minZoom"
+            [maxZoom]="maxZoom"
+            (mouseOver)="onMapBusy(true)"
+            (mouseOut)="onMapBusy(false)"
+          >
+            <!-- The map controls -->
+            <mgl-control mglNavigation position="bottom-left"></mgl-control>
+            <mgl-control mglScale unit="metric" position="bottom-right"></mgl-control>
+            <!-- / -->
+
+            <!-- The GPX track -->
+            <mgl-layer
+              *ngIf="gpxTrack"
+              id="gpx-track"
+              type="line"
+              [source]="{
+                type: 'geojson',
+                lineMetrics: true,
+                data: gpxTrack
+              }"
+              [layout]="{
+                'line-join': 'round',
+                'line-cap': 'round'
+              }"
+              [paint]="{
+                'line-color': 'red',
+                'line-width': 3,
+                'line-gradient': ['interpolate', ['linear'], ['line-progress'], 0, '#40cd7e', 1, '#ff5f58']
+              }"
+            ></mgl-layer>
+            <!-- -->
+
+            <!-- The current landing point -->
+            <mgl-geojson-source id="center" [data]="centerGeoJson"></mgl-geojson-source>
+            <mgl-layer
+              id="center-point"
+              type="circle"
+              source="center"
+              [paint]="{
+                'circle-color': 'rgba(255, 95, 88, 0.8)',
+                'circle-radius': 8
+              }"
+            >
+            </mgl-layer>
+            <mgl-layer
+              id="center-point-2"
+              type="circle"
+              source="center"
+              [paint]="{
+                'circle-color': 'rgba(255, 95, 88, 0.5)',
+                'circle-radius': 20
+              }"
+            >
+            </mgl-layer>
+            <!-- / -->
+          </mgl-map>
         </div>
         <div class="directions" fxLayout fxLayoutAlign="space-evenly" fxFlexAlign="center">
           <div>
