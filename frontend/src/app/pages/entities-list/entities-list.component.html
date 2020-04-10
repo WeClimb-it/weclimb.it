@@ -1,11 +1,17 @@
 <h2>
-  {{ title }}
+  {{ titlePlaceholder | translate }}
 </h2>
 <div class="title-actions">
   <button mat-stroked-button (click)="closeList()"><mat-icon>public</mat-icon>{{ 'GO_MAP' | translate }}</button>
 </div>
 <ng-container *ngIf="items && items.length > 0">
   <perfect-scrollbar class="list">
+    <div *ngIf="isSearchPage">
+      <div *ngIf="specialItems.locations.length > 0" class="cities">
+        <strong>{{ 'WANNA_GO_TO' | translate }}:</strong>&nbsp;
+        <span *ngFor="let city of specialItems.locations" (click)="onCitySelected(city)">{{ city.name }}</span>
+      </div>
+    </div>
     <div *ngFor="let item of items">
       <ng-container [ngSwitch]="typeOfItem(item)">
         <ng-container *ngSwitchCase="'Crag'">
@@ -13,7 +19,7 @@
             <wci-crag-list-item
               [data]="item"
               [currentLocation]="currentLocation"
-              [showCategory]="contentType === 'search'"
+              [showCategory]="isSearchPage"
             ></wci-crag-list-item>
           </div>
         </ng-container>
@@ -22,7 +28,7 @@
             <wci-hike-list-item
               [data]="item"
               [currentLocation]="currentLocation"
-              [showCategory]="contentType === 'search'"
+              [showCategory]="isSearchPage"
             ></wci-hike-list-item>
           </div>
         </ng-container>
@@ -31,7 +37,7 @@
             <wci-shelter-list-item
               [data]="item"
               [currentLocation]="currentLocation"
-              [showCategory]="contentType === 'search'"
+              [showCategory]="isSearchPage"
             ></wci-shelter-list-item>
           </div>
         </ng-container>
@@ -40,7 +46,7 @@
             <wci-place-list-item
               [data]="item"
               [currentLocation]="currentLocation"
-              [showCategory]="contentType === 'search'"
+              [showCategory]="isSearchPage"
             ></wci-place-list-item>
           </div>
         </ng-container>
@@ -49,7 +55,7 @@
             <wci-competition-list-item
               [data]="item"
               [currentLocation]="currentLocation"
-              [showCategory]="contentType === 'search'"
+              [showCategory]="isSearchPage"
             ></wci-competition-list-item>
           </div>
         </ng-container>
@@ -58,7 +64,7 @@
             <wci-news-list-item
               [data]="item"
               [currentLocation]="currentLocation"
-              [showCategory]="contentType === 'search'"
+              [showCategory]="isSearchPage"
             ></wci-news-list-item>
           </div>
         </ng-container>

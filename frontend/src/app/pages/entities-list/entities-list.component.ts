@@ -3,21 +3,21 @@ import { PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { GeoLocation } from 'src/app/classes/geolocation.class';
+import { SearchOptions } from 'src/app/components/header/header.component';
 import {
   CompetitionsResult,
   CragsResult,
   HikesResult,
   NewsResult,
   PlacesResult,
-  SheltersResult,
   SearchResult,
+  SheltersResult,
 } from 'src/app/graphql/queries';
+import { City } from 'src/app/interfaces/graphql/city.type';
 import { AppStoreService } from 'src/app/services/appState.service';
 import { WciApiService } from 'src/app/services/wciApi.service';
 import { ContentType, typeOfItem } from 'src/app/utils/ContentType';
 import { Poi } from 'src/app/utils/Poi';
-import { SearchOptions } from 'src/app/components/header/header.component';
-import { TranslateService } from '@ngx-translate/core';
 
 type Results =
   | CragsResult
@@ -56,9 +56,11 @@ export class EntitiesListComponent implements OnInit, OnDestroy {
   navVisible = false;
 
   isLoading = true;
+  isSearchPage = false;
   firstLoad = true;
 
   typeOfItem = typeOfItem;
+  titlePlaceholder = '';
 
   private appStoreSub$: Subscription;
   private routeSub$: Subscription;
@@ -68,9 +70,9 @@ export class EntitiesListComponent implements OnInit, OnDestroy {
     private router: Router,
     private api: WciApiService,
     private appStore: AppStoreService,
-    private translateService: TranslateService,
   ) {
     this.contentType = this.route.snapshot.data.type;
+    this.isSearchPage = this.contentType === ContentType.SEARCH;
   }
 
   ngOnInit(): void {
@@ -125,6 +127,15 @@ export class EntitiesListComponent implements OnInit, OnDestroy {
   /**
    *
    */
+  onCitySelected(city: City): void {
+    const cityLocation: GeoLocation = new GeoLocation(city.coords.lat, city.coords.lng, '', city.name);
+    this.appStore.setProperty('currentLocation', cityLocation);
+    this.closeList();
+  }
+
+  /**
+   *
+   */
   closeList(): void {
     this.router.navigate(['/']);
   }
@@ -155,31 +166,31 @@ export class EntitiesListComponent implements OnInit, OnDestroy {
         throw new Error(`Unexpected content type was given [${this.contentType}].`);
       case ContentType.CRAGS:
         query = this.api.getCrags;
-        this.title = this.translateService.instant('NEAR_CRAGS');
+        this.titlePlaceholder = 'NEAR_CRAGS';
         break;
       case ContentType.HIKES:
         query = this.api.getHikes;
-        this.title = this.translateService.instant('NEAR_HIKES');
+        this.titlePlaceholder = 'NEAR_HIKES';
         break;
       case ContentType.SHELTERS:
         query = this.api.getShelters;
-        this.title = this.translateService.instant('NEAR_SHELTERS');
+        this.titlePlaceholder = 'NEAR_SHELTERS';
         break;
       case ContentType.PLACES:
         query = this.api.getPlaces;
-        this.title = this.translateService.instant('NEAR_PLACES');
+        this.titlePlaceholder = 'NEAR_PLACES';
         break;
       case ContentType.COMPETITIONS:
         query = this.api.getCompetitions;
-        this.title = this.translateService.instant('NEAR_COMPETITIONS');
+        this.titlePlaceholder = 'NEAR_COMPETITIONS';
         break;
       case ContentType.NEWS:
         query = this.api.getNews;
-        this.title = this.translateService.instant('NEWS');
+        this.titlePlaceholder = 'NEWS';
         break;
       case ContentType.SEARCH:
         query = this.api.getSearchResults;
-        this.title = this.translateService.instant('SEARCH_RESULTS');
+        this.titlePlaceholder = 'SEARCH_RESULTS';
         opts = {
           ...opts,
           query: this.route.snapshot.params.query,
@@ -224,6 +235,7 @@ export class EntitiesListComponent implements OnInit, OnDestroy {
               routes: result.routes,
               news: result.news,
             };
+
             // TODO: In case of search, the BE does not return
             // a precise total items count yet.
             this.navTotalItems = result.pagination.size * result.pagination.pageCount;
