@@ -14,6 +14,11 @@
       <button mat-menu-item (click)="onSectionSelected('competitions')">{{ 'COMPETITIONS' | translate }}</button>
       <button mat-menu-item (click)="onSectionSelected('news')">{{ 'NEWS' | translate }}</button>
       <div class="separator"></div>
+      <button mat-menu-item (click)="onExternalLinkSelected('
+      https://github.com/WeClimb-it')">
+        {{ 'GITHUB' | translate }}
+      </button>
+      <div class="separator"></div>
       <div class="copyleft">(ɔ) - {{ year }} WeClimb.it</div>
     </mat-menu>
     <mat-menu #languagesMenu="matMenu" class="languages-menu">

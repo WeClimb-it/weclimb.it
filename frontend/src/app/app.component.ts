@@ -89,6 +89,13 @@ export class AppComponent implements OnInit {
   /**
    *
    */
+  onExternalLinkSelected(link: string): void {
+    window.open(link, '_blank');
+  }
+
+  /**
+   *
+   */
   onSearchQueryChanged(query: string): void {
     // Do nothing
   }

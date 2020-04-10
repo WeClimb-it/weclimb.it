@@ -75,5 +75,6 @@
   "404_TITLE": "Take!",
   "404_MESSAGE": "The page you are looking for is not here...",
   "WANNA_GO_TO": "Would you like to go to",
-  "OPEN_DIRECTIONS": "Open directions in Google"
+  "OPEN_DIRECTIONS": "Open directions in Google",
+  "GITHUB": "Contribute on GitHub"
 }
