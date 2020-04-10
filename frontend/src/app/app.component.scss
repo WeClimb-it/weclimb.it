@@ -39,8 +39,8 @@
 
 .actions {
   position: absolute;
-  top: 10px;
-  left: 10px;
+  top: 15px;
+  left: 15px;
   z-index: $maxZIndex + 1;
 
   .mat-flat-button.mat-primary,
@@ -77,6 +77,13 @@
     padding-bottom: 20px;
     padding-right: 20px;
     height: calc(100% - 52px);
+  }
+}
+
+@media only screen and (max-width: 375px) {
+  .actions {
+    top: 5px;
+    left: 5px;
   }
 }
 
