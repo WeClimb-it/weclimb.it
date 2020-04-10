@@ -90,11 +90,13 @@
       padding: 10px;
     }
   }
+
+  .extra {
+    width: calc(35% - 5px);
+  }
 }
 
 .extra {
-  width: calc(35% - 5px);
-
   .sub-card {
     @include mat-elevation(2, black, 0.15);
 
