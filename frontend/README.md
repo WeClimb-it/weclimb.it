@@ -1,6 +1,6 @@
-# Frontend
+[![Build Status](https://travis-ci.org/WeClimb-it/weclimb.it.svg?branch=develop)](https://travis-ci.org/WeClimb-it/weclimb.it)
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.0.0.
+![WeClimb.it logo](https://i.ibb.co/19wjNbJ/github-readme.png)
 
 ## Development server
 
@@ -25,3 +25,25 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+
+---
+
+# Contributing to WeClimb.it
+
+We welcome contributions to our [open source projects on Github](https://github.com/WeClimb-it/weclimb.it). When contributing, please follow the [Community Code of Conduct](../CODE_OF_CONDUCT.md).
+
+## Issues
+
+Feel free to submit issues and enhancement requests using the "Issues" section.
+
+## Contributing
+
+Please refer to each project's style and contribution guidelines for submitting patches and additions. In general, we follow the "fork-and-pull" Git workflow.
+
+1.  **Fork** the repo on GitHub
+2.  **Clone** the project to your own machine
+3.  **Commit** changes to your own branch
+4.  **Push** your work back up to your fork
+5.  Submit a **Pull request** so that we can review your changes
+
+NOTE: Be sure to merge the latest from "upstream" before making a pull request!
