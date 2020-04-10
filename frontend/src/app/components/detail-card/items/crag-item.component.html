@@ -10,14 +10,14 @@
         {{ data.descr | capitalizeFirst }}
 
         <div *ngIf="data.access_info" class="more">
-          <h5>How to reach it</h5>
+          <h5>{{ 'HOW_REACH' | translate }}</h5>
           <span>
             {{ data.access_info | capitalizeFirst }}
           </span>
         </div>
 
         <div *ngIf="data.notes" class="more">
-          <h5>Notes</h5>
+          <h5>{{ 'NOTES' | translate }}</h5>
           <span>
             {{ data.notes | capitalizeFirst }}
           </span>
