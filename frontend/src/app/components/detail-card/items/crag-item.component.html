@@ -87,7 +87,7 @@
 
     <!-- The lateral subcard -->
     <div class="sub-card">
-      <perfect-scrollbar [disabled]="disablePerfectScrollbar">
+      <perfect-scrollbar [disabled]="isMapMoving || disablePerfectScrollbar">
         <!-- The dynamic map -->
         <div class="dynamic-map">
           <!-- The mini-map actions -->
