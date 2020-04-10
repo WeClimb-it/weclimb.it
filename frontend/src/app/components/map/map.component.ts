@@ -288,11 +288,11 @@ export class MapComponent implements OnInit, OnChanges {
    */
   private async loadPins(): Promise<void> {
     this.pins = {
-      crag: await PinUtils.toImageData(CragPin, 0.9),
-      event: await PinUtils.toImageData(EventPin, 0.9),
-      hike: await PinUtils.toImageData(HikePin, 0.75),
-      place: await PinUtils.toImageData(PlacePin, 0.9),
-      shelter: await PinUtils.toImageData(ShelterPin, 0.9),
+      crag: await PinUtils.toImageData(CragPin),
+      event: await PinUtils.toImageData(EventPin),
+      hike: await PinUtils.toImageData(HikePin),
+      place: await PinUtils.toImageData(PlacePin),
+      shelter: await PinUtils.toImageData(ShelterPin),
     };
     this.renderMap = true;
   }
