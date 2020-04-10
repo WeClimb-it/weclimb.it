@@ -53,27 +53,26 @@
           >{{ data.length }} mt.</strong
         >
       </mat-chip>
-      <mat-chip
-        *ngIf="data.tracks.length > 0"
-        class="mouse-enabled"
-        color="primary"
-        selected
-        (click)="downloadGpsTrack(data.tracks[0])"
-      >
-        <mat-icon aria-hidden="false">directions</mat-icon>&nbsp;
-        {{ 'DOWNLOAD_GPS_TRACK' | translate }}
-      </mat-chip>
     </mat-chip-list>
 
     <!-- The lateral subcard -->
     <div
       class="sub-card"
       [class]="{
-        top: !data.difficulty && !data.elevation.low && !data.elevation.high && !data.length && data.tracks.length == 0
+        top: !data.difficulty && !data.elevation.low && !data.elevation.high && !data.length
       }"
     >
       <perfect-scrollbar [disabled]="isMapMoving || disablePerfectScrollbar">
-        <!-- The static map -->
+        <!-- The mini-map actions -->
+        <div class="google-button" (click)="goToGoogle(data.coords)">
+          <button mat-button>{{ 'OPEN_DIRECTIONS' | translate }}</button>
+        </div>
+        <div *ngIf="data.tracks.length > 0" class="download-gpx-button" (click)="downloadGpsTrack(data.tracks[0])">
+          <button mat-button>{{ 'DOWNLOAD_GPS_TRACK' | translate }}</button>
+        </div>
+        <!-- -->
+
+        <!-- The dynamic map -->
         <div class="dynamic-map">
           <mgl-map
             #map

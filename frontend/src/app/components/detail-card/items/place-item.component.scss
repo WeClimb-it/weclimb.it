@@ -1,5 +1,7 @@
 @import 'common.scss';
 
+@include item-extras();
+
 .fb-page-container {
   margin-top: 20px;
   display: block;

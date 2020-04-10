@@ -25,6 +25,28 @@
       }
     }
 
+    .download-gpx-button,
+    .google-button {
+      z-index: $maxZIndex;
+      position: absolute;
+      top: 10px;
+      text-align: center;
+      width: 100%;
+
+      button {
+        @include mat-elevation(4, black);
+        border-radius: 50px;
+        font-weight: bold;
+        color: white;
+        border: 1px solid rgba(black, 0.15);
+        background-color: rgba($cragPinColor, 0.85);
+      }
+
+      &.download-gpx-button {
+        top: 55px;
+      }
+    }
+
     .coeff {
       margin-top: 15px;
       margin-bottom: 15px;

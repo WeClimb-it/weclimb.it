@@ -62,7 +62,13 @@
     <!-- The lateral subcard -->
     <div class="sub-card">
       <perfect-scrollbar [disabled]="isMapMoving || disablePerfectScrollbar">
-        <!-- The static map -->
+        <!-- The mini-map actions -->
+        <div class="google-button" (click)="goToGoogle(data.coords)">
+          <button mat-button>{{ 'OPEN_DIRECTIONS' | translate }}</button>
+        </div>
+        <!-- -->
+
+        <!-- The dynamic map -->
         <div class="dynamic-map">
           <mgl-map
             #map

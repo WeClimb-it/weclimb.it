@@ -90,6 +90,9 @@
       <perfect-scrollbar [disabled]="disablePerfectScrollbar">
         <!-- The static map -->
         <div class="static-map">
+          <div class="google-button" (click)="goToGoogle(data.coords)">
+            <button mat-button>{{ 'OPEN_DIRECTIONS' | translate }}</button>
+          </div>
           <div class="marker"></div>
           <img src="{{ staticMapSrc }}" width="100%" height="100%" />
         </div>

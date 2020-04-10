@@ -21,4 +21,14 @@ export class GeoLocation {
   toString(): string {
     return `${this.lng || 0},${this.lat || 0}`;
   }
+
+  /**
+   * Returns an object of coordinats
+   */
+  toCoordinatesObject(): { lat: number; lng: number } {
+    return {
+      lat: this.lat || 0,
+      lng: this.lng || 0,
+    };
+  }
 }

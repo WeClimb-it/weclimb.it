@@ -6,6 +6,8 @@ import { typeOfItem, getSectionFromItem } from 'src/app/utils/ContentType';
 import { environment } from 'src/environments/environment';
 import { GeoLocation } from 'src/app/classes/geolocation.class';
 import { NearbyResult } from 'src/app/graphql/queries';
+import { Coords } from 'src/app/interfaces/graphql/coords.type';
+import { getGoogleMapsUrl } from 'src/app/utils/Map';
 
 @Component({
   selector: 'wci-base-card-item',
@@ -45,6 +47,13 @@ export class BaseCardItemComponent implements OnChanges {
   goToDetailUrl(item: Poi) {
     const section = getSectionFromItem(item);
     this.router.navigate([section, item.slug]);
+  }
+
+  /**
+   *
+   */
+  goToGoogle(coords: Coords): void {
+    window.open(getGoogleMapsUrl(coords, this.userLocation.toCoordinatesObject()));
   }
 
   /**
