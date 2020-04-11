@@ -10,7 +10,7 @@ import { Poi } from 'src/app/utils/Poi';
   template: '<div></div>',
 })
 export class BaseListItemComponent {
-  // Used to consturct the url of the detail page
+  // Used to construct the url of the detail page
   protected itemSection: ContentType;
 
   constructor(protected router: Router, public dialog: MatDialog) {}
@@ -28,7 +28,13 @@ export class BaseListItemComponent {
   openMediaDialog(item: Poi): void {
     this.dialog.open(MediaPlayerComponent, {
       panelClass: 'media-dialog',
-      data: item,
+      data: {
+        item,
+        openDetail: (slug: string) => {
+          this.dialog.closeAll();
+          this.goToDetailUrl(slug);
+        },
+      },
     });
   }
 }

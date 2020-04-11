@@ -1,5 +1,6 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, Output, EventEmitter } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Poi } from 'src/app/utils/Poi';
 
 @Component({
   selector: 'wci-media-player',
@@ -9,9 +10,22 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 export class MediaPlayerComponent {
   selectedIndex = 0;
 
-  constructor(public dialogRef: MatDialogRef<MediaPlayerComponent>, @Inject(MAT_DIALOG_DATA) public data: any) {}
+  constructor(
+    public dialogRef: MatDialogRef<MediaPlayerComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: { item: any; openDetail: (slug: string) => void },
+  ) {}
 
+  /**
+   *
+   */
   selectMedia(index: number): void {
     this.selectedIndex = index;
+  }
+
+  /**
+   *
+   */
+  goToDetail(slug: string): void {
+    this.data.openDetail(slug);
   }
 }

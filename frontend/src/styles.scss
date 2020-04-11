@@ -131,6 +131,16 @@ a:visited {
 .media-dialog .mat-dialog-container {
   width: 60vw !important;
 }
+@media only screen and (max-width: 1024px) {
+  .media-dialog {
+    max-width: 100vw !important;
+
+    .mat-dialog-container {
+      width: 100vw !important;
+      padding: 10px;
+    }
+  }
+}
 
 .cdk-overlay-container {
   z-index: 999999 !important;

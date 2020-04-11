@@ -117,3 +117,15 @@ h1 {
     }
   }
 }
+
+@media only screen and (max-width: 1024px) {
+  .selected {
+    width: 100%;
+  }
+
+  .title-actions {
+    float: none;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+}

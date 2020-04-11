@@ -1,18 +1,18 @@
 <h1 mat-dialog-title>
-  {{ data.title || data.name | capitalizeFirst }}
+  {{ data.item.title || data.item.name | capitalizeFirst }}
   <div class="title-actions">
-    <button mat-flat-button color="primary">
+    <button mat-flat-button color="primary" (click)="goToDetail(data.item.slug)">
       <mat-icon>forward</mat-icon>{{ 'OPEN_DETAIL' | translate | uppercase }}
     </button>
   </div>
 </h1>
 <div class="selected">
-  <img src="{{ data.media[selectedIndex] }}" />
+  <img src="{{ data.item.media[selectedIndex] }}" />
 </div>
-<div mat-dialog-content *ngIf="data.media.length > 1">
+<div mat-dialog-content *ngIf="data.item.media.length > 1">
   <perfect-scrollbar>
     <div class="thumbnails">
-      <ng-container *ngFor="let image of data.media; let i = index">
+      <ng-container *ngFor="let image of data.item.media; let i = index">
         <div class="thumbnail" [ngClass]="{ highlight: selectedIndex === i }" (click)="selectMedia(i)">
           <img src="{{ image }}" />
         </div>
