@@ -165,7 +165,7 @@
             <div class="when">{{ 'NOW' | translate }}</div>
             <wci-skycon [width]="60" [height]="60" [icon]="currentWeather.icon"></wci-skycon>
             <div class="figures">
-              <div>{{ currentWeather.temperature }} °C</div>
+              <div>{{ currentWeather.temperature | number: '1.0-0' }} °C</div>
               <div fxLayout>
                 <div class="figure">
                   <i class="wi wi-raindrop"></i> {{ currentWeather.humidity | metric: 'coeff-to-percentage' }}%
@@ -187,7 +187,7 @@
             <div class="when">{{ 'TOMORROW' | translate }}</div>
             <wci-skycon [width]="60" [height]="60" [icon]="currentWeather.icon"></wci-skycon>
             <div class="figures">
-              <div>{{ tomorrowForecast.temperatureMax }} °C</div>
+              <div>{{ tomorrowForecast.temperatureMax | number: '1.0-0' }} °C</div>
               <div fxLayout>
                 <div class="figure">
                   <i class="wi wi-raindrop"></i> {{ tomorrowForecast.humidity | metric: 'coeff-to-percentage' }}%

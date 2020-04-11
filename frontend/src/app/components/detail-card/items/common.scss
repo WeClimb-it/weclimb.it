@@ -304,6 +304,12 @@
 }
 
 @mixin breakpoints() {
+  @media only screen and (max-width: 325px) {
+    .extra .directions {
+      font-size: 13px;
+    }
+  }
+
   @media only screen and (max-width: 650px) {
     .container {
       display: block !important;
@@ -350,7 +356,7 @@
         min-width: initial;
 
         .direction-label {
-          font-size: 10px;
+          font-size: 13px;
         }
 
         .static-map {
