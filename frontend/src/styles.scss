@@ -172,12 +172,10 @@ a:visited {
 }
 .spin-loader {
   position: relative;
-  left: -180px;
   width: 210px;
   height: 210px;
-  margin-top: 50vh;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 50vh auto;
+  left: -50px;
 }
 #loader-outline {
   stroke: $primary;
@@ -215,6 +213,11 @@ a:visited {
   100% {
     stroke-dasharray: 2.42777px, 242.77666px;
     stroke-dashoffset: -240.34889px;
+  }
+}
+@media only screen and (min-width: 960px) {
+  .spin-loader {
+    left: -$sidebarWidth/2 - 50px;
   }
 }
 //
