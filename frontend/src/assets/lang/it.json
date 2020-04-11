@@ -76,5 +76,6 @@
   "404_MESSAGE": "La pagina che cercavi non è qui...",
   "WANNA_GO_TO": "Vuoi andare a",
   "OPEN_DIRECTIONS": "Apri tragitto in Google",
-  "GITHUB": "Contribuisci su GitHub"
+  "GITHUB": "Contribuisci su GitHub",
+  "GITHUB_ISSUES": "Segnala o controlla i bug"
 }
