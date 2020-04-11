@@ -26,7 +26,7 @@
   "SEARCH_PLACEHOLDER": "Look for crags, places or localities...",
   "CLICK_HERE_SEARCH": "Click here to search",
   "MAP_SETTINGS": "Map settings",
-  "MAP_SETTINGS_DESCR": "Use the sliders to change some parameter, such as the <strong>climate trend</strong>, the <strong>accessibility</strong> and the <strong>difficulty</strong>.",
+  "MAP_SETTINGS_DESCR": "Use the sliders to filter the map by some parameters, such as the <strong>climate trend</strong>, the <strong>accessibility</strong> and the <strong>difficulty</strong>.",
   "CHILL": "Chill",
   "WARM": "Warm",
   "NEAR": "Near",
