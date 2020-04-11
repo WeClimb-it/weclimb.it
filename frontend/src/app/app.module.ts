@@ -44,6 +44,7 @@ import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { CapitalizeFirstPipe } from './pipes/capitalizeFirst/capitalize-first.pipe';
 import { DistancePipe } from './pipes/distance/distance.pipe';
 import { MetricPipe } from './pipes/metric/metric.pipe';
+import { I18nService } from './services/i18n.service';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -86,10 +87,8 @@ export function appInitializerFactory(translateService: TranslateService, inject
       const locationInitialized = injector.get(LOCATION_INITIALIZED, Promise.resolve(null));
       locationInitialized.then(() => {
         translateService.addLangs(environment.i18n.availableLangs);
-        translateService.setDefaultLang('en');
-
-        const browserLang = translateService.getBrowserLang();
-        translateService.use(browserLang);
+        translateService.setDefaultLang(I18nService.userLang);
+        translateService.use(I18nService.userLang);
 
         resolve(null);
       });

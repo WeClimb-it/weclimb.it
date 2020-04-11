@@ -1,12 +1,12 @@
 import Cookies from 'js-cookie';
 
-export default class PersistencyService {
-  public static hasLocalStorage: boolean = typeof window !== 'undefined' && typeof window.localStorage !== 'undefined';
+export class PersistanceService {
+  static hasLocalStorage: boolean = typeof window !== 'undefined' && typeof window.localStorage !== 'undefined';
 
   /**
    *
    */
-  public static get(key: string): string | null | undefined {
+  static get(key: string): string | null | undefined {
     if (this.hasLocalStorage) {
       return window.localStorage.getItem(key);
     } else {
@@ -17,7 +17,7 @@ export default class PersistencyService {
   /**
    *
    */
-  public static set(key: string, value: string) {
+  static set(key: string, value: string) {
     if (this.hasLocalStorage) {
       window.localStorage.setItem(key, value);
     } else {

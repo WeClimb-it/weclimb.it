@@ -12,6 +12,7 @@ import { UserInfo } from './interfaces/graphql/userinfo.type';
 import { AppStoreService } from './services/appState.service';
 import { PlaceSuggestion } from './services/geo.service';
 import { I18nService } from './services/i18n.service';
+import { PersistanceService } from './services/persistanceService';
 import { WciApiService } from './services/wciApi.service';
 import { Poi } from './utils/Poi';
 
@@ -137,6 +138,7 @@ export class AppComponent implements OnInit {
   onLanguageSelected(index: number): void {
     const lang = environment.i18n.availableLangs[index];
     I18nService.chosenUserLang = lang;
+    PersistanceService.set('lang', lang);
     this.translate.use(lang);
     this.onSectionSelected('/');
   }

@@ -1,7 +1,6 @@
-import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
+import { PersistanceService } from './persistanceService';
 
-@Injectable({ providedIn: 'root' })
 export class I18nService {
   public static defaultUserLang: string = environment.i18n.defaultLang;
   public static chosenUserLang: string;
@@ -9,7 +8,9 @@ export class I18nService {
   static get userLang(): string {
     return (
       this.chosenUserLang ||
-      (navigator.language || (navigator as any).userLanguage || this.defaultUserLang).substr(0, 2)
+      PersistanceService.get('lang') ||
+      (navigator.language || (navigator as any).userLanguage).substr(0, 2) ||
+      this.defaultUserLang
     );
   }
 }
