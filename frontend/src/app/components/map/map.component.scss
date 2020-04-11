@@ -6,6 +6,9 @@ mgl-map {
   height: 100%;
   width: 100%;
 
+  ::ng-deep .mapboxgl-popup {
+    z-index: $maxZIndex;
+  }
   ::ng-deep .mapboxgl-popup-content {
     border-radius: 10px;
   }
