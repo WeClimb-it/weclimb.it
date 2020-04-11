@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Output, ViewChild, HostListener } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Output, ViewChild, HostListener, ChangeDetectorRef } from '@angular/core';
 import { GeoService, PlaceSuggestion } from 'src/app/services/geo.service';
 import { GeoLocation } from 'src/app/classes/geolocation.class';
 
@@ -57,8 +57,7 @@ export class HeaderComponent {
   @HostListener('document:click', ['$event'])
   clickOutside(event) {
     if (!this.elRef.nativeElement.contains(event.target)) {
-      this.showSuggestions = false;
-      this.showSettings = false;
+      this.closePanels();
       this.suggestionsKeyboardSelectionIndex = -1;
     } else {
       this.showSuggestions = true;
@@ -82,6 +81,8 @@ export class HeaderComponent {
     if ((!query && !this.query) || this.query == null) {
       return;
     }
+    this.closePanels();
+    this.suggestedPlaces = [];
     this.search.emit({
       query: query || this.query,
       minDifficulty: this.minDifficultyCoeff,
@@ -133,7 +134,6 @@ export class HeaderComponent {
           : ++this.suggestionsKeyboardSelectionIndex;
     } else if ($event.keyCode === this.ENTER_KEY) {
       $event.stopImmediatePropagation();
-      this.closePanels();
       this.onSuggestionSelected(this.suggestedPlaces[this.suggestionsKeyboardSelectionIndex]);
     }
   }
