@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router, RouterEvent } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import moment from 'moment-timezone';
+import { environment } from 'src/environments/environment';
 import { GeoLocation } from './classes/geolocation.class';
 import { SearchOptions } from './components/header/header.component';
 import { LatestResult, NearbyResult, UserInfoResult } from './graphql/queries';
@@ -9,10 +11,9 @@ import { SearchResult } from './interfaces/graphql/searchresult.type';
 import { UserInfo } from './interfaces/graphql/userinfo.type';
 import { AppStoreService } from './services/appState.service';
 import { PlaceSuggestion } from './services/geo.service';
+import { I18nService } from './services/i18n.service';
 import { WciApiService } from './services/wciApi.service';
 import { Poi } from './utils/Poi';
-import { TranslateService } from '@ngx-translate/core';
-import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'wci-root',
@@ -134,7 +135,9 @@ export class AppComponent implements OnInit {
    *
    */
   onLanguageSelected(index: number): void {
-    this.translate.use(environment.i18n.availableLangs[index]);
+    const lang = environment.i18n.availableLangs[index];
+    I18nService.chosenUserLang = lang;
+    this.translate.use(lang);
     this.onSectionSelected('/');
   }
 

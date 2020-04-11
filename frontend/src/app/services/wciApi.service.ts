@@ -78,6 +78,7 @@ export class WciApiService {
 
   public defaultFetchPolicy: FetchPolicy = 'cache-first';
   public networkFetchPolicy: FetchPolicy = 'network-only';
+  public noCacheFetchPolicy: FetchPolicy = 'no-cache';
 
   getUserInfo(): Observable<UserInfoResult> {
     return this.apollo.watchQuery({
@@ -224,6 +225,7 @@ export class WciApiService {
     return this.apollo.watchQuery({
       query: Queries.news,
       variables: opts,
+      fetchPolicy: this.noCacheFetchPolicy,
     }).valueChanges as Observable<NewsResult>;
   }
 
