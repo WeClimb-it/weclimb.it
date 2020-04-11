@@ -160,7 +160,7 @@
           </div>
           <div class="tomorrow" fxLayout>
             <div class="when">{{ 'TOMORROW' | translate }}</div>
-            <wci-skycon [width]="60" [height]="60" [icon]="currentWeather.icon"></wci-skycon>
+            <wci-skycon [width]="60" [height]="60" [icon]="tomorrowForecast.icon"></wci-skycon>
             <div class="figures">
               <div>{{ tomorrowForecast.temperatureMax | number: '1.0-0' }} °C</div>
               <div fxLayout>
