@@ -55,6 +55,7 @@
   </div>
   <div class="sidenav" fxShow="false" fxShow.gt-sm>
     <wci-sidebar
+      [loading]="isNearbyLoading"
       [currentLocation]="currentLocation"
       [pois]="latestPois"
       (sectionSelected)="onSectionSelected($event)"

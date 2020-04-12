@@ -77,5 +77,6 @@
   "WANNA_GO_TO": "Would you like to go to",
   "OPEN_DIRECTIONS": "Open directions in Google",
   "GITHUB": "Contribute on GitHub",
-  "GITHUB_ISSUES": "Report a bug"
+  "GITHUB_ISSUES": "Report a bug",
+  "LOADING": "Just a second..."
 }

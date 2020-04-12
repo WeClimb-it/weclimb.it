@@ -26,6 +26,7 @@ type Poi = Crag | Place | Competition | Shelter | Hike;
 export class SidebarComponent {
   @Input() currentLocation: GeoLocation;
   @Input() pois: EntitiesPayload;
+  @Input() loading: boolean;
 
   @Output() poiSelected: EventEmitter<Poi> = new EventEmitter<Poi>();
   @Output() sectionSelected: EventEmitter<string> = new EventEmitter<string>();

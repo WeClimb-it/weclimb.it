@@ -32,6 +32,7 @@ export class AppComponent implements OnInit {
 
   showContent = false;
   isFloatingContent = false;
+  isNearbyLoading = true;
 
   environment = environment;
 
@@ -180,6 +181,8 @@ export class AppComponent implements OnInit {
    *
    */
   private getNearby(): void {
+    this.isNearbyLoading = true;
+
     const nearbySubscription = this.api
       .getNearby({
         lng: this.mapData.coordinates[0],
@@ -198,6 +201,7 @@ export class AppComponent implements OnInit {
         }
 
         if (!res.loading) {
+          this.isNearbyLoading = false;
           this.nearbyPois = res.data.nearby;
           nearbySubscription.unsubscribe();
         }
