@@ -1,0 +1,244 @@
+<div *ngIf="data" class="container crag" fxLayout>
+  <div class="info">
+    <perfect-scrollbar [disabled]="disablePerfectScrollbar">
+      <!-- The crag title -->
+      <h4>{{ data.title }}</h4>
+      <!-- -->
+
+      <!-- The description + misc. info -->
+      <div *ngIf="data.descr" class="description">
+        {{ data.descr | capitalizeFirst }}
+
+        <div *ngIf="data.access_info" class="more">
+          <h5>{{ 'HOW_REACH' | translate }}</h5>
+          <span>
+            {{ data.access_info | capitalizeFirst }}
+          </span>
+        </div>
+
+        <div *ngIf="data.notes" class="more">
+          <h5>{{ 'NOTES' | translate }}</h5>
+          <span>
+            {{ data.notes | capitalizeFirst }}
+          </span>
+        </div>
+
+        <!-- The sectors -->
+        <div *ngIf="data.sectors && data.sectors.length > 1" class="more sectors">
+          <h5>{{ 'SECTORS_ROUTES' | translate }}</h5>
+          <mat-accordion>
+            <mat-expansion-panel *ngFor="let sector of data.sectors">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  {{ sector.title }}
+                </mat-panel-title>
+                <mat-panel-description>
+                  <span *ngIf="sector.min_grade" class="min-grade">{{ sector.min_grade }}</span>
+                  <span *ngIf="sector.max_grade" class="max-grade">{{ sector.max_grade }}</span>
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+
+              <mat-list *ngIf="sector.routes && sector.routes.length > 0">
+                <mat-list-item *ngFor="let route of sector.routes">
+                  <div fxLayout>
+                    <div *ngIf="route.grade" class="route-grade">
+                      <strong>{{ route.grade }}</strong>
+                    </div>
+                    <div class="route-title">{{ route.title | capitalizeFirst }}</div>
+                    <div class="route-info" fxLayout>
+                      <div *ngIf="route.length" class="route-info">
+                        {{ route.length }} {{ 'METERS_ABB' | translate }}.
+                      </div>
+                      <div *ngIf="route.pitons_num" class="route-info">
+                        {{ route.pitons_num }} {{ 'PITONS' | translate }}
+                      </div>
+                      <div *ngIf="route.gear_type" class="route-info">{{ route.gear_type }}</div>
+                    </div>
+                  </div>
+                </mat-list-item>
+              </mat-list>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </div>
+        <!-- -->
+      </div>
+      <!-- -->
+    </perfect-scrollbar>
+  </div>
+
+  <div class="extra">
+    <!-- The coeffs -->
+    <div class="stats" *ngIf="data._stats">
+      <div *ngIf="data.quality_rank.weather !== null" class="coeff">
+        <mat-icon aria-hidden="false">brightness_high</mat-icon>
+        <mat-progress-bar mode="determinate" value="{{ data.quality_rank.weather * 100 }}"></mat-progress-bar>
+      </div>
+      <div *ngIf="data.quality_rank.difficulty > 0" class="coeff">
+        <mat-icon aria-hidden="false">fitness_center</mat-icon>
+        <mat-progress-bar mode="determinate" value="{{ data.quality_rank.difficulty * 100 }}"></mat-progress-bar>
+      </div>
+      <div *ngIf="data.altitude > 0" class="coeff">
+        <mat-icon aria-hidden="false">terrain</mat-icon>
+        <mat-progress-bar mode="determinate" value="{{ data.quality_rank.position * 100 }}"></mat-progress-bar>
+        <div class="progress-info">{{ data.altitude }} mt.</div>
+      </div>
+    </div>
+    <!-- -->
+
+    <!-- The lateral subcard -->
+    <div class="sub-card">
+      <perfect-scrollbar [disabled]="isMapMoving || disablePerfectScrollbar">
+        <!-- The dynamic map -->
+        <div class="dynamic-map">
+          <!-- The mini-map actions -->
+          <div class="google-button" (click)="goToGoogle(data.coords)">
+            <button mat-button>{{ 'OPEN_DIRECTIONS' | translate }}</button>
+          </div>
+          <!-- -->
+
+          <mgl-map
+            #map
+            *ngIf="renderMap"
+            [style]="mapStyle"
+            [zoom]="[zoom]"
+            [center]="centerCoords"
+            [minZoom]="minZoom"
+            [maxZoom]="maxZoom"
+            (mouseOver)="onMapBusy(true)"
+            (mouseOut)="onMapBusy(false)"
+          >
+            <!-- The map controls -->
+            <mgl-control mglNavigation position="bottom-left"></mgl-control>
+            <mgl-control mglScale unit="metric" position="bottom-right"></mgl-control>
+            <!-- / -->
+
+            <!-- The GPX track -->
+            <mgl-layer
+              *ngIf="gpxTrack"
+              id="gpx-track"
+              type="line"
+              [source]="{
+                type: 'geojson',
+                lineMetrics: true,
+                data: gpxTrack
+              }"
+              [layout]="{
+                'line-join': 'round',
+                'line-cap': 'round'
+              }"
+              [paint]="{
+                'line-color': 'red',
+                'line-width': 3,
+                'line-gradient': ['interpolate', ['linear'], ['line-progress'], 0, '#40cd7e', 1, '#ff5f58']
+              }"
+            ></mgl-layer>
+            <!-- -->
+
+            <!-- The current landing point -->
+            <mgl-geojson-source id="center" [data]="centerGeoJson"></mgl-geojson-source>
+            <mgl-layer
+              id="center-point"
+              type="circle"
+              source="center"
+              [paint]="{
+                'circle-color': 'rgba(255, 95, 88, 0.8)',
+                'circle-radius': 8
+              }"
+            >
+            </mgl-layer>
+            <mgl-layer
+              id="center-point-2"
+              type="circle"
+              source="center"
+              [paint]="{
+                'circle-color': 'rgba(255, 95, 88, 0.5)',
+                'circle-radius': 20
+              }"
+            >
+            </mgl-layer>
+            <!-- / -->
+          </mgl-map>
+        </div>
+        <div class="directions" fxLayout fxLayoutAlign="space-evenly" fxFlexAlign="center">
+          <div>
+            <mat-icon>directions</mat-icon
+            ><span class="direction-label"
+              ><span [innerHTML]="data.coords | distance: userLocation:false:false:false"></span
+            ></span>
+          </div>
+          <div>
+            <mat-icon>directions_walk</mat-icon
+            ><span class="direction-label"
+              ><span [innerHTML]="data.coords | distance: userLocation:true:false:false"></span
+            ></span>
+          </div>
+          <div>
+            <mat-icon>directions_car</mat-icon
+            ><span class="direction-label"
+              ><span [innerHTML]="data.coords | distance: userLocation:false:true:false"></span
+            ></span>
+          </div>
+        </div>
+        <!-- -->
+
+        <!-- The weather -->
+        <div *ngIf="hasForecast" class="weather" [class]="forecastClass">
+          <div class="today" fxLayout>
+            <div class="when">{{ 'NOW' | translate }}</div>
+            <wci-skycon [width]="60" [height]="60" [icon]="currentWeather.icon"></wci-skycon>
+            <div class="figures">
+              <div>{{ currentWeather.temperature | number: '1.0-0' }} °C</div>
+              <div fxLayout>
+                <div class="figure">
+                  <i class="wi wi-raindrop"></i> {{ currentWeather.humidity | metric: 'coeff-to-percentage' }}%
+                </div>
+                <div class="figure">
+                  <i class="wi wi-showers"></i> {{ currentWeather.precipProbability | metric: 'coeff-to-percentage' }}%
+                </div>
+              </div>
+              <div fxLayout>
+                <div class="figure"><i class="wi wi-horizon-alt"></i> {{ currentWeather.uvIndex }} UVi</div>
+                <div class="figure">
+                  <i class="wi wi-strong-wind"></i>
+                  {{ currentWeather.windSpeed | metric: 'meters_second-to-kilometers_hour' }} km/h
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="tomorrow" fxLayout>
+            <div class="when">{{ 'TOMORROW' | translate }}</div>
+            <wci-skycon [width]="60" [height]="60" [icon]="tomorrowForecast.icon"></wci-skycon>
+            <div class="figures">
+              <div>{{ tomorrowForecast.temperatureMax | number: '1.0-0' }} °C</div>
+              <div fxLayout>
+                <div class="figure">
+                  <i class="wi wi-raindrop"></i> {{ tomorrowForecast.humidity | metric: 'coeff-to-percentage' }}%
+                </div>
+                <div class="figure">
+                  <i class="wi wi-showers"></i>
+                  {{ tomorrowForecast.precipProbability | metric: 'coeff-to-percentage' }}%
+                </div>
+              </div>
+              <div fxLayout>
+                <div class="figure"><i class="wi wi-horizon-alt"></i> {{ tomorrowForecast.uvIndex }} UVi</div>
+                <div class="figure">
+                  <i class="wi wi-strong-wind"></i>
+                  {{ tomorrowForecast.windSpeed | metric: 'meters_second-to-kilometers_hour' }} km/h
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- -->
+
+        <!-- The nearby items -->
+        <ng-container *ngIf="nearbyPois.length > 0">
+          <wci-detail-nearby [items]="nearbyPois" [distanceCoords]="data.coords" (poiSelected)="goToDetailUrl($event)">
+          </wci-detail-nearby>
+        </ng-container>
+        <!-- -->
+      </perfect-scrollbar>
+    </div>
+    <!-- -->
+  </div>
+</div>

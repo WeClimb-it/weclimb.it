@@ -1,0 +1,30 @@
+@import 'common';
+
+@import '../../list-items/competition-item.component';
+
+.description {
+  margin-top: 25px !important;
+
+  div {
+    margin-top: 15px;
+  }
+
+  .person {
+    color: rgba(black, 0.75);
+    font-size: 16px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.extra {
+  .sub-card {
+    top: 150px;
+  }
+}
+
+@include breakpoints();

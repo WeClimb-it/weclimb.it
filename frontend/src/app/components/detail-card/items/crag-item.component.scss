@@ -1,0 +1,54 @@
+@import 'common';
+
+@include item-extras();
+
+.more.sectors {
+  mat-panel-description {
+    span {
+      margin-right: 5px;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+    span.min-grade,
+    span.max-grade {
+      display: inline-block;
+      padding: 0 12px;
+      border-radius: 60px;
+    }
+    span.min-grade {
+      background: rgba($primary, 0.4);
+      border: 1px solid rgba($primary, 0.4);
+    }
+    span.max-grade {
+      background: rgba($acidRed, 0.4);
+      border: 1px solid rgba($acidRed, 0.4);
+    }
+  }
+
+  mat-list-item {
+    .route-grade {
+      strong {
+        color: rgba(black, 0.5);
+      }
+      margin-right: 10px;
+    }
+
+    .route-title {
+      font-weight: 700;
+    }
+
+    .route-info {
+      div::before {
+        display: inline-block;
+        content: '•';
+        text-align: center;
+        margin-left: 10px;
+        margin-right: 10px;
+      }
+    }
+  }
+}
+
+@include breakpoints();

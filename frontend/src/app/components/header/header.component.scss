@@ -1,0 +1,221 @@
+@import '../../../common';
+@import '../../../colors';
+
+$panelsMinWidth: 280px;
+$panelsMaxWidth: 660px;
+
+.header-content {
+  width: 100%;
+  margin: 0 auto;
+
+  .logo {
+    width: 110px;
+    height: 70px;
+    margin: 0 auto;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    background-image: url(/assets/images/logo-border.svg);
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+
+  .search {
+    @include mat-elevation(6, black, 0.25);
+
+    width: 100%;
+    min-width: $panelsMinWidth;
+    max-width: $panelsMaxWidth;
+    height: 47px;
+    border-radius: 100px;
+    background-color: white;
+    margin: 0 auto;
+    position: relative;
+    z-index: 9999;
+
+    input {
+      width: calc(100% - 106px);
+      height: 93%;
+      margin: 0 0 0 20px;
+      display: flex;
+      font-size: 17px;
+      color: rgba($color: black, $alpha: 0.6);
+      background: transparent;
+      border: none;
+      outline: none;
+      text-align: left;
+    }
+
+    .search-button,
+    .settings-button {
+      opacity: 0.75;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+
+    .search-button {
+      position: absolute;
+      top: 7px;
+      right: 45px;
+
+      & .mat-icon {
+        height: 35px !important;
+        width: 35px !important;
+        font-size: 35px !important;
+      }
+    }
+
+    .settings-button {
+      position: absolute;
+      top: 3px;
+      right: 6px;
+
+      & .mat-icon {
+        color: rgba($color: black, $alpha: 0.3);
+      }
+    }
+  }
+
+  .suggestions,
+  .settings {
+    @include mat-elevation(6, black, 0.25);
+
+    position: absolute;
+    top: 128px;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+
+    min-width: $panelsMinWidth - 20;
+    max-width: $panelsMaxWidth - 20;
+
+    border-radius: 0 0 20px 20px;
+    background: white;
+    padding-top: 30px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+  }
+
+  .suggestions {
+    .suggestion {
+      padding-left: 15px;
+      padding-right: 15px;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      font-size: 18px;
+      line-height: 20px;
+      color: rgba($color: black, $alpha: 0.6);
+      border-bottom: 1px solid rgba($color: black, $alpha: 0.05);
+      cursor: pointer;
+
+      &:hover {
+        color: rgba($color: black, $alpha: 0.8);
+      }
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      &.selected {
+        @include mat-elevation(2, black, 0.25);
+        color: rgba($color: black, $alpha: 0.7);
+        background-color: rgba(black, 0.03);
+        border-radius: 4px;
+
+        &:last-child {
+          border-radius: 0 0 20px 20px;
+        }
+      }
+    }
+  }
+
+  .settings {
+    h4 {
+      padding-top: 0;
+      margin-top: 0;
+      padding-left: 10px;
+      margin-bottom: 0;
+      text-transform: uppercase;
+      font-size: 13px;
+      color: rgba($color: black, $alpha: 0.7);
+      cursor: default;
+    }
+
+    span {
+      display: block;
+      font-size: 14px;
+      line-height: 18px;
+      margin-top: 3px;
+      margin-left: 10px;
+      margin-right: 10px;
+      color: rgba($color: black, $alpha: 0.5);
+      cursor: default;
+    }
+
+    .coeffSliders {
+      margin-top: 25px;
+      margin-bottom: 15px;
+      padding-left: 15px;
+      padding-right: 15px;
+
+      div {
+        width: 32%;
+        display: inline-block;
+        margin-right: 5px;
+
+        .mat-icon {
+          color: rgba($color: black, $alpha: 0.4);
+
+          &:nth-child(2) {
+            float: left;
+          }
+          &:nth-child(3) {
+            float: right;
+          }
+        }
+
+        &:last-child {
+          margin-right: 0;
+        }
+      }
+
+      ::ng-deep .ng5-slider {
+        margin: 0;
+
+        .ng5-slider-bar {
+          height: 4px;
+        }
+
+        .ng5-slider-bar-wrapper {
+          margin-top: 0;
+          padding-top: 0;
+        }
+
+        .ng5-slider-selection {
+          background: $primary;
+        }
+
+        .ng5-slider-pointer {
+          outline: none;
+          width: 16px;
+          height: 16px;
+          background-color: $primary;
+          top: -7px;
+
+          &:after {
+            top: 4px;
+            left: 4px;
+            background: rgba($color: white, $alpha: 0.7);
+          }
+        }
+
+        .ng5-slider-bubble {
+          display: none;
+        }
+      }
+    }
+  }
+}

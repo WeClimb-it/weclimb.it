@@ -1,0 +1,21 @@
+export interface CurrentWeather {
+  time?: number | null;
+  summary?: string | null;
+  icon?: string | null;
+  nearestStormDistance?: number | null;
+  nearestStormBearing?: number | null;
+  precipIntensity?: number | null;
+  precipProbability?: number | null;
+  temperature?: number | null;
+  apparentTemperature?: number | null;
+  dewPoint?: number | null;
+  humidity?: number | null;
+  pressure?: number | null;
+  windSpeed?: number | null;
+  windGust?: number | null;
+  windBearing?: number | null;
+  cloudCover?: number | null;
+  uvIndex?: number | null;
+  visibility?: number | null;
+  ozone?: number | null;
+}

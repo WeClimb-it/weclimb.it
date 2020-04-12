@@ -1,0 +1,83 @@
+@import '../../../../colors';
+
+.nearby {
+  .title {
+    width: 100%;
+    height: 34px;
+    background: $primaryPale;
+    border-top: 1px solid rgba(black, 0.05);
+    color: white;
+    text-shadow: rgba(black, 0.4) 0 1px;
+    line-height: 34px;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 14px;
+    vertical-align: middle;
+    line-height: 34px;
+    padding-left: 10px;
+  }
+
+  .item {
+    position: relative;
+    padding: 5px;
+    margin: 0 5px;
+    margin-bottom: 5px;
+    border-bottom: 1px solid rgba(black, 0.05);
+
+    &:last-child {
+      margin-bottom: 0;
+      border-bottom: none;
+    }
+
+    .category {
+      position: absolute;
+      top: 7px;
+      color: white;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 3px 6px 3px 6px;
+      border-radius: 90px;
+
+      &.crag {
+        background: $cragPinColor;
+      }
+      &.hike {
+        background: $hikePinColor;
+      }
+      &.shelter {
+        background: $shelterPinColor;
+      }
+      &.event,
+      &.competition {
+        background: $eventPinColor;
+      }
+      &.place {
+        background: $placePinColor;
+      }
+    }
+
+    h4 {
+      text-transform: capitalize;
+      color: $primaryPale;
+      font-size: 16px;
+      line-height: 18px;
+      cursor: pointer;
+      margin-bottom: 4px;
+
+      &:hover {
+        color: $primaryAltDark;
+      }
+    }
+
+    > div {
+      font-size: 13px;
+      line-height: 13px;
+      color: rgba(black, 0.8);
+    }
+
+    h4,
+    > div {
+      padding-left: 30px;
+    }
+  }
+}

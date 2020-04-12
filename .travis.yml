@@ -1,0 +1,27 @@
+dist: bionic
+sudo: false
+
+language: node_js
+node_js:
+    - '10'
+
+addons:
+    apt:
+        sources:
+            - google-chrome
+        packages:
+            - google-chrome-stable
+
+cache:
+    directories:
+        - ./node_modules
+
+before_install:
+    - cd ./frontend
+
+install:
+    - npm install
+
+script:
+    - npm run test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
+    - npm run e2e -- --protractor-config=e2e/protractor-ci.conf.js

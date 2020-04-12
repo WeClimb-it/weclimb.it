@@ -1,0 +1,62 @@
+<div class="container">
+  <div class="metadata">
+    <mat-chip-list>
+      <mat-icon
+        color="accent"
+        *ngIf="
+          data._stats &&
+          data._stats.routesCount >= ROUTES_COUNT_GOOD_THRESHOLD &&
+          data._stats.routesCount < ROUTES_COUNT_AWESOME_THRESHOLD
+        "
+        >star_half</mat-icon
+      >
+      <mat-icon color="accent" *ngIf="data._stats && data._stats.routesCount >= ROUTES_COUNT_AWESOME_THRESHOLD"
+        >star</mat-icon
+      >
+      <mat-chip class="no-mouse" color="accent" selected>
+        <span [innerHTML]="data.coords | distance: currentLocation"></span>
+      </mat-chip>
+      <mat-chip *ngIf="showCategory" class="no-mouse category" selected>
+        <span>{{ 'CRAG' | translate | uppercase }}</span>
+      </mat-chip>
+    </mat-chip-list>
+  </div>
+  <div class="text">
+    <h4 (click)="goToDetailUrl(data.slug)">{{ data.title }}</h4>
+    <div class="description">{{ data.descr | capitalizeFirst }}</div>
+  </div>
+  <div class="extra">
+    <div class="stats" *ngIf="data._stats">
+      <mat-chip-list>
+        <mat-chip *ngIf="data._stats.sectorsCount > 0" color="primary" selected
+          ><strong>{{ data._stats.sectorsCount }}</strong
+          >&nbsp;sectors</mat-chip
+        >
+        <mat-chip *ngIf="data._stats.routesCount > 0" color="primary" selected
+          ><strong>{{ data._stats.routesCount }}</strong
+          >&nbsp;routes</mat-chip
+        >
+      </mat-chip-list>
+      <div *ngIf="data.quality_rank.weather !== null" class="coeff">
+        <mat-icon aria-hidden="false">brightness_high</mat-icon
+        ><mat-progress-bar mode="determinate" value="{{ data.quality_rank.weather * 100 }}"></mat-progress-bar>
+        <div class="progress-info">
+          {{ data.quality_rank.weatherExtended[currentMonth].value }} °C {{ 'IN_MONTH' | translate }}
+          <div class="capitalize">{{ currentMonthHuman }}</div>
+        </div>
+      </div>
+      <div *ngIf="data.quality_rank.difficulty > 0" class="coeff">
+        <mat-icon aria-hidden="false">fitness_center</mat-icon
+        ><mat-progress-bar mode="determinate" value="{{ data.quality_rank.difficulty * 100 }}"></mat-progress-bar>
+      </div>
+      <div *ngIf="data.altitude > 0" class="coeff">
+        <mat-icon aria-hidden="false">terrain</mat-icon
+        ><mat-progress-bar mode="determinate" value="{{ data.quality_rank.position * 100 }}"></mat-progress-bar>
+        <div class="progress-info">{{ data.altitude }} {{ 'METERS_ABB' | translate }}</div>
+      </div>
+    </div>
+  </div>
+  <div class="source-link">
+    {{ 'SOURCE' | translate }}: <a href="{{ data.resource_url }}" target="_blank">{{ data.resource_url }}</a>
+  </div>
+</div>

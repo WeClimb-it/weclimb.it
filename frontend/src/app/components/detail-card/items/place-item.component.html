@@ -1,0 +1,77 @@
+<div *ngIf="data" class="container place" fxLayout>
+  <div class="info">
+    <perfect-scrollbar [disabled]="disablePerfectScrollbar">
+      <!-- The item title -->
+      <h4>{{ data.title }}</h4>
+      <!-- -->
+
+      <div *ngIf="data.descr" class="description">
+        {{ data.descr | capitalizeFirst }}
+
+        <!-- The FB page -->
+        <div class="fb-page-container">
+          <div
+            class="fb-page"
+            [attr.data-href]="data.resource_url"
+            data-tabs="timeline"
+            data-width=""
+            data-height=""
+            data-small-header="false"
+            data-adapt-container-width="true"
+            data-hide-cover="false"
+            data-show-facepile="true"
+          ></div>
+        </div>
+        <!-- -->
+      </div>
+    </perfect-scrollbar>
+  </div>
+
+  <div class="extra">
+    <!-- The lateral subcard -->
+    <div class="sub-card">
+      <perfect-scrollbar [disabled]="disablePerfectScrollbar">
+        <!-- The static map -->
+        <div class="static-map">
+          <div class="google-button" (click)="goToGoogle(data.coords)">
+            <button mat-button>{{ 'OPEN_DIRECTIONS' | translate }}</button>
+          </div>
+          <div class="marker"></div>
+          <img src="{{ staticMapSrc }}" width="100%" height="100%" />
+        </div>
+        <div class="directions" fxLayout fxLayoutAlign="space-evenly" fxFlexAlign="center">
+          <div>
+            <mat-icon>directions</mat-icon
+            ><span class="direction-label"
+              ><span [innerHTML]="data.coords | distance: userLocation:false:false:false"></span
+            ></span>
+          </div>
+          <div>
+            <mat-icon>directions_walk</mat-icon
+            ><span class="direction-label"
+              ><span [innerHTML]="data.coords | distance: userLocation:true:false:false"></span
+            ></span>
+          </div>
+          <div>
+            <mat-icon>directions_car</mat-icon
+            ><span class="direction-label"
+              ><span [innerHTML]="data.coords | distance: userLocation:false:true:false"></span
+            ></span>
+          </div>
+        </div>
+        <!-- -->
+
+        <!-- The nearby items -->
+        <ng-container *ngIf="nearbyPois.length > 0">
+          <wci-detail-nearby
+            [items]="nearbyPois"
+            [distanceCoords]="data.coords"
+            (poiSelected)="goToDetailUrl($event)"
+          ></wci-detail-nearby>
+        </ng-container>
+        <!-- -->
+      </perfect-scrollbar>
+    </div>
+    <!-- -->
+  </div>
+</div>

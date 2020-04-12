@@ -1,0 +1,120 @@
+@import '../common';
+@import '../colors';
+
+.main,
+.map {
+  width: 100%;
+  height: 100%;
+}
+
+.main.has-content {
+  ::ng-deep mgl-map {
+    opacity: 0.5;
+  }
+}
+
+.header-container {
+  padding: 0 10px;
+}
+
+.header {
+  display: flex;
+  position: relative;
+  z-index: $maxZIndex;
+  width: 100%;
+  height: $headerHeight;
+  margin-bottom: -$headerHeight;
+  background-color: transparent;
+}
+
+.sidenav {
+  position: relative;
+  z-index: $maxZIndex;
+  width: $sidebarWidth;
+  flex: 0 0 $sidebarWidthEm;
+  height: 100%;
+  background: $sidebarBg;
+  box-shadow: -2px 0 6px rgba(black, 0.25);
+}
+
+.actions {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  z-index: $maxZIndex + 1;
+
+  .mat-flat-button.mat-primary,
+  .mat-raised-button.mat-primary,
+  .mat-fab.mat-primary,
+  .mat-mini-fab.mat-primary {
+    @include mat-elevation(3, black, 0.4);
+
+    background-color: rgba(white, 1);
+    color: rgba(black, 0.5);
+    margin-right: 10px;
+
+    &:hover {
+      color: rgba(black, 0.8);
+    }
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}
+
+.content {
+  position: absolute;
+  z-index: $maxZIndex - 1;
+  bottom: 0;
+  left: 0;
+  width: calc(100% - #{$sidebarWidth});
+  height: calc(100% - #{$headerHeight});
+  background-color: $contentBg;
+
+  .section {
+    padding-left: 30px;
+    padding-top: 30px;
+    padding-bottom: 20px;
+    padding-right: 20px;
+    height: calc(100% - 52px);
+  }
+}
+
+@media only screen and (max-width: $mobileBreakpointWidth) {
+  .content {
+    width: 100%;
+
+    .section {
+      width: 90%;
+      padding-top: 20px;
+      padding-left: 30px;
+      padding-right: 30px;
+    }
+  }
+}
+
+@media only screen and (min-width: $hugeScreenBreakpointWidth) {
+  .content {
+    .section {
+      width: 1280px;
+      margin: 0 auto;
+    }
+  }
+}
+
+@media only screen and (max-width: 375px) {
+  .actions {
+    top: 5px;
+    left: 5px;
+  }
+}
+
+@media only screen and (max-width: 425px) {
+  .content {
+    .section {
+      width: calc(100% - 10px);
+      padding: 5px;
+    }
+  }
+}

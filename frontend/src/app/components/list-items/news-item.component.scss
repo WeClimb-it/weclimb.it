@@ -1,0 +1,35 @@
+@import 'common.scss';
+
+h4 {
+  font-weight: 700 !important;
+  letter-spacing: -0.5px;
+}
+
+.date {
+  font-size: 20px;
+  color: rgba(black, 0.6);
+}
+
+.summary {
+  margin-top: 10px;
+  margin-right: 10px;
+  font-size: 18px;
+}
+
+.extra {
+  .media {
+    @include mat-elevation(2, black, 0.25);
+    border-radius: 6px;
+    padding: 6px;
+    object-fit: cover;
+    width: 100%;
+    height: 250px;
+    margin-left: -16px;
+
+    img {
+      object-fit: cover;
+      width: 100%;
+      height: 250px;
+    }
+  }
+}

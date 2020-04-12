@@ -1,0 +1,200 @@
+@import '../../../common';
+@import '../../../colors';
+
+.map-location {
+  position: relative;
+  height: 147px;
+  color: $primaryAltDark;
+  text-align: center;
+  padding-top: 13px;
+
+  .content {
+    position: relative;
+    top: 25px;
+    z-index: 3;
+    cursor: default;
+  }
+
+  &:before {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    background-color: $primary;
+    z-index: 1;
+  }
+
+  &:after {
+    content: '';
+    display: block;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    background-image: url(/assets/images/topography.svg);
+    background-size: cover;
+    position: absolute;
+    opacity: 0.15;
+    top: 0;
+  }
+
+  h4 {
+    text-transform: uppercase;
+    font-size: 18px;
+    letter-spacing: -1px;
+    font-weight: 700;
+  }
+
+  .city {
+    color: $primaryAltDarker;
+    display: block;
+    font-size: 20px;
+    line-height: 20px;
+    margin-top: 6px;
+    max-width: 13em;
+    margin: 0 auto;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    &::first-letter {
+      text-transform: capitalize;
+    }
+  }
+
+  .coords {
+    display: inline-block;
+    margin-top: 15px;
+    font-weight: 600;
+
+    .mat-icon {
+      margin-right: 6px;
+      vertical-align: middle;
+    }
+  }
+}
+
+.panel {
+  position: relative;
+  height: calc((100vh / 3 - 83px) + (85px / 3));
+
+  .visual {
+    height: 85px;
+    line-height: 85px;
+    text-align: center;
+    font-size: 15px;
+    color: white;
+    font-weight: 700;
+    text-transform: uppercase;
+    cursor: default;
+    text-shadow: 0px 2px 10px black;
+    background-repeat: no-repeat;
+    @include mat-elevation(4, black, 0.5);
+  }
+
+  .list {
+    max-height: calc(100% - 85px);
+
+    &:after {
+      pointer-events: none;
+      position: absolute;
+      content: '';
+      bottom: 0;
+      display: block;
+      width: 100%;
+      height: 85px;
+      background: linear-gradient(180deg, rgba($sidebarBg, 0) 0%, rgba($sidebarBg, 1) 100%);
+    }
+
+    .item {
+      cursor: pointer;
+      padding-left: 15px;
+      padding-right: 10px;
+      margin-top: 10px;
+      padding-bottom: 5px;
+      margin-bottom: 5px;
+      border-bottom: 1px solid rgba($color: black, $alpha: 0.3);
+
+      &:hover {
+        h2 {
+          color: white;
+        }
+      }
+
+      &:last-child {
+        border-bottom: none;
+        margin-bottom: 40px;
+      }
+
+      h2 {
+        font-weight: 600;
+        max-width: 80%;
+        font-size: 14px;
+        color: $primary;
+
+        &::first-letter {
+          text-transform: uppercase;
+        }
+      }
+
+      span {
+        font-size: 13px;
+        color: rgba($color: white, $alpha: 0.7);
+      }
+    }
+
+    .divider {
+      height: 4px;
+      margin: 0 10px;
+      background-color: rgba($primary, 0.5);
+    }
+  }
+
+  .no-results,
+  .sidebar-loading {
+    text-align: center;
+    color: rgba(white, 0.65);
+    margin-top: 20px;
+  }
+
+  &.crags-boulders .visual {
+    background-image: url(/assets/images/sidebar-bg.png);
+  }
+
+  &.hikes-shelters .visual {
+    background-image: url(/assets/images/sidebar-bg.png);
+    background-position-y: -95px;
+  }
+
+  &.gyms-competitions .visual {
+    background-image: url(/assets/images/sidebar-bg.png);
+    background-position-y: -180px;
+  }
+
+  .links {
+    position: absolute;
+    bottom: 5px;
+    width: 100%;
+    text-align: center;
+
+    a {
+      color: white;
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      opacity: 0.7;
+      cursor: pointer;
+      margin-right: 15px;
+
+      &:last-child {
+        margin-right: 0;
+      }
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+}

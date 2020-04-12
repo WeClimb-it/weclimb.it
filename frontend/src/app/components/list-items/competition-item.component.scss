@@ -1,0 +1,53 @@
+@import 'common.scss';
+
+.categories {
+  color: rgba(black, 0.65);
+}
+
+.description {
+  margin-top: 2px !important;
+}
+
+.event-dates {
+  font-weight: bold;
+
+  div {
+    padding-top: 5px;
+    padding-bottom: 5px;
+
+    &:last-child {
+      margin-bottom: 10px;
+    }
+
+    font-size: 23px;
+    color: rgba(black, 0.7);
+
+    mat-icon {
+      width: 32px;
+      height: 32px;
+      font-size: 32px;
+      line-height: 32px;
+      vertical-align: top;
+    }
+  }
+}
+
+.extra {
+  mat-chip {
+    font-weight: bold;
+  }
+
+  .place {
+    margin-bottom: 10px;
+    font-size: 20px;
+    color: rgba(black, 0.65);
+
+    mat-icon {
+      width: 26px;
+      height: 26px;
+      font-size: 26px;
+      line-height: 26px;
+      vertical-align: top;
+    }
+  }
+}

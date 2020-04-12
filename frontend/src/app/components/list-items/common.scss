@@ -1,0 +1,95 @@
+@import '../../../common';
+@import '../../../colors';
+@import '../../../mixins';
+
+.metadata {
+  margin-top: 10px;
+  margin-bottom: 10px;
+
+  mat-icon {
+    vertical-align: middle;
+  }
+
+  mat-chip {
+    font-size: 12px;
+    min-height: 24px;
+    margin-right: 5px;
+    border: 1px solid rgba(black, 0.05);
+
+    &:last-child {
+      margin-right: 0;
+    }
+
+    &.category {
+      background-color: rgba(black, 0.05);
+      letter-spacing: 1px;
+      text-transform: capitalize;
+    }
+  }
+}
+
+.text {
+  h4 {
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
+
+    color: black;
+    font-size: 23px;
+    font-weight: lighter;
+    margin-bottom: 5px;
+
+    &::first-letter {
+      text-transform: capitalize;
+    }
+  }
+
+  width: 70%;
+  display: inline-block;
+  vertical-align: top;
+
+  .description {
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 16px;
+
+    @include multilineTruncate(5);
+  }
+}
+
+.source-link {
+  margin-top: 15px;
+  color: rgba(black, 0.7);
+  font-size: 11px;
+}
+
+@include item-extras();
+
+@mixin reducedWidthRules() {
+  .text {
+    width: 100%;
+  }
+
+  .extra {
+    margin-top: 20px;
+    width: 100%;
+
+    .info-box {
+      width: 100%;
+    }
+
+    .coeff {
+      width: 100%;
+    }
+  }
+}
+
+@media only screen and (max-width: $mobileBreakpointWidth) {
+  @include reducedWidthRules();
+}
+
+@media only screen and (min-width: $mobileBreakpointWidth) and (max-width: $smallScreenBreakpointWidth) {
+  @include reducedWidthRules();
+}

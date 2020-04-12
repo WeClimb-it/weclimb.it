@@ -1,0 +1,126 @@
+<mgl-map
+  #map
+  *ngIf="renderMap"
+  [style]="mapStyle"
+  [zoom]="[zoom]"
+  [center]="centerCoords"
+  [minZoom]="minZoom"
+  [maxZoom]="maxZoom"
+  (load)="mapLoaded()"
+  (moveEnd)="mapInteractionEnd()"
+>
+  <!-- The map controls -->
+  <mgl-control mglNavigation position="bottom-left"></mgl-control>
+  <mgl-control mglScale unit="metric" position="bottom-right"></mgl-control>
+  <!-- / -->
+
+  <!-- The Pins -->
+  <mgl-image id="crag-pin" [data]="pins.crag"> </mgl-image>
+  <mgl-image id="event-pin" [data]="pins.event"> </mgl-image>
+  <mgl-image id="hike-pin" [data]="pins.hike"> </mgl-image>
+  <mgl-image id="place-pin" [data]="pins.place"> </mgl-image>
+  <mgl-image id="shelter-pin" [data]="pins.shelter"> </mgl-image>
+  <!-- / -->
+
+  <!-- The POIs source -->
+  <mgl-geojson-source
+    id="pois"
+    [data]="geoJson"
+    [cluster]="true"
+    [clusterMaxZoom]="clusterMaxZoom"
+    [clusterRadius]="clusterRadius"
+  ></mgl-geojson-source>
+  <!-- / -->
+
+  <!-- The landing point source -->
+  <mgl-geojson-source id="center" [data]="centerGeoJson"></mgl-geojson-source>
+  <!-- / -->
+
+  <!-- The clusters -->
+  <mgl-layer
+    id="clustered-pois"
+    type="circle"
+    source="pois"
+    [filter]="['has', 'point_count']"
+    [paint]="{
+      'circle-color': clusterColor,
+      'circle-radius': {
+        property: 'point_count',
+        type: 'interval',
+        stops: clusterSizes
+      }
+    }"
+  >
+  </mgl-layer>
+  <!-- / -->
+
+  <!-- The cluster markers count -->
+  <mgl-layer
+    id="cluster-count"
+    type="symbol"
+    source="pois"
+    [filter]="['has', 'point_count']"
+    [layout]="{
+      'text-field': '{point_count_abbreviated}',
+      'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
+      'text-size': 12
+    }"
+  >
+  </mgl-layer>
+  <!-- / -->
+
+  <!-- The markers that do not fit any cluster -->
+  <mgl-layer
+    id="unclustered-pois"
+    type="symbol"
+    source="pois"
+    [filter]="['!has', 'point_count']"
+    [layout]="{
+      'icon-image': '{marker-symbol}',
+      'icon-offset': [0, 20]
+    }"
+    (click)="onMarkerClick($event)"
+  >
+  </mgl-layer>
+  <!-- / -->
+
+  <!-- The current landing point -->
+  <mgl-layer
+    id="center-point"
+    type="circle"
+    source="center"
+    [paint]="{
+      'circle-color': 'rgba(255, 95, 88, 0.8)',
+      'circle-radius': 8
+    }"
+  >
+  </mgl-layer>
+  <mgl-layer
+    id="center-point-2"
+    type="circle"
+    source="center"
+    [paint]="{
+      'circle-color': 'rgba(255, 95, 88, 0.5)',
+      'circle-radius': 20
+    }"
+  >
+  </mgl-layer>
+  <!-- / -->
+
+  <mgl-popup *ngIf="selectedFeature" [lngLat]="selectedFeature.geometry.coordinates" [closeOnClick]="true">
+    <div class="popup-close-button">
+      <button mat-icon-button (click)="closePopup()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    <div class="popup-content">
+      <div class="title">{{ selectedFeature.properties.title || selectedFeature.properties.name }}</div>
+      <div class="description" *ngIf="selectedFeature.properties.descr && selectedFeature.properties.descr != 'null'">
+        {{ selectedFeature.properties.descr }}
+      </div>
+      <div class="link">
+        <a routerLink="{{ selectedFeature.properties.internal_link }}">{{ 'OPEN_DETAIL' | translate }}</a>
+      </div>
+    </div>
+  </mgl-popup>
+</mgl-map>

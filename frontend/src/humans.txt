@@ -1,0 +1,15 @@
+# humanstxt.org/
+# The humans responsible & technology colophon
+
+# TEAM
+
+    <Marcello Barile> -- <https://twitter.com/marcello_barile> -- <https://github.com/marcellobarile>
+
+# THANKS
+
+    <Milli>
+
+# TECHNOLOGY COLOPHON
+
+    HTML5, CSS3
+    Angular, GraphQl

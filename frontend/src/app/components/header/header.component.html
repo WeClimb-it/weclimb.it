@@ -1,0 +1,65 @@
+<div fxLayout="column" class="header-content">
+  <div class="logo" title="WeClimb.it"></div>
+  <div class="search" title="{{ 'TYPE_TO_SEARCH' | translate }}" (keydown)="onSuggestionsKeyboardEvent($event)">
+    <input
+      #search
+      [placeholder]="'SEARCH_PLACEHOLDER' | translate"
+      [(ngModel)]="query"
+      (keyup)="$event.keyCode !== ENTER_KEY && onQueryChanged($event.target.value)"
+      (keyup.enter)="onSearch($event.target.value)"
+    />
+    <button class="search-button" mat-icon-button color="primary" disableRipple="true" (click)="onSearch()">
+      <mat-icon>search</mat-icon>
+    </button>
+    <button class="settings-button" mat-icon-button (click)="showSettings = !showSettings">
+      <mat-icon>settings</mat-icon>
+    </button>
+  </div>
+  <div class="suggestions" *ngIf="suggestedPlaces.length > 0 && showSuggestions && !showSettings">
+    <div
+      class="suggestion"
+      *ngFor="let suggestion of suggestedPlaces; index as i"
+      (click)="onSuggestionSelected(suggestion)"
+      [class]="i === suggestionsKeyboardSelectionIndex ? 'selected' : ''"
+    >
+      {{ suggestion.description }}
+    </div>
+  </div>
+  <div class="settings" *ngIf="showSettings">
+    <h4>{{ 'MAP_SETTINGS' | translate }}</h4>
+    <span [innerHTML]="'MAP_SETTINGS_DESCR' | translate"></span>
+    <div class="coeffSliders">
+      <div>
+        <ng5-slider
+          [(value)]="minWeatherCoeff"
+          [(highValue)]="maxWeatherCoeff"
+          [options]="sliderOptions"
+          (userChangeEnd)="onPreferencesUpdated()"
+        >
+        </ng5-slider>
+        <mat-icon aria-hidden="false">ac_unit</mat-icon>
+        <mat-icon aria-hidden="false">brightness_high</mat-icon>
+      </div>
+      <div>
+        <ng5-slider
+          [(value)]="minDistanceCoeff"
+          [(highValue)]="maxDistanceCoeff"
+          [options]="sliderOptions"
+          (userChangeEnd)="onPreferencesUpdated()"
+        ></ng5-slider>
+        <mat-icon aria-hidden="false">directions_walk</mat-icon>
+        <mat-icon aria-hidden="false">terrain</mat-icon>
+      </div>
+      <div>
+        <ng5-slider
+          [(value)]="minDifficultyCoeff"
+          [(highValue)]="maxDifficultyCoeff"
+          [options]="sliderOptions"
+          (userChangeEnd)="onPreferencesUpdated()"
+        ></ng5-slider>
+        <mat-icon aria-hidden="false">spa</mat-icon>
+        <mat-icon aria-hidden="false">fitness_center</mat-icon>
+      </div>
+    </div>
+  </div>
+</div>
