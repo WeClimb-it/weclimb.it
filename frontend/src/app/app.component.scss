@@ -67,6 +67,7 @@
   position: absolute;
   z-index: $maxZIndex - 1;
   bottom: 0;
+  left: 0;
   width: calc(100% - #{$sidebarWidth});
   height: calc(100% - #{$headerHeight});
   background-color: $contentBg;
