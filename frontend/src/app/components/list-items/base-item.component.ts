@@ -1,15 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { MediaPlayerComponent } from 'src/app/components/media-player/media-player.component';
 import { ContentType } from 'src/app/utils/ContentType';
 import { Poi } from 'src/app/utils/Poi';
+import { GeoLocation } from 'src/app/classes/geolocation.class';
 
 @Component({
   selector: 'wci-base-item',
   template: '<div></div>',
 })
 export class BaseListItemComponent {
+  @Input() currentLocation: GeoLocation;
+  @Input() userLocation: GeoLocation;
+  @Input() showCategory: boolean;
+
   // Used to construct the url of the detail page
   protected itemSection: ContentType;
 

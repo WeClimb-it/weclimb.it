@@ -10,7 +10,7 @@ import { MapUpdateEvent } from './interfaces/events/map-update.interface';
 import { SearchResult } from './interfaces/graphql/searchresult.type';
 import { UserInfo } from './interfaces/graphql/userinfo.type';
 import { AppStoreService } from './services/appState.service';
-import { PlaceSuggestion } from './services/geo.service';
+import { PlaceSuggestion, GeoService } from './services/geo.service';
 import { I18nService } from './services/i18n.service';
 import { PersistanceService } from './services/persistanceService';
 import { WciApiService } from './services/wciApi.service';
@@ -25,6 +25,8 @@ export class AppComponent implements OnInit {
   zoom = 9;
   year = new Date().getFullYear();
 
+  hasBrowserGeolocation = navigator && navigator.geolocation;
+  hasActivatedBrowserGeolocation = false;
   currentLocation: GeoLocation = new GeoLocation(0, 0);
   userLocation: GeoLocation;
   nearbyPois: SearchResult;
@@ -33,6 +35,7 @@ export class AppComponent implements OnInit {
   showContent = false;
   isFloatingContent = false;
   isNearbyLoading = true;
+  isLatestLoading = true;
 
   environment = environment;
 
@@ -43,6 +46,7 @@ export class AppComponent implements OnInit {
   constructor(
     private translate: TranslateService,
     private api: WciApiService,
+    private geoService: GeoService,
     private router: Router,
     private route: ActivatedRoute,
     private appStore: AppStoreService,
@@ -55,8 +59,15 @@ export class AppComponent implements OnInit {
     });
 
     this.appStore.watchProperty('currentLocation').subscribe((location: GeoLocation) => {
-      if (location && location !== this.currentLocation) {
+      if (location) {
         this.currentLocation = location;
+        this.getLatest();
+      }
+    });
+
+    this.appStore.watchProperty('currentUserLocation').subscribe((location: GeoLocation) => {
+      if (location) {
+        this.userLocation = location;
       }
     });
   }
@@ -109,7 +120,6 @@ export class AppComponent implements OnInit {
   onSuggestionSelected(suggestion: PlaceSuggestion): void {
     this.currentLocation = suggestion.geo;
     this.updateCurrentLocationInStore();
-    this.getLatest(this.currentLocation.lng, this.currentLocation.lat);
   }
 
   /**
@@ -147,6 +157,23 @@ export class AppComponent implements OnInit {
   /**
    *
    */
+  onEnableGeolocation(): void {
+    this.geoService.getLocationFromBrowser(
+      (position) => {
+        this.userLocation = new GeoLocation(position.coords.latitude, position.coords.longitude, '');
+        this.currentLocation = this.userLocation;
+        this.updateUserLocationInStore();
+        this.updateCurrentLocationInStore();
+      },
+      () => {
+        throw new Error('Something went wrong during the geolocation');
+      },
+    );
+  }
+
+  /**
+   *
+   */
   private bootstrap(): void {
     // First, let's retrieve some information about the user
     const sub$ = this.api.getUserInfo().subscribe((res: UserInfoResult) => {
@@ -159,20 +186,39 @@ export class AppComponent implements OnInit {
 
         this.initI18n();
 
-        // We set the user location as current one so the map is updated (it will trigger the "onMapUpdate" event)
-        this.currentLocation = new GeoLocation(
-          this.userData.geo.coords.lat,
-          this.userData.geo.coords.lng,
-          undefined,
-          this.userData.geo.city,
-        );
-        this.userLocation = this.currentLocation;
-        this.updateCurrentLocationInStore();
-        this.updateUserLocationInStore();
-        sub$.unsubscribe();
+        /*
+          We set the user location as current one so the map is updated
+          (note that it will trigger the "onMapUpdate" event)
 
-        // First load
-        this.getLatest(this.userData.geo.coords.lng, this.userData.geo.coords.lat);
+          At first, we try to retrieve the position from the browser,
+          in case of error or unapproved geolocation we use the position
+          coming from the back-end.
+        */
+        const doUpdateLocation = (location: GeoLocation) => {
+          this.userLocation = location;
+          this.updateCurrentLocationInStore();
+          this.updateUserLocationInStore();
+        };
+        this.geoService.getRespectfullyLocationFromBrowser(
+          (position) => {
+            // success
+            this.currentLocation = new GeoLocation(position.coords.latitude, position.coords.longitude, '');
+            doUpdateLocation(this.currentLocation);
+            this.hasActivatedBrowserGeolocation = true;
+          },
+          () => {
+            // error
+            this.currentLocation = new GeoLocation(
+              this.userData.geo.coords.lat,
+              this.userData.geo.coords.lng,
+              undefined,
+              this.userData.geo.city,
+            );
+            doUpdateLocation(this.currentLocation);
+          },
+        );
+
+        sub$.unsubscribe();
       }
     });
   }
@@ -211,11 +257,13 @@ export class AppComponent implements OnInit {
   /**
    *
    */
-  private getLatest(lng: number, lat: number): void {
+  private getLatest(): void {
+    this.isLatestLoading = true;
+
     const latestSubscription = this.api
       .getLatest({
-        lng,
-        lat,
+        lng: this.currentLocation.lng,
+        lat: this.currentLocation.lat,
       })
       .subscribe((res: LatestResult) => {
         if (res.errors) {
@@ -223,6 +271,7 @@ export class AppComponent implements OnInit {
         }
 
         if (!res.loading) {
+          this.isLatestLoading = false;
           this.latestPois = res.data.latest;
           latestSubscription.unsubscribe();
         }

@@ -13,8 +13,6 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class HikeListItemComponent extends BaseListItemComponent implements OnInit {
   @Input() data: Hike;
-  @Input() currentLocation: GeoLocation;
-  @Input() showCategory: boolean;
 
   protected itemSection = ContentType.HIKES;
 

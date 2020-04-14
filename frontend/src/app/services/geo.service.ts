@@ -6,6 +6,7 @@ import moment, { Duration } from 'moment';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { TranslateService } from '@ngx-translate/core';
+import { PersistanceService } from './persistanceService';
 
 const WINDOW: any = window || {};
 
@@ -140,6 +141,31 @@ export class GeoService {
   openGpxFileContent(url: string): void {
     // TODO: Use the Content-disposition header on the BE to download the file
     window.open(`${environment.rest.url}/track/${btoa(url)}`);
+  }
+
+  /**
+   *
+   */
+  getRespectfullyLocationFromBrowser(success: (location) => void, error: () => void): void {
+    if (PersistanceService.get('geoloc') === '1') {
+      this.getLocationFromBrowser(success, error);
+    } else {
+      error();
+    }
+  }
+
+  /**
+   *
+   */
+  getLocationFromBrowser(success: (location) => void, error: () => void): void {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((location) => {
+        PersistanceService.set('geoloc', '1');
+        success(location);
+      }, error);
+    } else {
+      error();
+    }
   }
 
   private getGeocoderInstance(): any {

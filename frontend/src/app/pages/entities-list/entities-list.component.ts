@@ -44,6 +44,7 @@ export class EntitiesListComponent implements OnInit, OnDestroy {
   specialItems: Record<string, Poi[]> = {};
 
   currentLocation: GeoLocation;
+  userLocation: GeoLocation;
   contentType: ContentType;
 
   navCurrentEndpoint = '';
@@ -100,6 +101,12 @@ export class EntitiesListComponent implements OnInit, OnDestroy {
       if (location) {
         this.currentLocation = location;
         this.doLoad();
+      }
+    });
+
+    this.appStoreSub$ = this.appStore.watchProperty('currentUserLocation').subscribe((location: GeoLocation) => {
+      if (location) {
+        this.userLocation = location;
       }
     });
   }

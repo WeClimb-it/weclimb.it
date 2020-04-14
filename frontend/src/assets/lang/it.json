@@ -40,7 +40,7 @@
   "SHELTER": "Rifugio",
   "IN_MONTH": "a",
   "OPEN_DETAIL": "Apri dettaglio",
-  "CURRENT_LOCATION": "Posizione corrente",
+  "CURRENT_LOCATION": "Centro mappa",
   "CRAGS_N_BOULDERS": "Falesie e blocchi",
   "SEE_FULL_LIST": "Apri lista completa",
   "NO_CRAGS_NEARBY": "Nessuna falesia vicina",
@@ -61,6 +61,7 @@
   "ONE_NEWS": "Notizia",
   "SEARCH_RESULTS": "Risultati",
   "FROM_YOU": "da te",
+  "FROM_HERE": "da qui",
   "YOU_ARE_HERE": "Sei qui",
   "DAYS": "giorni",
   "HRS": "ore",
@@ -78,5 +79,9 @@
   "OPEN_DIRECTIONS": "Apri tragitto in Google",
   "GITHUB": "Contribuisci su GitHub",
   "GITHUB_ISSUES": "Segnala un bug",
-  "LOADING": "Solo un attimo..."
+  "LOADING": "Solo un attimo...",
+  "USER_LOCATION_MESSAGE": "Non sei vicino {{city}}?",
+  "USER_LOCATION_MESSAGE_NO_CITY": "Cerchi una posizione migliore?",
+  "ENABLE_GEOLOCATION": "Attiva localizzazione",
+  "USE_GEOLOCATION": "Applica la tua posizione"
 }

@@ -13,8 +13,6 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class ShelterListItemComponent extends BaseListItemComponent implements OnInit {
   @Input() data: Shelter;
-  @Input() currentLocation: GeoLocation;
-  @Input() showCategory: boolean;
 
   protected itemSection = ContentType.SHELTERS;
 

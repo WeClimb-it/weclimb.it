@@ -18,6 +18,7 @@ export class DistancePipe implements PipeTransform {
     byWalk: boolean = false,
     byCar: boolean = false,
     showLabel: boolean = true,
+    fromUser: boolean = true,
   ): unknown {
     if (
       _.isEmpty(source) ||
@@ -63,11 +64,13 @@ export class DistancePipe implements PipeTransform {
     return source.toString() !== destination.toString()
       ? showLabel
         ? this.sanitizer.bypassSecurityTrustHtml(
-            `<strong>${distance}</strong> ${unit} ${this.translateService.instant('FROM_YOU')}`,
+            `<strong>${distance}</strong> ${unit} ${
+              fromUser ? this.translateService.instant('FROM_YOU') : this.translateService.instant('FROM_HERE')
+            }`,
           )
         : `${distance} ${unit}`
       : showLabel
       ? this.translateService.instant('YOU_ARE_HERE')
-      : 0;
+      : `0 ${unit}`;
   }
 }

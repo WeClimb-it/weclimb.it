@@ -2,7 +2,7 @@
   <div class="metadata">
     <mat-chip-list>
       <mat-chip class="no-mouse" color="accent" selected>
-        <span [innerHTML]="data.coords | distance: currentLocation"></span>
+        <span [innerHTML]="data.coords | distance: userLocation"></span>
       </mat-chip>
       <mat-chip *ngIf="showCategory" class="no-mouse category" selected>
         <span>{{ 'COMPETITION' | translate | uppercase }}</span>

@@ -14,8 +14,6 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class CragListItemComponent extends BaseListItemComponent implements OnInit {
   @Input() data: Crag;
-  @Input() currentLocation: GeoLocation;
-  @Input() showCategory: boolean;
 
   ROUTES_COUNT_GOOD_THRESHOLD = 20;
   ROUTES_COUNT_AWESOME_THRESHOLD = 60;
