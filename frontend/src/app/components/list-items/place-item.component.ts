@@ -13,8 +13,6 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class PlaceListItemComponent extends BaseListItemComponent implements OnInit {
   @Input() data: Place;
-  @Input() currentLocation: GeoLocation;
-  @Input() showCategory: boolean;
 
   protected itemSection = ContentType.PLACES;
 

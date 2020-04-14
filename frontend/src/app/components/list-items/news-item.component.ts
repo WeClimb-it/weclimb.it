@@ -12,8 +12,6 @@ import { BaseListItemComponent } from './base-item.component';
 })
 export class NewsListItemComponent extends BaseListItemComponent implements OnChanges {
   @Input() data: News;
-  @Input() currentLocation: GeoLocation;
-  @Input() showCategory: boolean;
 
   creationDate: Date;
 

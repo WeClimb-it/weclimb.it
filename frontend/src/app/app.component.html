@@ -6,7 +6,18 @@
     <button color="primary" mat-mini-fab [matMenuTriggerFor]="languagesMenu">
       <mat-icon>language</mat-icon>
     </button>
-    <mat-menu #menu="matMenu" class="menu">
+    <button
+      *ngIf="userLocation"
+      class="position-selector"
+      color="primary"
+      mat-mini-fab
+      [matMenuTriggerFor]="positionMenu"
+    >
+      <mat-icon>place</mat-icon>
+    </button>
+
+    <!-- The menu panel -->
+    <mat-menu #menu="matMenu" class="menu custom-menu">
       <button mat-menu-item (click)="onSectionSelected('crags')">{{ 'CRAGS' | translate }}</button>
       <button mat-menu-item (click)="onSectionSelected('hikes')">{{ 'HIKES' | translate }}</button>
       <button mat-menu-item (click)="onSectionSelected('shelters')">{{ 'SHELTERS' | translate }}</button>
@@ -44,7 +55,9 @@
       <div class="separator"></div>
       <div class="copyleft">(ɔ) - {{ year }} WeClimb.it</div>
     </mat-menu>
-    <mat-menu #languagesMenu="matMenu" class="languages-menu">
+
+    <!-- The languages panel -->
+    <mat-menu #languagesMenu="matMenu" class="languages-menu custom-menu">
       <button
         mat-menu-item
         *ngFor="let language of environment.i18n.availableLangsLabels; let i = index"
@@ -52,6 +65,22 @@
       >
         {{ language }}
       </button>
+    </mat-menu>
+
+    <!-- The user position panel -->
+    <mat-menu #positionMenu="matMenu" class="position-menu custom-menu">
+      <ng-container *ngIf="userLocation">
+        <span *ngIf="userLocation.city" class="message">{{
+          'USER_LOCATION_MESSAGE' | translate: { city: userLocation.city }
+        }}</span>
+        <span *ngIf="!userLocation.city" class="message">{{ 'USER_LOCATION_MESSAGE_NO_CITY' | translate }}</span>
+        <div>
+          <button mat-flat-button color="primary" (click)="onEnableGeolocation()">
+            <ng-container *ngIf="!hasActivatedBrowserGeolocation">{{ 'ENABLE_GEOLOCATION' | translate }}</ng-container>
+            <ng-container *ngIf="hasActivatedBrowserGeolocation">{{ 'USE_GEOLOCATION' | translate }}</ng-container>
+          </button>
+        </div>
+      </ng-container>
     </mat-menu>
   </div>
   <div class="map">
@@ -75,7 +104,7 @@
   </div>
   <div class="sidenav" fxShow="false" fxShow.gt-sm>
     <wci-sidebar
-      [loading]="isNearbyLoading"
+      [loading]="isLatestLoading"
       [currentLocation]="currentLocation"
       [pois]="latestPois"
       (sectionSelected)="onSectionSelected($event)"

@@ -14,8 +14,6 @@ import { BaseListItemComponent } from './base-item.component';
 })
 export class CompetitionListItemComponent extends BaseListItemComponent implements OnInit, OnChanges {
   @Input() data: Competition;
-  @Input() currentLocation: GeoLocation;
-  @Input() showCategory: boolean;
 
   hasBeenDisputed = false;
   types = [];

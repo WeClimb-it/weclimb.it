@@ -40,7 +40,7 @@
   "SHELTER": "Shelter",
   "IN_MONTH": "in",
   "OPEN_DETAIL": "Open detail",
-  "CURRENT_LOCATION": "Current location",
+  "CURRENT_LOCATION": "Map center",
   "CRAGS_N_BOULDERS": "Crags & boulders",
   "SEE_FULL_LIST": "Open the full list",
   "NO_CRAGS_NEARBY": "No crag nearby",
@@ -61,6 +61,7 @@
   "ONE_NEWS": "News",
   "SEARCH_RESULTS": "Results",
   "FROM_YOU": "from you",
+  "FROM_HERE": "from here",
   "YOU_ARE_HERE": "You are here",
   "DAYS": "days",
   "HRS": "hrs",
@@ -78,5 +79,9 @@
   "OPEN_DIRECTIONS": "Open directions in Google",
   "GITHUB": "Contribute on GitHub",
   "GITHUB_ISSUES": "Report a bug",
-  "LOADING": "Just a second..."
+  "LOADING": "Just a second...",
+  "USER_LOCATION_MESSAGE": "Far from {{city}}?",
+  "USER_LOCATION_MESSAGE_NO_CITY": "Do you need a more accurate location?",
+  "ENABLE_GEOLOCATION": "Enable geolocation",
+  "USE_GEOLOCATION": "Apply your position"
 }

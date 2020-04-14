@@ -41,6 +41,7 @@
   position: absolute;
   top: 15px;
   left: 15px;
+  right: 0;
   z-index: $maxZIndex + 1;
 
   .mat-flat-button.mat-primary,
@@ -48,17 +49,37 @@
   .mat-fab.mat-primary,
   .mat-mini-fab.mat-primary {
     @include mat-elevation(3, black, 0.4);
+    margin-right: 10px;
 
     background-color: rgba(white, 1);
     color: rgba(black, 0.5);
-    margin-right: 10px;
-
     &:hover {
       color: rgba(black, 0.8);
     }
 
-    &:last-child {
+    &.position-selector {
       margin-right: 0;
+      position: absolute;
+      right: 15px;
+      width: 28px;
+      height: 28px;
+      line-height: 28px;
+
+      background-color: rgba(white, 1);
+      color: rgba($primary, 1);
+      &:hover {
+        background-color: rgba(white, 0.8);
+      }
+
+      ::ng-deep .mat-button-wrapper {
+        padding: 0;
+      }
+
+      ::ng-deep .mat-icon {
+        height: 20px !important;
+        width: 20px !important;
+        font-size: 20px !important;
+      }
     }
   }
 }
@@ -107,6 +128,16 @@
   .actions {
     top: 5px;
     left: 5px;
+
+    .mat-flat-button.mat-primary,
+    .mat-raised-button.mat-primary,
+    .mat-fab.mat-primary,
+    .mat-mini-fab.mat-primary {
+      &.position-selector {
+        right: 10px;
+        top: 5px;
+      }
+    }
   }
 }
 
