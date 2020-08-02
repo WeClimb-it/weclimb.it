@@ -1,4 +1,4 @@
-import { Component, SimpleChanges, Input, OnChanges, HostListener } from '@angular/core';
+import { Component, SimpleChanges, Input, OnChanges, HostListener, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { WciApiService } from 'src/app/services/wciApi.service';
 import { Poi } from 'src/app/utils/Poi';
@@ -8,6 +8,8 @@ import { GeoLocation } from 'src/app/classes/geolocation.class';
 import { NearbyResult } from 'src/app/graphql/queries';
 import { Coords } from 'src/app/interfaces/graphql/coords.type';
 import { getGoogleMapsUrl } from 'src/app/utils/Map';
+import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
+import { PerfectScrollbarEvent } from 'ngx-perfect-scrollbar/lib/perfect-scrollbar.interfaces';
 
 @Component({
   selector: 'wci-base-card-item',
@@ -18,6 +20,8 @@ export class BaseCardItemComponent implements OnChanges {
   @Input() currentLocation: GeoLocation;
   @Input() userLocation: GeoLocation;
 
+  @ViewChild('sideScrollbar') scrollbar: PerfectScrollbarComponent;
+
   mapboxToken = environment.mapbox.token;
   staticMapSrc = '';
 
@@ -27,6 +31,10 @@ export class BaseCardItemComponent implements OnChanges {
   protected staticMapSizes = [303, 360];
 
   private disablePerfectScrollbarBreakpoint = 650;
+
+  private scrollYPos = 0;
+  private scrollStep = 120;
+  private scrollDuration = 500; // ms
 
   constructor(protected router: Router, protected api: WciApiService) {
     this.checkPerfectScrollbarPermit();
@@ -77,6 +85,24 @@ export class BaseCardItemComponent implements OnChanges {
           sub$.unsubscribe();
         });
     }
+  }
+
+  /**
+   *
+   */
+  scrollDown(): void {
+    if (!this.scrollbar) {
+      return;
+    }
+    this.scrollYPos += this.scrollStep;
+    this.scrollbar.directiveRef.scrollToY(this.scrollYPos, this.scrollDuration);
+  }
+
+  /**
+   *
+   */
+  onScrollEvent(): void {
+    this.scrollYPos = +this.scrollbar.directiveRef.position(true).y;
   }
 
   /**

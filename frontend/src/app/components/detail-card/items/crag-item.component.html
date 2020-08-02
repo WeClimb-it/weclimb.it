@@ -67,6 +67,11 @@
   </div>
 
   <div class="extra">
+    <div fxHide.xs="true" class="go-down-button" (click)="scrollDown()">
+      <button mat-fab color="primary">
+        <mat-icon>arrow_downward</mat-icon>
+      </button>
+    </div>
     <!-- The coeffs -->
     <div class="stats" *ngIf="data._stats">
       <div *ngIf="data.quality_rank.weather !== null" class="coeff">
@@ -87,7 +92,11 @@
 
     <!-- The lateral subcard -->
     <div class="sub-card">
-      <perfect-scrollbar [disabled]="isMapMoving || disablePerfectScrollbar">
+      <perfect-scrollbar
+        #sideScrollbar
+        (psScrollY)="onScrollEvent()"
+        [disabled]="isMapMoving || disablePerfectScrollbar"
+      >
         <!-- The dynamic map -->
         <div class="dynamic-map">
           <!-- The mini-map actions -->

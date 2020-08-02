@@ -97,6 +97,8 @@
 }
 
 .extra {
+  position: relative;
+
   .sub-card {
     @include mat-elevation(2, black, 0.15);
 
@@ -123,6 +125,29 @@
     mgl-map {
       height: 100%;
       width: 100%;
+    }
+  }
+
+  .go-down-button {
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: $maxZIndex;
+
+    button {
+      width: 42px;
+      height: 42px;
+      color: white;
+      box-shadow: none;
+
+      .mat-icon {
+        width: 28px;
+        height: 28px;
+        font-size: 28px;
+        line-height: 15px;
+        font-weight: bold;
+      }
     }
   }
 
