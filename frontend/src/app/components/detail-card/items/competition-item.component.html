@@ -48,6 +48,11 @@
   </div>
 
   <div class="extra">
+    <div fxHide.xs="true" class="go-down-button" (click)="scrollDown()">
+      <button mat-fab color="primary">
+        <mat-icon>arrow_downward</mat-icon>
+      </button>
+    </div>
     <div class="event-dates">
       <div *ngIf="startDate"><mat-icon>event_available</mat-icon> {{ startDate | amCalendar }}</div>
       <div *ngIf="endDate"><mat-icon>event_busy</mat-icon> {{ endDate | amCalendar }}</div>
@@ -56,7 +61,7 @@
 
     <!-- The lateral subcard -->
     <div class="sub-card">
-      <perfect-scrollbar [disabled]="disablePerfectScrollbar">
+      <perfect-scrollbar #sideScrollbar (psScrollY)="onScrollEvent()" [disabled]="disablePerfectScrollbar">
         <!-- The static map -->
         <div class="static-map">
           <div class="google-button" (click)="goToGoogle(data.coords)">

@@ -15,7 +15,7 @@
       "prefix": "wci",
       "architect": {
         "build": {
-          "builder": "@angular-builders/custom-webpack:browser",
+          "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "outputPath": "dist/frontend",
             "index": "src/index.html",
@@ -39,11 +39,7 @@
               "./node_modules/mapbox-gl/dist/mapbox-gl.css",
               "./node_modules/@mapbox/mapbox-gl-geocoder/lib/mapbox-gl-geocoder.css"
             ],
-            "scripts": ["src/assets/vendor/skycons.js"],
-            "customWebpackConfig": {
-              "path": "./custom-webpack.config.js",
-              "replaceDuplicatePlugins": true
-            }
+            "scripts": ["src/assets/vendor/skycons.js"]
           },
           "configurations": {
             "production": {

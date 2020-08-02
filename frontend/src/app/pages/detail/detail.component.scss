@@ -2,16 +2,26 @@
 
 .detail-container {
   position: absolute;
+  top: calc(50% + 55px);
+  transform: translateY(calc(-50% + 55px));
+
   z-index: $maxZIndex;
-  bottom: 50px;
+
   width: calc(100vw - #{$sidebarWidth});
-  height: 60vh;
+  height: 77vh;
   min-height: 320px;
+  max-height: 920px;
 
   wci-detail-card {
     display: inline-block;
     width: calc(100vw - #{$sidebarWidth} - 80px);
     max-width: 920px;
+  }
+}
+
+@media only screen and (max-height: 748px) {
+  .detail-container {
+    height: 60vh;
   }
 }
 
