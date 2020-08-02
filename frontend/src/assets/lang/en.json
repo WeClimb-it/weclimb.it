@@ -83,5 +83,5 @@
   "USER_LOCATION_MESSAGE": "Far from {{city}}?",
   "USER_LOCATION_MESSAGE_NO_CITY": "Do you need a more accurate location?",
   "ENABLE_GEOLOCATION": "Enable geolocation",
-  "USE_GEOLOCATION": "Apply your position"
+  "USE_GEOLOCATION": "Use your position"
 }

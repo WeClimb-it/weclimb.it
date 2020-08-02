@@ -81,7 +81,7 @@
   "GITHUB_ISSUES": "Segnala un bug",
   "LOADING": "Solo un attimo...",
   "USER_LOCATION_MESSAGE": "Non sei vicino {{city}}?",
-  "USER_LOCATION_MESSAGE_NO_CITY": "Cerchi una posizione migliore?",
+  "USER_LOCATION_MESSAGE_NO_CITY": "Cerchi una localizzazione più accurata?",
   "ENABLE_GEOLOCATION": "Attiva localizzazione",
-  "USE_GEOLOCATION": "Applica la tua posizione"
+  "USE_GEOLOCATION": "Usa la tua posizione"
 }
