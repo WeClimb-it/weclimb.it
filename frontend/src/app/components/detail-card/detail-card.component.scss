@@ -13,11 +13,12 @@
   .close-button {
     cursor: pointer;
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 14px;
+    right: 13px;
     opacity: 0.6;
+    border-radius: 10px;
     background: white;
-    z-index: $maxZIndex - 1;
+    z-index: $maxZIndex;
 
     &:hover {
       opacity: 1;
