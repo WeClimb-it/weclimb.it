@@ -235,4 +235,11 @@ export class WciApiService {
       variables: opts,
     }).valueChanges as Observable<OneNewsResult>;
   }
+
+  getOpenStreetMapNodes(opts: { lat: number; lng: number; distance: number }): Observable<object> {
+    return this.apollo.watchQuery({
+      query: Queries.osmNodes,
+      variables: opts,
+    }).valueChanges as Observable<object>;
+  }
 }

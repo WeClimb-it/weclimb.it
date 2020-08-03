@@ -229,6 +229,18 @@ export class AppComponent implements OnInit {
   private getNearby(): void {
     this.isNearbyLoading = true;
 
+    if (this.mapData.radius <= 10) {
+      this.api
+        .getOpenStreetMapNodes({
+          lng: this.mapData.coordinates[0],
+          lat: this.mapData.coordinates[1],
+          distance: this.mapData.radius,
+        })
+        .subscribe((res: unknown) => {
+          console.log('OSM', res);
+        });
+    }
+
     const nearbySubscription = this.api
       .getNearby({
         lng: this.mapData.coordinates[0],

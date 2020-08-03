@@ -495,4 +495,12 @@ export default class {
       ${fragments.ForecastResult}
     `;
   }
+
+  public static get osmNodes(): DocumentNode {
+    return gql`
+      query OsmNodes($lat: Float!, $lng: Float!, $distance: Int) {
+        osmNodes(lat: $lat, lng: $lng, distance: $distance)
+      }
+    `;
+  }
 }
