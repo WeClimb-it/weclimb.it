@@ -242,4 +242,11 @@ export class WciApiService {
       variables: opts,
     }).valueChanges as Observable<object>;
   }
+
+  getPhotos(opts: { query: string }): Observable<object> {
+    return this.apollo.watchQuery({
+      query: Queries.photos,
+      variables: opts,
+    }).valueChanges as Observable<object>;
+  }
 }

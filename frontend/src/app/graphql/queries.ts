@@ -498,8 +498,16 @@ export default class {
 
   public static get osmNodes(): DocumentNode {
     return gql`
-      query OsmNodes($lat: Float!, $lng: Float!, $distance: Int) {
+      query OsmNodes($lat: Float!, $lng: Float!, $distance: Int!) {
         osmNodes(lat: $lat, lng: $lng, distance: $distance)
+      }
+    `;
+  }
+
+  public static get photos(): DocumentNode {
+    return gql`
+      query Photos($query: String!) {
+        photos(query: $query)
       }
     `;
   }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router, RouterEvent } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import _ from 'lodash';
 import moment from 'moment-timezone';
 import { environment } from 'src/environments/environment';
 import { GeoLocation } from './classes/geolocation.class';
@@ -10,7 +11,7 @@ import { MapUpdateEvent } from './interfaces/events/map-update.interface';
 import { SearchResult } from './interfaces/graphql/searchresult.type';
 import { UserInfo } from './interfaces/graphql/userinfo.type';
 import { AppStoreService } from './services/appState.service';
-import { PlaceSuggestion, GeoService } from './services/geo.service';
+import { GeoService, PlaceSuggestion } from './services/geo.service';
 import { I18nService } from './services/i18n.service';
 import { PersistanceService } from './services/persistanceService';
 import { WciApiService } from './services/wciApi.service';
@@ -22,7 +23,7 @@ import { Poi } from './utils/Poi';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  zoom = 9;
+  zoom = 11;
   year = new Date().getFullYear();
 
   hasBrowserGeolocation = navigator && navigator.geolocation;
@@ -30,11 +31,13 @@ export class AppComponent implements OnInit {
   currentLocation: GeoLocation = new GeoLocation(0, 0);
   userLocation: GeoLocation;
   nearbyPois: SearchResult;
+  nearbyOsmPois: object;
   latestPois: SearchResult;
 
   showContent = false;
   isFloatingContent = false;
   isNearbyLoading = true;
+  isOsmNearbyLoading = true;
   isLatestLoading = true;
 
   environment = environment;
@@ -42,6 +45,10 @@ export class AppComponent implements OnInit {
   private mapData: MapUpdateEvent;
   private userData: UserInfo;
   private latestSearchOptions: SearchOptions;
+
+  private cancelableNearbySubscription;
+  private cancelableOsmSubscription;
+  private osmDetailsMinRadius = 20; // kms
 
   constructor(
     private translate: TranslateService,
@@ -70,6 +77,8 @@ export class AppComponent implements OnInit {
         this.userLocation = location;
       }
     });
+
+    this.onMapReadyOrUpdate = _.debounce(this.onMapReadyOrUpdate, 1500);
   }
 
   ngOnInit(): void {
@@ -229,19 +238,13 @@ export class AppComponent implements OnInit {
   private getNearby(): void {
     this.isNearbyLoading = true;
 
-    if (this.mapData.radius <= 10) {
-      this.api
-        .getOpenStreetMapNodes({
-          lng: this.mapData.coordinates[0],
-          lat: this.mapData.coordinates[1],
-          distance: this.mapData.radius,
-        })
-        .subscribe((res: unknown) => {
-          console.log('OSM', res);
-        });
+    this.getOsmNearby();
+
+    if (this.cancelableNearbySubscription) {
+      this.cancelableNearbySubscription.unsubscribe();
     }
 
-    const nearbySubscription = this.api
+    this.cancelableNearbySubscription = this.api
       .getNearby({
         lng: this.mapData.coordinates[0],
         lat: this.mapData.coordinates[1],
@@ -261,9 +264,51 @@ export class AppComponent implements OnInit {
         if (!res.loading) {
           this.isNearbyLoading = false;
           this.nearbyPois = res.data.nearby;
-          nearbySubscription.unsubscribe();
+          this.cancelableNearbySubscription.unsubscribe();
         }
       });
+  }
+
+  /**
+   *
+   */
+  private getOsmNearby(): void {
+    /*
+    // TODO: Do it on click
+    this.api
+      .getPhotos({ query: 'Monte Cerreto' })
+      .subscribe((res: { loading: boolean; data: Record<string, object> }) => {
+        if (!res.loading) {
+          console.log('photos', res.data);
+        }
+      });
+    */
+
+    if (this.mapData.radius <= this.osmDetailsMinRadius) {
+      if (this.cancelableOsmSubscription) {
+        this.cancelableOsmSubscription.unsubscribe();
+      }
+
+      this.isOsmNearbyLoading = true;
+
+      this.cancelableOsmSubscription = this.api
+        .getOpenStreetMapNodes({
+          lng: this.mapData.coordinates[0],
+          lat: this.mapData.coordinates[1],
+          distance: this.mapData.radius,
+        })
+        .subscribe((res: { loading: boolean; data: Record<string, object> }) => {
+          if (!res.loading) {
+            if (!_.isEmpty(res.data) && !_.isEmpty(res.data.osmNodes)) {
+              const { osmNodes: pois } = res.data;
+              this.nearbyOsmPois = pois;
+            }
+
+            this.isOsmNearbyLoading = false;
+            this.cancelableOsmSubscription.unsubscribe();
+          }
+        });
+    }
   }
 
   /**

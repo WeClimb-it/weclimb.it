@@ -12,7 +12,6 @@
   <!-- The map controls -->
   <mgl-control mglNavigation position="bottom-left"></mgl-control>
   <mgl-control mglScale unit="metric" position="bottom-right"></mgl-control>
-  <!-- / -->
 
   <!-- The Pins -->
   <mgl-image id="crag-pin" [data]="pins.crag"> </mgl-image>
@@ -20,7 +19,6 @@
   <mgl-image id="hike-pin" [data]="pins.hike"> </mgl-image>
   <mgl-image id="place-pin" [data]="pins.place"> </mgl-image>
   <mgl-image id="shelter-pin" [data]="pins.shelter"> </mgl-image>
-  <!-- / -->
 
   <!-- The POIs source -->
   <mgl-geojson-source
@@ -30,11 +28,29 @@
     [clusterMaxZoom]="clusterMaxZoom"
     [clusterRadius]="clusterRadius"
   ></mgl-geojson-source>
-  <!-- / -->
+
+  <!-- The OpenStreetMap POIs source -->
+  <mgl-geojson-source id="osmPois" [data]="osmGeoJson"></mgl-geojson-source>
 
   <!-- The landing point source -->
   <mgl-geojson-source id="center" [data]="centerGeoJson"></mgl-geojson-source>
-  <!-- / -->
+
+  <!-- The OpenStreetMap layer -->
+  <mgl-layer
+    id="osm-pois"
+    type="circle"
+    source="osmPois"
+    [paint]="{
+      'circle-color': clusterColor,
+      'circle-radius': {
+        property: 'point_count',
+        type: 'interval',
+        stops: clusterSizes
+      }
+    }"
+    (click)="onOpenStreetElementClick($event)"
+  >
+  </mgl-layer>
 
   <!-- The clusters -->
   <mgl-layer
@@ -52,7 +68,6 @@
     }"
   >
   </mgl-layer>
-  <!-- / -->
 
   <!-- The cluster markers count -->
   <mgl-layer
@@ -67,7 +82,6 @@
     }"
   >
   </mgl-layer>
-  <!-- / -->
 
   <!-- The markers that do not fit any cluster -->
   <mgl-layer
@@ -82,7 +96,6 @@
     (click)="onMarkerClick($event)"
   >
   </mgl-layer>
-  <!-- / -->
 
   <!-- The current landing point -->
   <mgl-layer
@@ -105,7 +118,6 @@
     }"
   >
   </mgl-layer>
-  <!-- / -->
 
   <mgl-popup *ngIf="selectedFeature" [lngLat]="selectedFeature.geometry.coordinates" [closeOnClick]="true">
     <div class="popup-close-button">

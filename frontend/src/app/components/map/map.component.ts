@@ -62,6 +62,10 @@ export class MapComponent implements OnInit, OnChanges {
   @Input() centerLocation: GeoLocation;
   @Input() userLocation: GeoLocation;
   @Input() pois: Pois;
+  @Input() osmPois: {
+    type: 'FeatureCollection';
+    features: GeoJSONFeature[];
+  };
 
   @Input() mapStyle = environment.mapbox.style;
   @Input() tracks: GeoTrack[];
@@ -89,6 +93,10 @@ export class MapComponent implements OnInit, OnChanges {
   centerCoords: number[];
   userCoords: number[];
   geoJson: {
+    type: 'FeatureCollection';
+    features: GeoJSONFeature[];
+  };
+  osmGeoJson: {
     type: 'FeatureCollection';
     features: GeoJSONFeature[];
   };
@@ -138,6 +146,12 @@ export class MapComponent implements OnInit, OnChanges {
       this.contructGeoJSONFromChange(changes.pois);
     }
 
+    console.log(changes);
+
+    if (changes.osmPois && changes.osmPois.currentValue) {
+      this.hydrateOsmGeoJSON();
+    }
+
     /*
     if (changes.tracks) {
       // Note: tracks are not supported at the moment in the main map
@@ -173,6 +187,20 @@ export class MapComponent implements OnInit, OnChanges {
       if (clickedPoint.properties.slug) {
         this.selectedFeature = clickedPoint;
       }
+    }
+  }
+
+  /**
+   *
+   */
+  onOpenStreetElementClick($event: any): void {
+    const features = this.mapInstance.queryRenderedFeatures($event.point, {
+      layers: ['osm-pois'],
+    });
+    if (features.length) {
+      const clickedPoint = features[0];
+      this.selectedFeature = clickedPoint;
+      console.log(clickedPoint);
     }
   }
 
@@ -274,6 +302,13 @@ export class MapComponent implements OnInit, OnChanges {
       type: 'FeatureCollection',
       features: this.geojsonFeatures,
     };
+  }
+
+  /**
+   *
+   */
+  private hydrateOsmGeoJSON(): void {
+    this.osmGeoJson = this.osmPois;
   }
 
   /**

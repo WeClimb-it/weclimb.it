@@ -36,8 +36,8 @@
         Privacy
       </button>
       <script type="text/javascript">
-        (function(w, d) {
-          var loader = function() {
+        (function (w, d) {
+          var loader = function () {
             var s = d.createElement('script'),
               tag = d.getElementsByTagName('script')[0];
             s.src = 'https://cdn.iubenda.com/iubenda.js';
@@ -83,6 +83,8 @@
       </ng-container>
     </mat-menu>
   </div>
+
+  <!-- The map -->
   <div class="map">
     <div class="header-container">
       <wci-header
@@ -98,10 +100,13 @@
       [centerLocation]="currentLocation"
       [userLocation]="userLocation"
       [pois]="nearbyPois"
+      [osmPois]="nearbyOsmPois"
       (ready)="onMapReadyOrUpdate($event)"
       (update)="onMapReadyOrUpdate($event)"
     ></wci-map>
   </div>
+
+  <!-- The sidenav -->
   <div class="sidenav" fxShow="false" fxShow.gt-sm>
     <wci-sidebar
       [loading]="isLatestLoading"
@@ -111,12 +116,16 @@
       (poiSelected)="onPoiSelected($event)"
     ></wci-sidebar>
   </div>
+
+  <!-- The content container -->
   <div class="content" *ngIf="showContent && !isFloatingContent">
     <div class="section">
       <router-outlet></router-outlet>
     </div>
   </div>
 </div>
+
+<!-- The floating content container -->
 <ng-container *ngIf="showContent && isFloatingContent">
   <router-outlet></router-outlet>
 </ng-container>
