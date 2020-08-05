@@ -273,17 +273,6 @@ export class AppComponent implements OnInit {
    *
    */
   private getOsmNearby(): void {
-    /*
-    // TODO: Do it on click
-    this.api
-      .getPhotos({ query: 'Monte Cerreto' })
-      .subscribe((res: { loading: boolean; data: Record<string, object> }) => {
-        if (!res.loading) {
-          console.log('photos', res.data);
-        }
-      });
-    */
-
     if (this.mapData.radius <= this.osmDetailsMinRadius) {
       if (this.cancelableOsmSubscription) {
         this.cancelableOsmSubscription.unsubscribe();

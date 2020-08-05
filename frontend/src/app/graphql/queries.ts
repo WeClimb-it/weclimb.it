@@ -12,6 +12,7 @@ import { SearchResult as SearchResultType } from '../interfaces/graphql/searchre
 import { Sector } from '../interfaces/graphql/sector.type';
 import { Shelter } from '../interfaces/graphql/shelter.type';
 import { UserInfo } from '../interfaces/graphql/userinfo.type';
+import { Photo } from '../interfaces/photo.interface';
 import * as fragments from './fragments';
 
 export type UserInfoResult = ApolloQueryResult<{ userInfo: UserInfo }>;
@@ -37,6 +38,7 @@ export type HikesResult = ApolloQueryResult<{ hikes: Hike[] }>;
 export type HikeResult = ApolloQueryResult<{ hike: Hike }>;
 export type SearchResult = ApolloQueryResult<{ search: SearchResultType }>;
 export type ForecastResult = ApolloQueryResult<{ forecast: ForecastResultType }>;
+export type PhotosResult = ApolloQueryResult<{ photos: Photo[] }>;
 
 export default class {
   public static get userInfo(): DocumentNode {
