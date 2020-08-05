@@ -44,4 +44,11 @@ export class SidebarComponent {
   goToSection(endpoint: string): void {
     this.sectionSelected.emit(endpoint);
   }
+
+  /**
+   *
+   */
+  get currentLocationStr(): string {
+    return `${this.currentLocation.lat.toFixed(4)}, ${this.currentLocation.lng.toFixed(4)}`;
+  }
 }
