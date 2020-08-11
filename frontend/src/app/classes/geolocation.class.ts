@@ -21,7 +21,14 @@ export class GeoLocation {
    * Returns a string of coordinates
    */
   toString(): string {
-    return capitalize(this.city) || `${this.lat.toFixed(3) || 0}, ${this.lng.toFixed(3) || 0}`;
+    return `${this.lat.toFixed(3) || 0}, ${this.lng.toFixed(3) || 0}`;
+  }
+
+  /**
+   * Returns the city name
+   */
+  get cityName(): string {
+    return capitalize(this.city);
   }
 
   /**

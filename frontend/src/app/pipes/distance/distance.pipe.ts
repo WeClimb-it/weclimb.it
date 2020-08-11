@@ -65,18 +65,20 @@ export class DistancePipe implements PipeTransform {
       distance = +metricDistance > 500 ? Math.floor(+metricDistance).toString() : metricDistance;
     }
 
-    return source.toString() !== destinationStr && +distance > 0
+    return source.toString() !== destinationStr
       ? showLabel
         ? this.sanitizer.bypassSecurityTrustHtml(
             `<strong>${distance} ${unit}</strong> ${
               fromUser
                 ? this.translateService.instant('FROM_YOU')
-                : this.translateService.instant('FROM_POINT', { point: destinationStr })
+                : this.translateService.instant('FROM_POINT', {
+                    point: (destination as GeoLocation).cityName || destinationStr,
+                  })
             }`,
           )
-        : `${distance} ${unit}`
+        : `<strong>${distance} ${unit}</strong>`
       : showLabel
       ? `<strong>${this.translateService.instant('YOU_ARE_HERE')}</strong>`
-      : `0 ${unit}`;
+      : `<strong>0 ${unit}</strong>`;
   }
 }
