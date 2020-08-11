@@ -6,7 +6,7 @@ import moment from 'moment-timezone';
 import { environment } from 'src/environments/environment';
 import { GeoLocation } from './classes/geolocation.class';
 import { SearchOptions } from './components/header/header.component';
-import { LatestResult, NearbyResult, UserInfoResult } from './graphql/queries';
+import { NearbyResult, UserInfoResult } from './graphql/queries';
 import { MapUpdateEvent } from './interfaces/events/map-update.interface';
 import { SearchResult } from './interfaces/graphql/searchresult.type';
 import { UserInfo } from './interfaces/graphql/userinfo.type';
@@ -32,13 +32,13 @@ export class AppComponent implements OnInit {
   userLocation: GeoLocation;
   nearbyPois: SearchResult;
   nearbyOsmPois: object;
-  latestPois: SearchResult;
+  // latestPois: SearchResult;
 
   showContent = false;
   isFloatingContent = false;
   isNearbyLoading = true;
   isOsmNearbyLoading = true;
-  isLatestLoading = true;
+  // isLatestLoading = true;
 
   environment = environment;
 
@@ -67,13 +67,15 @@ export class AppComponent implements OnInit {
     this.appStore.watchProperty('currentLocation').subscribe((location: GeoLocation) => {
       if (location) {
         this.currentLocation = location;
-        this.getLatest();
+        // this.getLatest();
+        this.getNearby();
       }
     });
 
     this.appStore.watchProperty('currentUserLocation').subscribe((location: GeoLocation) => {
       if (location) {
         this.userLocation = location;
+        this.getNearby();
       }
     });
 
@@ -235,6 +237,10 @@ export class AppComponent implements OnInit {
    *
    */
   private getNearby(): void {
+    if (!this.mapData) {
+      return;
+    }
+
     this.isNearbyLoading = true;
 
     this.getOsmNearby();
@@ -272,6 +278,10 @@ export class AppComponent implements OnInit {
    *
    */
   private getOsmNearby(): void {
+    if (!this.mapData) {
+      return;
+    }
+
     if (this.cancelableOsmSubscription) {
       this.cancelableOsmSubscription.unsubscribe();
     }
@@ -300,6 +310,7 @@ export class AppComponent implements OnInit {
   /**
    *
    */
+  /*
   private getLatest(): void {
     this.isLatestLoading = true;
 
@@ -320,6 +331,7 @@ export class AppComponent implements OnInit {
         }
       });
   }
+  */
 
   /**
    *

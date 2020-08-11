@@ -111,9 +111,9 @@
   <!-- The sidenav -->
   <div class="sidenav" fxShow="false" fxShow.gt-sm>
     <wci-sidebar
-      [loading]="isLatestLoading"
+      [loading]="isNearbyLoading"
       [currentLocation]="currentLocation"
-      [pois]="latestPois"
+      [pois]="nearbyPois"
       (sectionSelected)="onSectionSelected($event)"
       (poiSelected)="onPoiSelected($event)"
     ></wci-sidebar>
