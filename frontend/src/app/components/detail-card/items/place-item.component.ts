@@ -25,6 +25,8 @@ export class PlaceCardItemComponent extends BaseCardItemComponent implements Aft
 
   // TODO: This might be done only once, do it :-D
   ngAfterViewChecked(): void {
-    FB.XFBML.parse();
+    if (FB && FB.XFBML) {
+      FB.XFBML.parse();
+    }
   }
 }
