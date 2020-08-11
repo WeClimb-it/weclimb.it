@@ -101,6 +101,8 @@
       [userLocation]="userLocation"
       [pois]="nearbyPois"
       [osmPois]="nearbyOsmPois"
+      [loadingOsmData]="isOsmNearbyLoading"
+      [loadingWciData]="isNearbyLoading"
       (ready)="onMapReadyOrUpdate($event)"
       (update)="onMapReadyOrUpdate($event)"
     ></wci-map>

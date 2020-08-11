@@ -48,7 +48,6 @@ export class AppComponent implements OnInit {
 
   private cancelableNearbySubscription;
   private cancelableOsmSubscription;
-  private osmDetailsMinRadius = 20; // kms
 
   constructor(
     private translate: TranslateService,
@@ -273,31 +272,29 @@ export class AppComponent implements OnInit {
    *
    */
   private getOsmNearby(): void {
-    if (this.mapData.radius <= this.osmDetailsMinRadius) {
-      if (this.cancelableOsmSubscription) {
-        this.cancelableOsmSubscription.unsubscribe();
-      }
-
-      this.isOsmNearbyLoading = true;
-
-      this.cancelableOsmSubscription = this.api
-        .getOpenStreetMapNodes({
-          lng: this.mapData.coordinates[0],
-          lat: this.mapData.coordinates[1],
-          distance: this.mapData.radius,
-        })
-        .subscribe((res: { loading: boolean; data: Record<string, object> }) => {
-          if (!res.loading) {
-            if (!_.isEmpty(res.data) && !_.isEmpty(res.data.osmNodes)) {
-              const { osmNodes: pois } = res.data;
-              this.nearbyOsmPois = pois;
-            }
-
-            this.isOsmNearbyLoading = false;
-            this.cancelableOsmSubscription.unsubscribe();
-          }
-        });
+    if (this.cancelableOsmSubscription) {
+      this.cancelableOsmSubscription.unsubscribe();
     }
+
+    this.isOsmNearbyLoading = true;
+
+    this.cancelableOsmSubscription = this.api
+      .getOpenStreetMapNodes({
+        lng: this.mapData.coordinates[0],
+        lat: this.mapData.coordinates[1],
+        distance: this.mapData.radius,
+      })
+      .subscribe((res: { loading: boolean; data: Record<string, object> }) => {
+        if (!res.loading) {
+          if (!_.isEmpty(res.data) && !_.isEmpty(res.data.osmNodes)) {
+            const { osmNodes: pois } = res.data;
+            this.nearbyOsmPois = pois;
+          }
+
+          this.isOsmNearbyLoading = false;
+          this.cancelableOsmSubscription.unsubscribe();
+        }
+      });
   }
 
   /**

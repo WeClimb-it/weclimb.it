@@ -23,34 +23,14 @@
   <!-- The POIs source -->
   <mgl-geojson-source
     id="pois"
-    [data]="geoJson"
+    [data]="mapGeoJson"
     [cluster]="true"
     [clusterMaxZoom]="clusterMaxZoom"
     [clusterRadius]="clusterRadius"
   ></mgl-geojson-source>
 
-  <!-- The OpenStreetMap POIs source -->
-  <mgl-geojson-source id="osmPois" [data]="osmGeoJson"></mgl-geojson-source>
-
   <!-- The landing point source -->
   <mgl-geojson-source id="center" [data]="centerGeoJson"></mgl-geojson-source>
-
-  <!-- The OpenStreetMap layer -->
-  <mgl-layer
-    id="osm-pois"
-    type="circle"
-    source="osmPois"
-    [paint]="{
-      'circle-color': clusterColor,
-      'circle-radius': {
-        property: 'point_count',
-        type: 'interval',
-        stops: clusterSizes
-      }
-    }"
-    (click)="onOpenStreetElementClick($event)"
-  >
-  </mgl-layer>
 
   <!-- The clusters -->
   <mgl-layer
@@ -130,9 +110,19 @@
       <div class="description" *ngIf="selectedFeature.properties.descr && selectedFeature.properties.descr != 'null'">
         {{ selectedFeature.properties.descr }}
       </div>
-      <div class="link">
+      <div *ngIf="selectedFeature.properties.source === SOURCES.WCI" class="link">
         <a routerLink="{{ selectedFeature.properties.internal_link }}">{{ 'OPEN_DETAIL' | translate }}</a>
       </div>
     </div>
   </mgl-popup>
 </mgl-map>
+
+<!-- The loader -->
+<div *ngIf="loadingData" class="map-loader">
+  <div class="spinner">
+    <mat-spinner [diameter]="30"></mat-spinner>
+  </div>
+  <span class="text">
+    {{ 'LOADING_MAP' | translate }}
+  </span>
+</div>

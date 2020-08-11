@@ -25,7 +25,7 @@ import HikePin from './pins/hike';
 import PlacePin from './pins/place';
 import ShelterPin from './pins/shelter';
 import { PinUtils } from './pins/utils';
-import { GeoJSONFeature } from '../../interfaces/geo/GeoJSONFeature.interface';
+import { GeoJSONFeature, GeoJSON } from '../../interfaces/geo/GeoJSONFeature.interface';
 import { environment } from 'src/environments/environment';
 import { getGeoJsonFromCoords } from 'src/app/utils/Map';
 
@@ -62,13 +62,13 @@ export class MapComponent implements OnInit, OnChanges {
   @Input() centerLocation: GeoLocation;
   @Input() userLocation: GeoLocation;
   @Input() pois: Pois;
-  @Input() osmPois: {
-    type: 'FeatureCollection';
-    features: GeoJSONFeature[];
-  };
+  @Input() osmPois: GeoJSON;
 
   @Input() mapStyle = environment.mapbox.style;
   @Input() tracks: GeoTrack[];
+
+  @Input() loadingWciData: boolean;
+  @Input() loadingOsmData: boolean;
 
   @Output() ready = new EventEmitter<MapUpdateEvent>();
   @Output() update = new EventEmitter<MapUpdateEvent>();
@@ -79,6 +79,7 @@ export class MapComponent implements OnInit, OnChanges {
     EVENT: 'event-pin',
     SHELTER: 'shelter-pin',
     HIKE: 'hike-pin',
+    DRINKING_WATER: 'drinking-water-pin',
   };
 
   ENTITY_NAMESPACE = {
@@ -89,21 +90,26 @@ export class MapComponent implements OnInit, OnChanges {
     HIKE: 'hikes',
   };
 
+  OSM_WCI_MARKER_TYPE_MAP = {
+    'natural.peak': this.MARKER_TYPE.CRAG,
+    'natural.valley': this.MARKER_TYPE.CRAG,
+    'natural.cliff': this.MARKER_TYPE.CRAG,
+    'route.hiking': this.MARKER_TYPE.HIKE,
+    'highway.footway': this.MARKER_TYPE.HIKE,
+    'amenity.drinking_water': this.MARKER_TYPE.DRINKING_WATER,
+  };
+
+  SOURCES = {
+    WCI: 'wci',
+    OSM: 'osm',
+  };
+
   pins: { [key: string]: ImageData };
   centerCoords: number[];
   userCoords: number[];
-  geoJson: {
-    type: 'FeatureCollection';
-    features: GeoJSONFeature[];
-  };
-  osmGeoJson: {
-    type: 'FeatureCollection';
-    features: GeoJSONFeature[];
-  };
-  centerGeoJson: {
-    type: 'FeatureCollection';
-    features: GeoJSONFeature[];
-  };
+  geoJson: GeoJSON;
+  osmGeoJson: GeoJSON;
+  centerGeoJson: GeoJSON;
   selectedFeature: any;
 
   // Default props
@@ -126,7 +132,6 @@ export class MapComponent implements OnInit, OnChanges {
   private radians = 57.2958;
 
   private mapInstance: mapboxgl.Map;
-  private geojsonFeatures: GeoJSONFeature[];
 
   ngOnInit(): void {
     this.loadPins();
@@ -143,13 +148,11 @@ export class MapComponent implements OnInit, OnChanges {
     }
 
     if (changes.pois && changes.pois.currentValue) {
-      this.contructGeoJSONFromChange(changes.pois);
+      this.contructGeoJSONFromChange(changes.pois.currentValue);
     }
 
-    console.log(changes);
-
     if (changes.osmPois && changes.osmPois.currentValue) {
-      this.hydrateOsmGeoJSON();
+      this.hydrateOsmGeoJSON(changes.osmPois.currentValue);
     }
 
     /*
@@ -184,23 +187,11 @@ export class MapComponent implements OnInit, OnChanges {
     });
     if (features.length) {
       const clickedPoint = features[0];
-      if (clickedPoint.properties.slug) {
+      if (clickedPoint.layer.id === 'unclustered-pois') {
         this.selectedFeature = clickedPoint;
+      } else {
+        // TODO: Expand cluster
       }
-    }
-  }
-
-  /**
-   *
-   */
-  onOpenStreetElementClick($event: any): void {
-    const features = this.mapInstance.queryRenderedFeatures($event.point, {
-      layers: ['osm-pois'],
-    });
-    if (features.length) {
-      const clickedPoint = features[0];
-      this.selectedFeature = clickedPoint;
-      console.log(clickedPoint);
     }
   }
 
@@ -209,6 +200,23 @@ export class MapComponent implements OnInit, OnChanges {
    */
   closePopup(): void {
     this.selectedFeature = undefined;
+  }
+
+  /**
+   *
+   */
+  get mapGeoJson(): GeoJSON {
+    return {
+      type: 'FeatureCollection',
+      features: [...(this.geoJson ? this.geoJson.features : []), ...(this.osmGeoJson ? this.osmGeoJson.features : [])],
+    };
+  }
+
+  /**
+   *
+   */
+  get loadingData(): boolean {
+    return this.loadingOsmData || this.loadingWciData;
   }
 
   /**
@@ -256,7 +264,7 @@ export class MapComponent implements OnInit, OnChanges {
     _.each(entities, (e: Entity) => {
       const feature: GeoJSONFeature = {
         type: 'Feature',
-        properties: { ...e, 'marker-symbol': type, internal_link: `/${namespace}/${e.slug}` },
+        properties: { ...e, source: this.SOURCES.WCI, 'marker-symbol': type, internal_link: `/${namespace}/${e.slug}` },
         geometry: {
           type: 'Point',
           coordinates: [e.coords ? e.coords.lng : 0, e.coords ? e.coords.lat : 0],
@@ -270,45 +278,42 @@ export class MapComponent implements OnInit, OnChanges {
   /**
    *
    */
-  private contructGeoJSONFromChange(change: SimpleChange): void {
-    this.geojsonFeatures = [
-      ...this.translateToFeatureCollection(
-        change.currentValue.crags,
-        this.MARKER_TYPE.CRAG,
-        this.ENTITY_NAMESPACE.CRAG,
-      ),
-      ...this.translateToFeatureCollection(
-        change.currentValue.competitions,
-        this.MARKER_TYPE.EVENT,
-        this.ENTITY_NAMESPACE.EVENT,
-      ),
-      ...this.translateToFeatureCollection(
-        change.currentValue.places,
-        this.MARKER_TYPE.PLACE,
-        this.ENTITY_NAMESPACE.PLACE,
-      ),
-      ...this.translateToFeatureCollection(
-        change.currentValue.shelters,
-        this.MARKER_TYPE.SHELTER,
-        this.ENTITY_NAMESPACE.SHELTER,
-      ),
-      ...this.translateToFeatureCollection(
-        change.currentValue.hikes,
-        this.MARKER_TYPE.HIKE,
-        this.ENTITY_NAMESPACE.HIKE,
-      ),
-    ];
+  private contructGeoJSONFromChange(pois: Pois): void {
     this.geoJson = {
       type: 'FeatureCollection',
-      features: this.geojsonFeatures,
+      features: [
+        ...this.translateToFeatureCollection(pois.crags, this.MARKER_TYPE.CRAG, this.ENTITY_NAMESPACE.CRAG),
+        ...this.translateToFeatureCollection(pois.competitions, this.MARKER_TYPE.EVENT, this.ENTITY_NAMESPACE.EVENT),
+        ...this.translateToFeatureCollection(pois.places, this.MARKER_TYPE.PLACE, this.ENTITY_NAMESPACE.PLACE),
+        ...this.translateToFeatureCollection(pois.shelters, this.MARKER_TYPE.SHELTER, this.ENTITY_NAMESPACE.SHELTER),
+        ...this.translateToFeatureCollection(pois.hikes, this.MARKER_TYPE.HIKE, this.ENTITY_NAMESPACE.HIKE),
+      ],
     };
   }
 
   /**
    *
    */
-  private hydrateOsmGeoJSON(): void {
-    this.osmGeoJson = this.osmPois;
+  private hydrateOsmGeoJSON(pois: { features: GeoJSONFeature[] }): void {
+    const injectMarker = (poi: GeoJSONFeature): void => {
+      _.each(this.OSM_WCI_MARKER_TYPE_MAP, (mapValue: string, mapKey: string) => {
+        const kPieces = mapKey.split('.');
+        const key = kPieces[0];
+        const value = kPieces[1];
+        if (poi.properties[key] === value) {
+          poi.properties['marker-symbol'] = mapValue;
+          poi.properties.source = this.SOURCES.OSM;
+          return false;
+        }
+      });
+    };
+
+    _.each(pois.features, injectMarker);
+
+    this.osmGeoJson = {
+      type: 'FeatureCollection',
+      features: pois.features,
+    };
   }
 
   /**
