@@ -1,0 +1,11 @@
+@import 'common';
+
+@include item-extras();
+
+.extra {
+  .sub-card {
+    top: 20px;
+  }
+}
+
+@include breakpoints();

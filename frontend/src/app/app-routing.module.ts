@@ -41,6 +41,8 @@ const routes: Routes = [
   // Not supported yet
   // { path: 'news/:slug', component: DetailComponent, data: { type: ContentType.ONE_NEWS, isFloatingContent: true } },
 
+  { path: 'pois/:nodeId', component: DetailComponent, data: { type: ContentType.OSM_NODE, isFloatingContent: true } },
+
   { path: 'search/:query', component: EntitiesListComponent, data: { type: ContentType.SEARCH } },
   { path: 'search/:query/page/:page', component: EntitiesListComponent, data: { type: ContentType.SEARCH } },
 

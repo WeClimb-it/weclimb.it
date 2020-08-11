@@ -113,9 +113,15 @@
       <div class="description" *ngIf="selectedFeature.properties.descr && selectedFeature.properties.descr != 'null'">
         {{ selectedFeature.properties.descr }}
       </div>
-      <div *ngIf="selectedFeature.properties.source === SOURCES.WCI" class="link">
-        <a routerLink="{{ selectedFeature.properties.internal_link }}">{{ 'OPEN_DETAIL' | translate }}</a>
+      <div [ngSwitch]="selectedFeature.properties.source" class="link">
+        <div *ngSwitchCase="SOURCES.OSM">
+          <a routerLink="{{ selectedFeature.properties.internal_link }}">{{ 'OPEN_DETAIL' | translate }}</a>
+        </div>
+        <div *ngSwitchDefault>
+          <a routerLink="{{ selectedFeature.properties.internal_link }}">{{ 'OPEN_DETAIL' | translate }}</a>
+        </div>
       </div>
+      <div *ngIf="selectedFeature.properties.source === SOURCES.WCI" class="link"></div>
     </div>
   </mgl-popup>
 </mgl-map>

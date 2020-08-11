@@ -51,8 +51,8 @@ export class DetailComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.routeSub$ = this.route.params.subscribe((params: Params) => {
       // Load data on slug change
-      if (params.slug) {
-        this.loadData(params.slug);
+      if (params.slug || params.nodeId) {
+        this.loadData(params.slug || params.nodeId);
       } else {
         this.isErrored = true;
       }
@@ -74,8 +74,9 @@ export class DetailComponent implements OnInit, OnDestroy {
   /**
    *
    */
-  private loadData(slug: string): void {
-    let query;
+  private loadData(refId: string): void {
+    let query = null;
+    let opts = {};
     let resultPayloadProperty: ContentType;
     resultPayloadProperty = this.route.snapshot.data.type;
 
@@ -84,25 +85,34 @@ export class DetailComponent implements OnInit, OnDestroy {
         throw new Error(`Unexpected content type was given [${this.contentType}].`);
       case ContentType.CRAG:
         query = this.api.getCrag;
+        opts = { slug: refId };
         break;
       case ContentType.HIKE:
         query = this.api.getHike;
+        opts = { slug: refId };
         break;
       case ContentType.SHELTER:
         query = this.api.getShelter;
+        opts = { slug: refId };
         break;
       case ContentType.PLACE:
         query = this.api.getPlace;
+        opts = { slug: refId };
         break;
       case ContentType.COMPETITION:
         query = this.api.getCompetition;
+        opts = { slug: refId };
+        break;
+      case ContentType.OSM_NODE:
+        query = this.api.getOpenStreetMapNode;
+        opts = { nodeId: refId };
         break;
     }
 
     if (typeof query === 'function') {
       this.isLoading = true;
 
-      const sub$ = query({ slug }).subscribe((res: Results) => {
+      const sub$ = query(opts).subscribe((res: Results) => {
         if (res.errors) {
           throw new Error('Something went wrong during the nearby query');
         }

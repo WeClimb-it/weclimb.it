@@ -14,6 +14,7 @@ export enum ContentType {
   NEWS = 'news',
   ONE_NEWS = 'oneNews',
   SEARCH = 'search',
+  OSM_NODE = 'osmNode',
 }
 
 /**
@@ -42,5 +43,7 @@ export const getSectionFromItem = (item: Poi): string => {
       return ContentType.COMPETITIONS;
     case 'News':
       return ContentType.NEWS;
+    case 'OsmNode':
+      return ContentType.OSM_NODE;
   }
 };

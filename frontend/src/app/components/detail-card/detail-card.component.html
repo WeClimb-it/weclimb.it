@@ -40,6 +40,13 @@
         [userLocation]="userLocation"
       ></wci-competition-card-item>
     </ng-container>
+    <ng-container *ngSwitchCase="'osmNode'">
+      <wci-poi-card-item
+        [data]="data"
+        [currentLocation]="currentLocation"
+        [userLocation]="userLocation"
+      ></wci-poi-card-item>
+    </ng-container>
     <ng-container *ngSwitchDefault>{{ 'ERROR' | translate }}</ng-container>
   </ng-container>
 </div>

@@ -24,6 +24,7 @@ import { CragCardItemComponent } from './components/detail-card/items/crag-item.
 import { HikeCardItemComponent } from './components/detail-card/items/hike-item.component';
 import { PlaceCardItemComponent } from './components/detail-card/items/place-item.component';
 import { ShelterCardItemComponent } from './components/detail-card/items/shelter-item.component';
+import { PoiCardItemComponent } from './components/detail-card/items/poi-item.component';
 import { HeaderComponent } from './components/header/header.component';
 import { CompetitionListItemComponent } from './components/list-items/competition-item.component';
 import { CragListItemComponent } from './components/list-items/crag-item.component';
@@ -70,6 +71,7 @@ const appComponents = [
   ShelterCardItemComponent,
   PlaceCardItemComponent,
   CompetitionCardItemComponent,
+  PoiCardItemComponent,
   MediaPlayerComponent,
   LoaderComponent,
   DetailCardComponent,

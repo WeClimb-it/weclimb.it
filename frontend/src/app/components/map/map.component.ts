@@ -292,8 +292,12 @@ export class MapComponent implements OnInit, OnChanges {
         const key = kPieces[0];
         const value = kPieces[1];
         if (poi.properties[key] === value) {
-          poi.properties['marker-symbol'] = mapValue;
-          poi.properties.source = this.SOURCES.OSM;
+          poi.properties = {
+            ...poi.properties,
+            'marker-symbol': mapValue,
+            source: this.SOURCES.OSM,
+            internal_link: `/pois/${(poi.properties.id as string).split('/')[1]}`,
+          };
           return false;
         }
       });

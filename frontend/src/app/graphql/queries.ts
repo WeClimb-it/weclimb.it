@@ -506,6 +506,14 @@ export default class {
     `;
   }
 
+  public static get osmNode(): DocumentNode {
+    return gql`
+      query OsmNode($nodeId: String!) {
+        osmNode(nodeId: $nodeId)
+      }
+    `;
+  }
+
   public static get photos(): DocumentNode {
     return gql`
       query Photos($query: String!) {
