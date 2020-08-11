@@ -49,6 +49,8 @@ export class AppComponent implements OnInit {
   private cancelableNearbySubscription;
   private cancelableOsmSubscription;
 
+  private osmRadiusThreshold = 137;
+
   constructor(
     private translate: TranslateService,
     private api: WciApiService,
@@ -243,7 +245,9 @@ export class AppComponent implements OnInit {
 
     this.isNearbyLoading = true;
 
-    this.getOsmNearby();
+    if (this.mapData.radius < this.osmRadiusThreshold) {
+      this.getOsmNearby();
+    }
 
     if (this.cancelableNearbySubscription) {
       this.cancelableNearbySubscription.unsubscribe();
