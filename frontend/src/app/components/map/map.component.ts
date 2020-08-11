@@ -1,14 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  OnInit,
-  Output,
-  SimpleChange,
-  SimpleChanges,
-  ViewChild,
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import _ from 'lodash';
 import { MapComponent as MapBoxComponent } from 'ngx-mapbox-gl';
 import { GeoLocation } from 'src/app/classes/geolocation.class';
@@ -19,15 +9,16 @@ import { Crag } from 'src/app/interfaces/graphql/crag.type';
 import { Hike } from 'src/app/interfaces/graphql/hike.type';
 import { Place } from 'src/app/interfaces/graphql/place.type';
 import { Shelter } from 'src/app/interfaces/graphql/shelter.type';
+import { getGeoJsonFromCoords } from 'src/app/utils/Map';
+import { environment } from 'src/environments/environment';
+import { GeoJSON, GeoJSONFeature } from '../../interfaces/geo/GeoJSONFeature.interface';
 import CragPin from './pins/crag';
 import EventPin from './pins/event';
 import HikePin from './pins/hike';
 import PlacePin from './pins/place';
 import ShelterPin from './pins/shelter';
+import DrinkingWaterPin from './pins/drinking-water';
 import { PinUtils } from './pins/utils';
-import { GeoJSONFeature, GeoJSON } from '../../interfaces/geo/GeoJSONFeature.interface';
-import { environment } from 'src/environments/environment';
-import { getGeoJsonFromCoords } from 'src/app/utils/Map';
 
 export enum POI_TYPE {
   CRAG = 'crag',
@@ -333,6 +324,7 @@ export class MapComponent implements OnInit, OnChanges {
       hike: await PinUtils.toImageData(HikePin),
       place: await PinUtils.toImageData(PlacePin),
       shelter: await PinUtils.toImageData(ShelterPin),
+      'drinking-water': await PinUtils.toImageData(DrinkingWaterPin),
     };
     this.renderMap = true;
   }
