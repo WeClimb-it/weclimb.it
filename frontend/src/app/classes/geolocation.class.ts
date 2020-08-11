@@ -1,3 +1,5 @@
+import { capitalize } from 'lodash';
+
 export class GeoLocation {
   constructor(
     public lat: number,
@@ -19,7 +21,7 @@ export class GeoLocation {
    * Returns a string of coordinates
    */
   toString(): string {
-    return `${this.lng || 0},${this.lat || 0}`;
+    return capitalize(this.city) || `${this.lat.toFixed(3) || 0}, ${this.lng.toFixed(3) || 0}`;
   }
 
   /**

@@ -60,6 +60,7 @@
   "NEAR_COMPETITIONS": "Gare vicine",
   "ONE_NEWS": "Notizia",
   "SEARCH_RESULTS": "Risultati",
+  "FROM_POINT": "da <strong>{{point}}</strong>",
   "FROM_YOU": "da te",
   "FROM_HERE": "da qui",
   "YOU_ARE_HERE": "Sei qui",
@@ -84,5 +85,6 @@
   "USER_LOCATION_MESSAGE": "Non sei vicino {{city}}?",
   "USER_LOCATION_MESSAGE_NO_CITY": "Cerchi una localizzazione più accurata?",
   "ENABLE_GEOLOCATION": "Attiva localizzazione",
-  "USE_GEOLOCATION": "Usa la tua posizione"
+  "USE_GEOLOCATION": "Usa la tua posizione",
+  "UNKNOWN": "sconosciuto"
 }

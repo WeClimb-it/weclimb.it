@@ -106,7 +106,9 @@
       </button>
     </div>
     <div class="popup-content">
-      <div class="title">{{ selectedFeature.properties.title || selectedFeature.properties.name }}</div>
+      <div class="title">
+        {{ selectedFeature.properties.title || selectedFeature.properties.name || ('UNKNOWN' | translate) }}
+      </div>
       <div class="description" *ngIf="selectedFeature.properties.descr && selectedFeature.properties.descr != 'null'">
         {{ selectedFeature.properties.descr }}
       </div>
