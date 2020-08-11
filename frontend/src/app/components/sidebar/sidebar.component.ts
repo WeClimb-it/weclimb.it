@@ -31,6 +31,8 @@ export class SidebarComponent {
   @Output() poiSelected: EventEmitter<Poi> = new EventEmitter<Poi>();
   @Output() sectionSelected: EventEmitter<string> = new EventEmitter<string>();
 
+  MAX_ITEMS = 10;
+
   /**
    *
    */

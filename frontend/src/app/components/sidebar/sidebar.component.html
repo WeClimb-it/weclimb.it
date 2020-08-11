@@ -16,7 +16,7 @@
     <ng-container *ngIf="pois">
       <ng-container *ngIf="pois.crags.length > 0">
         <perfect-scrollbar class="list white-scroll">
-          <div class="item poi" *ngFor="let item of pois.crags" (click)="onEntitySelected(item)">
+          <div class="item poi" *ngFor="let item of pois.crags.slice(0, MAX_ITEMS)" (click)="onEntitySelected(item)">
             <h2>{{ item.title }}</h2>
             <span [innerHTML]="item.coords | distance: currentLocation:false:false:false:false"></span>
           </div>
@@ -38,14 +38,18 @@
       <ng-container *ngIf="pois.hikes.length > 0 || pois.shelters.length > 0">
         <perfect-scrollbar class="list white-scroll">
           <div *ngIf="pois.hikes.length > 0">
-            <div class="item hike" *ngFor="let item of pois.hikes" (click)="onEntitySelected(item)">
+            <div class="item hike" *ngFor="let item of pois.hikes.slice(0, MAX_ITEMS)" (click)="onEntitySelected(item)">
               <h2>{{ item.title }}</h2>
               <span [innerHTML]="item.coords | distance: currentLocation:false:false:false:false"></span>
             </div>
           </div>
           <div *ngIf="pois.shelters.length > 0 && pois.hikes.length > 0" class="divider"></div>
           <div *ngIf="pois.shelters.length > 0">
-            <div class="item shelter" *ngFor="let item of pois.shelters" (click)="onEntitySelected(item)">
+            <div
+              class="item shelter"
+              *ngFor="let item of pois.shelters.slice(0, MAX_ITEMS)"
+              (click)="onEntitySelected(item)"
+            >
               <h2>{{ item.name }}</h2>
               <span [innerHTML]="item.coords | distance: currentLocation:false:false:false:false"></span>
             </div>
@@ -71,14 +75,22 @@
       <ng-container *ngIf="pois.places.length > 0 || pois.competitions.length > 0">
         <perfect-scrollbar class="list white-scroll">
           <div *ngIf="pois.places.length > 0">
-            <div class="item place" *ngFor="let item of pois.places" (click)="onEntitySelected(item)">
+            <div
+              class="item place"
+              *ngFor="let item of pois.places.slice(0, MAX_ITEMS)"
+              (click)="onEntitySelected(item)"
+            >
               <h2>{{ item.title }}</h2>
               <span [innerHTML]="item.coords | distance: currentLocation:false:false:false:false"></span>
             </div>
           </div>
           <div *ngIf="pois.competitions.length > 0 && pois.places.length > 0" class="divider"></div>
           <div *ngIf="pois.competitions.length > 0">
-            <div class="item competition" *ngFor="let item of pois.competitions" (click)="onEntitySelected(item)">
+            <div
+              class="item competition"
+              *ngFor="let item of pois.competitions.slice(0, MAX_ITEMS)"
+              (click)="onEntitySelected(item)"
+            >
               <h2>{{ item.title }}</h2>
               <span [innerHTML]="item.coords | distance: currentLocation:false:false:false:false"></span>
             </div>
