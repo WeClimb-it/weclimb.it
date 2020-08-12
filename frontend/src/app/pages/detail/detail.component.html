@@ -1,4 +1,4 @@
-<div class="detail-container" fxLayout="row" fxLayoutAlign="center">
+<div class="detail-container" [ngClass]="{ small: contentType === 'osmNode' }" fxLayout="row" fxLayoutAlign="center">
   <wci-detail-card
     [type]="contentType"
     [currentLocation]="currentLocation"

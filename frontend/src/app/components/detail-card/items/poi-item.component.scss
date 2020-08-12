@@ -3,8 +3,23 @@
 @include item-extras();
 
 .extra {
+  width: 100% !important;
+
   .sub-card {
-    top: 20px;
+    zoom: 1 !important;
+    top: 8px;
+  }
+
+  &.withTitle {
+    h4 {
+      @include multilineTruncate(2);
+      font-size: 14px;
+      text-transform: capitalize;
+    }
+
+    .sub-card {
+      top: 35px;
+    }
   }
 }
 

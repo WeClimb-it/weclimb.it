@@ -1,4 +1,4 @@
-<div class="detail-card">
+<div class="detail-card" [ngClass]="{ small: type === 'osmNode' }">
   <div class="close-button">
     <button mat-icon-button (click)="close()">
       <mat-icon>close</mat-icon>

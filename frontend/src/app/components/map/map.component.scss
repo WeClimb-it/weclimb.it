@@ -40,6 +40,15 @@ mgl-map {
     width: 220px;
     height: 180px;
 
+    &.small {
+      height: auto;
+
+      .link {
+        position: relative;
+        text-align: left;
+      }
+    }
+
     .title {
       @include multilineTruncate(3);
       text-transform: uppercase;

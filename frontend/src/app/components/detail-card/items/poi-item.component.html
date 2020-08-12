@@ -1,18 +1,14 @@
 <div *ngIf="data" class="container poi" fxLayout>
-  <div class="info">
-    <perfect-scrollbar [disabled]="disablePerfectScrollbar">
-      <!-- The item title -->
-      <h4>{{ data.name }}</h4>
-      <!-- -->
-    </perfect-scrollbar>
-  </div>
-
-  <div class="extra">
+  <div class="extra" [ngClass]="{ withTitle: !!data.name }">
     <div fxHide.xs="true" class="go-down-button" (click)="scrollDown()">
       <button mat-fab color="primary">
         <mat-icon>arrow_downward</mat-icon>
       </button>
     </div>
+
+    <!-- The item title -->
+    <h4>{{ data.name }}</h4>
+    <!-- -->
 
     <!-- The lateral subcard -->
     <div class="sub-card">
