@@ -23,7 +23,11 @@ export class ShelterCardItemComponent extends BaseItemWithDynamicMapComponent im
 
   // TODO: This should be done on the BE
   get phoneNumbers(): string[] {
-    const rawPhones = (this.data.phone || this.data.mobile).replace(/\s+/g, '').split(/[^\d/+/-]/gm);
-    return rawPhones;
+    if ((!this.data.phone && !this.data.mobile) || (this.data.phone === null && this.data.mobile === null)) {
+      return [];
+    }
+
+    const rawPhones = (this.data.phone || this.data.mobile).replace(/[\s-\/]+/g, '').split(/[^\d+-/(/)]/gm);
+    return rawPhones.filter((value: string) => value.length > 3);
   }
 }
