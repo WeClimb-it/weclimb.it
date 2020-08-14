@@ -5,6 +5,13 @@
       <h4>{{ data.name }}</h4>
       <!-- -->
 
+      <div *ngFor="let phone of phoneNumbers" color="primary" class="call-button">
+        <a [href]="'tel:' + phone">
+          <mat-icon aria-hidden="false">phone</mat-icon>
+          <strong>{{ phone }}</strong>
+        </a>
+      </div>
+
       <div *ngIf="data.descr" class="description">
         {{ data.descr | capitalizeFirst }}
 

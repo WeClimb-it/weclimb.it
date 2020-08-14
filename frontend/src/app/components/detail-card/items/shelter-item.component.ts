@@ -20,4 +20,10 @@ export class ShelterCardItemComponent extends BaseItemWithDynamicMapComponent im
   ngOnChanges(changes: SimpleChanges): void {
     super.ngOnChanges(changes);
   }
+
+  // TODO: This should be done on the BE
+  get phoneNumbers(): string[] {
+    const rawPhones = (this.data.phone || this.data.mobile).replace(/\s+/g, '').split(/[^\d/+/-]/gm);
+    return rawPhones;
+  }
 }
