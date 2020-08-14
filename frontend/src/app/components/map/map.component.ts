@@ -117,7 +117,7 @@ export class MapComponent implements OnInit, OnChanges {
   selectedCoordinates: any;
 
   // Default props
-  minZoom = 6;
+  minZoom = 8;
   maxZoom = 22;
   clusterMaxZoom = 17;
   clusterRadius = 50;
