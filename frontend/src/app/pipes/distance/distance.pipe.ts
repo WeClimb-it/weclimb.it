@@ -31,6 +31,8 @@ export class DistancePipe implements PipeTransform {
       return 'n.a.';
     }
 
+    let destinationStr = '';
+
     if (!(source instanceof GeoLocation)) {
       if (!source.hasOwnProperty('lat') || !source.hasOwnProperty('lng')) {
         throw new Error('Invalid geo object was given.');
@@ -44,6 +46,8 @@ export class DistancePipe implements PipeTransform {
       }
       destination = new GeoLocation((destination as Coords).lat, (destination as Coords).lng);
     }
+
+    destinationStr = destination.toString();
 
     const metricDistance = this.geo.getDistanceFromCoords(source as GeoLocation, destination as GeoLocation);
     let distance = '';
@@ -61,16 +65,20 @@ export class DistancePipe implements PipeTransform {
       distance = +metricDistance > 500 ? Math.floor(+metricDistance).toString() : metricDistance;
     }
 
-    return source.toString() !== destination.toString()
+    return source.toString() !== destinationStr
       ? showLabel
         ? this.sanitizer.bypassSecurityTrustHtml(
-            `<strong>${distance}</strong> ${unit} ${
-              fromUser ? this.translateService.instant('FROM_YOU') : this.translateService.instant('FROM_HERE')
+            `<strong>${distance} ${unit}</strong> ${
+              fromUser
+                ? this.translateService.instant('FROM_YOU')
+                : this.translateService.instant('FROM_POINT', {
+                    point: (destination as GeoLocation).cityName || destinationStr,
+                  })
             }`,
           )
-        : `${distance} ${unit}`
+        : `<strong>${distance} ${unit}</strong>`
       : showLabel
-      ? this.translateService.instant('YOU_ARE_HERE')
-      : `0 ${unit}`;
+      ? `<strong>${this.translateService.instant('YOU_ARE_HERE')}</strong>`
+      : `<strong>0 ${unit}</strong>`;
   }
 }

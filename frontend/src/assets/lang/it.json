@@ -38,6 +38,7 @@
   "HIKE": "Escursione",
   "INDOOR": "Indoor",
   "SHELTER": "Rifugio",
+  "DRINKING_WATER": "Acqua",
   "IN_MONTH": "a",
   "OPEN_DETAIL": "Apri dettaglio",
   "CURRENT_LOCATION": "Selezione mappa",
@@ -60,6 +61,7 @@
   "NEAR_COMPETITIONS": "Gare vicine",
   "ONE_NEWS": "Notizia",
   "SEARCH_RESULTS": "Risultati",
+  "FROM_POINT": "da <strong>{{point}}</strong>",
   "FROM_YOU": "da te",
   "FROM_HERE": "da qui",
   "YOU_ARE_HERE": "Sei qui",
@@ -80,8 +82,10 @@
   "GITHUB": "Contribuisci su GitHub",
   "GITHUB_ISSUES": "Segnala un bug",
   "LOADING": "Solo un attimo...",
+  "LOADING_MAP": "Aggiorno la mappa",
   "USER_LOCATION_MESSAGE": "Non sei vicino {{city}}?",
   "USER_LOCATION_MESSAGE_NO_CITY": "Cerchi una localizzazione più accurata?",
   "ENABLE_GEOLOCATION": "Attiva localizzazione",
-  "USE_GEOLOCATION": "Usa la tua posizione"
+  "USE_GEOLOCATION": "Usa la tua posizione",
+  "UNKNOWN": "sconosciuto"
 }

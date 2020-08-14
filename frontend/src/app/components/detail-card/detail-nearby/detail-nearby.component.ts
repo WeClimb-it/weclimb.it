@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Poi } from 'src/app/utils/Poi';
+import { Poi, getPoiCategoryTag, getPoiCategoryClass } from 'src/app/utils/Poi';
 import { typeOfItem } from 'src/app/utils/ContentType';
 import { Coords } from 'src/app/interfaces/graphql/coords.type';
 import { TranslateService } from '@ngx-translate/core';
@@ -27,29 +27,13 @@ export class DetailNearbyComponent {
    *
    */
   getNearbyCategoryTag(item: Poi): string {
-    switch (typeOfItem(item)) {
-      default:
-      case 'Crag':
-        return this.translateService.instant('CRAG')[0];
-      case 'Hike':
-        return this.translateService.instant('HIKE')[0];
-      case 'Shelter':
-        return this.translateService.instant('SHELTER')[0];
-    }
+    return getPoiCategoryTag(this.translateService, item);
   }
 
   /**
    *
    */
   getNearbyCategoryClass(item: Poi): string {
-    switch (typeOfItem(item)) {
-      default:
-      case 'Crag':
-        return 'crag';
-      case 'Hike':
-        return 'hike';
-      case 'Shelter':
-        return 'shelter';
-    }
+    return getPoiCategoryClass(this.translateService, item);
   }
 }

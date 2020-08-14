@@ -97,6 +97,17 @@ a:visited {
   background-color: rgba(black, 0.2) !important;
 }
 
+.white-scroll {
+  .ps__thumb-y {
+    background-color: rgba(white, 0.5) !important;
+  }
+  .ps__rail-y.ps--clicking .ps__thumb-y,
+  .ps__rail-y:focus > .ps__thumb-y,
+  .ps__rail-y:hover > .ps__thumb-y {
+    background-color: rgba(white, 0.95) !important;
+  }
+}
+
 // Global MD customizations --
 .custom-menu {
   @include mat-elevation(3, black, 0.4);

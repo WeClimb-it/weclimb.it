@@ -31,6 +31,8 @@ export class SidebarComponent {
   @Output() poiSelected: EventEmitter<Poi> = new EventEmitter<Poi>();
   @Output() sectionSelected: EventEmitter<string> = new EventEmitter<string>();
 
+  MAX_ITEMS = 10;
+
   /**
    *
    */
@@ -43,5 +45,12 @@ export class SidebarComponent {
    */
   goToSection(endpoint: string): void {
     this.sectionSelected.emit(endpoint);
+  }
+
+  /**
+   *
+   */
+  get currentLocationStr(): string {
+    return `${this.currentLocation.lat.toFixed(4)}, ${this.currentLocation.lng.toFixed(4)}`;
   }
 }

@@ -1,17 +1,16 @@
 import { Component, OnChanges, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
-import { Shelter } from 'src/app/interfaces/graphql/shelter.type';
 import { GeoService } from 'src/app/services/geo.service';
 import { WciApiService } from 'src/app/services/wciApi.service';
 import { BaseItemWithDynamicMapComponent } from './withDynamicMap-item.component';
 
 @Component({
-  selector: 'wci-shelter-card-item',
-  templateUrl: 'shelter-item.component.html',
-  styleUrls: ['shelter-item.component.scss'],
+  selector: 'wci-poi-card-item',
+  templateUrl: 'poi-item.component.html',
+  styleUrls: ['poi-item.component.scss'],
 })
-export class ShelterCardItemComponent extends BaseItemWithDynamicMapComponent implements OnChanges {
-  data: Shelter;
+export class PoiCardItemComponent extends BaseItemWithDynamicMapComponent implements OnChanges {
+  data: Record<string, any>;
 
   constructor(protected router: Router, protected api: WciApiService, protected geoApi: GeoService) {
     super(router, api, geoApi);
@@ -19,11 +18,5 @@ export class ShelterCardItemComponent extends BaseItemWithDynamicMapComponent im
 
   ngOnChanges(changes: SimpleChanges): void {
     super.ngOnChanges(changes);
-  }
-
-  // TODO: This should be done on the BE
-  get phoneNumbers(): string[] {
-    const rawPhones = (this.data.phone || this.data.mobile).replace(/\s+/g, '').split(/[^\d/+/-]/gm);
-    return rawPhones;
   }
 }

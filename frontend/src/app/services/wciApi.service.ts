@@ -74,6 +74,9 @@ export class WciApiService {
     this.getCompetition = this.getCompetition.bind(this);
     this.getNews = this.getNews.bind(this);
     this.getOneNews = this.getOneNews.bind(this);
+    this.getPhotos = this.getPhotos.bind(this);
+    this.getOpenStreetMapNodes = this.getOpenStreetMapNodes.bind(this);
+    this.getOpenStreetMapNode = this.getOpenStreetMapNode.bind(this);
   }
 
   public defaultFetchPolicy: FetchPolicy = 'cache-first';
@@ -234,5 +237,26 @@ export class WciApiService {
       query: Queries.oneNews,
       variables: opts,
     }).valueChanges as Observable<OneNewsResult>;
+  }
+
+  getOpenStreetMapNodes(opts: { lat: number; lng: number; distance: number }): Observable<object> {
+    return this.apollo.watchQuery({
+      query: Queries.osmNodes,
+      variables: opts,
+    }).valueChanges as Observable<object>;
+  }
+
+  getOpenStreetMapNode(opts: { nodeId: string }): Observable<object> {
+    return this.apollo.watchQuery({
+      query: Queries.osmNode,
+      variables: opts,
+    }).valueChanges as Observable<object>;
+  }
+
+  getPhotos(opts: { query: string }): Observable<object> {
+    return this.apollo.watchQuery({
+      query: Queries.photos,
+      variables: opts,
+    }).valueChanges as Observable<object>;
   }
 }

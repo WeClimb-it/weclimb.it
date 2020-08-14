@@ -8,6 +8,8 @@ import { environment } from 'src/environments/environment';
 import { I18nService } from './services/i18n.service';
 import { getEntityCacheId } from './utils/Poi';
 
+const userSessionId = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+
 const cache = new InMemoryCache({
   // Why this? B/c in certain cases we need an expanded version of the GraphQL item (i.e. crag with sectors)
   // since the same item might be loaded somewhere else w/o expanded props (i.e. sectors) and thus stored in the cache,
@@ -31,11 +33,32 @@ const userLangMiddleware = new ApolloLink((operation, forward) => {
   return forward(operation);
 });
 
+const userSessionIdMiddleware = new ApolloLink((operation, forward) => {
+  if (typeof forward === 'undefined') {
+    throw new Error('forward is undefined');
+  }
+
+  operation.setContext(({ headers = {} }) => ({
+    headers: {
+      ...headers,
+      'x-sessid': userSessionId,
+    },
+  }));
+
+  return forward(operation);
+});
+
 export function createApollo(httpLink: HttpLink) {
   return {
     cache,
     ssrMode: true,
-    link: ApolloLink.from([new RetryLink(), userLangMiddleware, httpLink.create({ uri: environment.graphql.url })]),
+    queryDeduplication: false,
+    link: ApolloLink.from([
+      new RetryLink(),
+      userSessionIdMiddleware,
+      userLangMiddleware,
+      httpLink.create({ uri: environment.graphql.url }),
+    ]),
   };
 }
 

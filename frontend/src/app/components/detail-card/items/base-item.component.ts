@@ -1,15 +1,15 @@
-import { Component, SimpleChanges, Input, OnChanges, HostListener, ViewChild } from '@angular/core';
+import { Component, HostListener, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { WciApiService } from 'src/app/services/wciApi.service';
-import { Poi } from 'src/app/utils/Poi';
-import { typeOfItem, getSectionFromItem } from 'src/app/utils/ContentType';
-import { environment } from 'src/environments/environment';
-import { GeoLocation } from 'src/app/classes/geolocation.class';
-import { NearbyResult } from 'src/app/graphql/queries';
-import { Coords } from 'src/app/interfaces/graphql/coords.type';
-import { getGoogleMapsUrl } from 'src/app/utils/Map';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
-import { PerfectScrollbarEvent } from 'ngx-perfect-scrollbar/lib/perfect-scrollbar.interfaces';
+import { GeoLocation } from 'src/app/classes/geolocation.class';
+import { NearbyResult, PhotosResult } from 'src/app/graphql/queries';
+import { Coords } from 'src/app/interfaces/graphql/coords.type';
+import { Photo } from 'src/app/interfaces/photo.interface';
+import { WciApiService } from 'src/app/services/wciApi.service';
+import { getSectionFromItem } from 'src/app/utils/ContentType';
+import { getGoogleMapsUrl } from 'src/app/utils/Map';
+import { Poi } from 'src/app/utils/Poi';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'wci-base-card-item',
@@ -26,6 +26,7 @@ export class BaseCardItemComponent implements OnChanges {
   staticMapSrc = '';
 
   nearbyPois: Poi[] = [];
+  // photos: Photo[] = [];
   disablePerfectScrollbar = false;
 
   protected staticMapSizes = [303, 360];
@@ -81,11 +82,25 @@ export class BaseCardItemComponent implements OnChanges {
               ...res.data.nearby.shelters.slice(0, 4),
             ].filter((poi: Poi) => poi.slug !== this.data.slug);
           }
-
           sub$.unsubscribe();
         });
     }
   }
+
+  /**
+   * TODO: Waiting to have useful photos in the DB
+   */
+  /*
+  getPhotos(query: string): void {
+    const sub$ = this.api.getPhotos({ query }).subscribe((res: PhotosResult) => {
+      if (!res.errors) {
+        this.photos = res.data.photos;
+        console.log(res.data.photos);
+      }
+      sub$.unsubscribe();
+    });
+  }
+  */
 
   /**
    *

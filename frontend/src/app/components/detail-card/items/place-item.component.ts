@@ -1,4 +1,4 @@
-import { Component, AfterContentInit, AfterViewInit, AfterViewChecked } from '@angular/core';
+import { AfterViewChecked, Component, OnChanges, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { Place } from 'src/app/interfaces/graphql/place.type';
 import { WciApiService } from 'src/app/services/wciApi.service';
@@ -12,15 +12,21 @@ const FB = window['FB'] || {};
   templateUrl: 'place-item.component.html',
   styleUrls: ['place-item.component.scss'],
 })
-export class PlaceCardItemComponent extends BaseCardItemComponent implements AfterViewChecked {
+export class PlaceCardItemComponent extends BaseCardItemComponent implements AfterViewChecked, OnChanges {
   data: Place;
 
   constructor(protected router: Router, protected api: WciApiService) {
     super(router, api);
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    super.ngOnChanges(changes);
+  }
+
   // TODO: This might be done only once, do it :-D
   ngAfterViewChecked(): void {
-    FB.XFBML.parse();
+    if (FB && FB.XFBML) {
+      FB.XFBML.parse();
+    }
   }
 }

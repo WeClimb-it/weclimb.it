@@ -1,16 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router, RouterEvent } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import _ from 'lodash';
 import moment from 'moment-timezone';
+import { Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { GeoLocation } from './classes/geolocation.class';
 import { SearchOptions } from './components/header/header.component';
-import { LatestResult, NearbyResult, UserInfoResult } from './graphql/queries';
+import { NearbyResult, UserInfoResult } from './graphql/queries';
 import { MapUpdateEvent } from './interfaces/events/map-update.interface';
 import { SearchResult } from './interfaces/graphql/searchresult.type';
 import { UserInfo } from './interfaces/graphql/userinfo.type';
 import { AppStoreService } from './services/appState.service';
-import { PlaceSuggestion, GeoService } from './services/geo.service';
+import { GeoService, PlaceSuggestion } from './services/geo.service';
 import { I18nService } from './services/i18n.service';
 import { PersistanceService } from './services/persistanceService';
 import { WciApiService } from './services/wciApi.service';
@@ -22,7 +24,7 @@ import { Poi } from './utils/Poi';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  zoom = 9;
+  zoom = 11;
   year = new Date().getFullYear();
 
   hasBrowserGeolocation = navigator && navigator.geolocation;
@@ -30,18 +32,25 @@ export class AppComponent implements OnInit {
   currentLocation: GeoLocation = new GeoLocation(0, 0);
   userLocation: GeoLocation;
   nearbyPois: SearchResult;
-  latestPois: SearchResult;
+  nearbyOsmPois: object;
+  // latestPois: SearchResult;
 
   showContent = false;
   isFloatingContent = false;
   isNearbyLoading = true;
-  isLatestLoading = true;
+  isOsmNearbyLoading = true;
+  // isLatestLoading = true;
 
   environment = environment;
 
   private mapData: MapUpdateEvent;
   private userData: UserInfo;
   private latestSearchOptions: SearchOptions;
+
+  private cancelableNearbySubscription: Subscription;
+  private cancelableOsmSubscription: Subscription;
+
+  private osmRadiusThreshold = 137;
 
   constructor(
     private translate: TranslateService,
@@ -61,15 +70,19 @@ export class AppComponent implements OnInit {
     this.appStore.watchProperty('currentLocation').subscribe((location: GeoLocation) => {
       if (location) {
         this.currentLocation = location;
-        this.getLatest();
+        // this.getLatest();
+        this.getNearby();
       }
     });
 
     this.appStore.watchProperty('currentUserLocation').subscribe((location: GeoLocation) => {
       if (location) {
         this.userLocation = location;
+        this.getNearby();
       }
     });
+
+    this.onMapReadyOrUpdate = _.debounce(this.onMapReadyOrUpdate, 1500);
   }
 
   ngOnInit(): void {
@@ -227,9 +240,21 @@ export class AppComponent implements OnInit {
    *
    */
   private getNearby(): void {
+    if (!this.mapData) {
+      return;
+    }
+
     this.isNearbyLoading = true;
 
-    const nearbySubscription = this.api
+    if (this.mapData.radius < this.osmRadiusThreshold) {
+      this.getOsmNearby();
+    }
+
+    if (this.cancelableNearbySubscription) {
+      this.cancelableNearbySubscription.unsubscribe();
+    }
+
+    this.cancelableNearbySubscription = this.api
       .getNearby({
         lng: this.mapData.coordinates[0],
         lat: this.mapData.coordinates[1],
@@ -249,7 +274,7 @@ export class AppComponent implements OnInit {
         if (!res.loading) {
           this.isNearbyLoading = false;
           this.nearbyPois = res.data.nearby;
-          nearbySubscription.unsubscribe();
+          this.cancelableNearbySubscription.unsubscribe();
         }
       });
   }
@@ -257,6 +282,40 @@ export class AppComponent implements OnInit {
   /**
    *
    */
+  private getOsmNearby(): void {
+    if (!this.mapData) {
+      return;
+    }
+
+    if (this.cancelableOsmSubscription) {
+      this.cancelableOsmSubscription.unsubscribe();
+    }
+
+    this.isOsmNearbyLoading = true;
+
+    this.cancelableOsmSubscription = this.api
+      .getOpenStreetMapNodes({
+        lng: this.mapData.coordinates[0],
+        lat: this.mapData.coordinates[1],
+        distance: this.mapData.radius,
+      })
+      .subscribe((res: { loading: boolean; data: Record<string, object> }) => {
+        if (!res.loading) {
+          if (!_.isEmpty(res.data) && !_.isEmpty(res.data.osmNodes)) {
+            const { osmNodes: pois } = res.data;
+            this.nearbyOsmPois = pois;
+          }
+
+          this.isOsmNearbyLoading = false;
+          this.cancelableOsmSubscription.unsubscribe();
+        }
+      });
+  }
+
+  /**
+   *
+   */
+  /*
   private getLatest(): void {
     this.isLatestLoading = true;
 
@@ -277,6 +336,7 @@ export class AppComponent implements OnInit {
         }
       });
   }
+  */
 
   /**
    *

@@ -1,4 +1,4 @@
-<div class="detail-card">
+<div class="detail-card" [ngClass]="{ small: type === 'osmNode' }">
   <div class="close-button">
     <button mat-icon-button (click)="close()">
       <mat-icon>close</mat-icon>
@@ -39,6 +39,13 @@
         [currentLocation]="currentLocation"
         [userLocation]="userLocation"
       ></wci-competition-card-item>
+    </ng-container>
+    <ng-container *ngSwitchCase="'osmNode'">
+      <wci-poi-card-item
+        [data]="data"
+        [currentLocation]="currentLocation"
+        [userLocation]="userLocation"
+      ></wci-poi-card-item>
     </ng-container>
     <ng-container *ngSwitchDefault>{{ 'ERROR' | translate }}</ng-container>
   </ng-container>

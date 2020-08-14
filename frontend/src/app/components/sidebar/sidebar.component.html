@@ -4,7 +4,7 @@
     <span class="city">{{ currentLocation.city }}</span>
     <span class="coords">
       <mat-icon aria-hidden="false">gps_fixed</mat-icon>
-      <span>{{ currentLocation.lat }}, {{ currentLocation.lng }}</span>
+      <span>{{ currentLocationStr }}</span>
     </span>
   </div>
 </div>
@@ -15,10 +15,10 @@
     </div>
     <ng-container *ngIf="pois">
       <ng-container *ngIf="pois.crags.length > 0">
-        <perfect-scrollbar class="list">
-          <div class="item poi" *ngFor="let item of pois.crags" (click)="onEntitySelected(item)">
+        <perfect-scrollbar class="list white-scroll">
+          <div class="item poi" *ngFor="let item of pois.crags.slice(0, MAX_ITEMS)" (click)="onEntitySelected(item)">
             <h2>{{ item.title }}</h2>
-            <span [innerHTML]="item.coords | distance: currentLocation:false:false:true:false"></span>
+            <span [innerHTML]="item.coords | distance: currentLocation:false:false:false:false"></span>
           </div>
         </perfect-scrollbar>
         <div class="links">
@@ -36,18 +36,22 @@
     <div class="visual">{{ 'HIKES_N_SHELTERS' | translate }}</div>
     <ng-container *ngIf="pois">
       <ng-container *ngIf="pois.hikes.length > 0 || pois.shelters.length > 0">
-        <perfect-scrollbar class="list">
+        <perfect-scrollbar class="list white-scroll">
           <div *ngIf="pois.hikes.length > 0">
-            <div class="item hike" *ngFor="let item of pois.hikes" (click)="onEntitySelected(item)">
+            <div class="item hike" *ngFor="let item of pois.hikes.slice(0, MAX_ITEMS)" (click)="onEntitySelected(item)">
               <h2>{{ item.title }}</h2>
-              <span [innerHTML]="item.coords | distance: currentLocation:false:false:true:false"></span>
+              <span [innerHTML]="item.coords | distance: currentLocation:false:false:false:false"></span>
             </div>
           </div>
           <div *ngIf="pois.shelters.length > 0 && pois.hikes.length > 0" class="divider"></div>
           <div *ngIf="pois.shelters.length > 0">
-            <div class="item shelter" *ngFor="let item of pois.shelters" (click)="onEntitySelected(item)">
+            <div
+              class="item shelter"
+              *ngFor="let item of pois.shelters.slice(0, MAX_ITEMS)"
+              (click)="onEntitySelected(item)"
+            >
               <h2>{{ item.name }}</h2>
-              <span [innerHTML]="item.coords | distance: currentLocation:false:false:true:false"></span>
+              <span [innerHTML]="item.coords | distance: currentLocation:false:false:false:false"></span>
             </div>
           </div>
         </perfect-scrollbar>
@@ -69,18 +73,26 @@
     <div class="visual">{{ 'PLACES_N_COMPETITIONS' | translate }}</div>
     <ng-container *ngIf="pois">
       <ng-container *ngIf="pois.places.length > 0 || pois.competitions.length > 0">
-        <perfect-scrollbar class="list">
+        <perfect-scrollbar class="list white-scroll">
           <div *ngIf="pois.places.length > 0">
-            <div class="item place" *ngFor="let item of pois.places" (click)="onEntitySelected(item)">
+            <div
+              class="item place"
+              *ngFor="let item of pois.places.slice(0, MAX_ITEMS)"
+              (click)="onEntitySelected(item)"
+            >
               <h2>{{ item.title }}</h2>
-              <span [innerHTML]="item.coords | distance: currentLocation:false:false:true:false"></span>
+              <span [innerHTML]="item.coords | distance: currentLocation:false:false:false:false"></span>
             </div>
           </div>
           <div *ngIf="pois.competitions.length > 0 && pois.places.length > 0" class="divider"></div>
           <div *ngIf="pois.competitions.length > 0">
-            <div class="item competition" *ngFor="let item of pois.competitions" (click)="onEntitySelected(item)">
+            <div
+              class="item competition"
+              *ngFor="let item of pois.competitions.slice(0, MAX_ITEMS)"
+              (click)="onEntitySelected(item)"
+            >
               <h2>{{ item.title }}</h2>
-              <span [innerHTML]="item.coords | distance: currentLocation:false:false:true:false"></span>
+              <span [innerHTML]="item.coords | distance: currentLocation:false:false:false:false"></span>
             </div>
           </div>
         </perfect-scrollbar>
