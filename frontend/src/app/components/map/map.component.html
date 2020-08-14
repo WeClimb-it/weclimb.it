@@ -47,6 +47,7 @@
         stops: clusterSizes
       }
     }"
+    (click)="onClusterClick($event)"
   >
   </mgl-layer>
 
@@ -100,28 +101,52 @@
   >
   </mgl-layer>
 
-  <mgl-popup *ngIf="selectedFeature" [lngLat]="selectedFeature.geometry.coordinates" [closeOnClick]="true">
+  <mgl-popup *ngIf="selectedFeatures && selectedFeatures[0]" [lngLat]="selectedCoordinates" [closeOnClick]="true">
     <div class="popup-close-button">
       <button mat-icon-button (click)="closePopup()">
         <mat-icon>close</mat-icon>
       </button>
     </div>
-    <div class="popup-content" [ngClass]="{ small: selectedFeature.properties.source === SOURCES.OSM }">
-      <div class="title">
-        {{ selectedFeature.properties.title || selectedFeature.properties.name || ('UNKNOWN' | translate) }}
-      </div>
-      <div class="description" *ngIf="selectedFeature.properties.descr && selectedFeature.properties.descr != 'null'">
-        {{ selectedFeature.properties.descr }}
-      </div>
-      <div [ngSwitch]="selectedFeature.properties.source" class="link">
-        <div *ngSwitchCase="SOURCES.OSM">
-          <a routerLink="{{ selectedFeature.properties.internal_link }}">{{ 'OPEN_DETAIL' | translate }}</a>
+    <div [ngSwitch]="hasMultiItems">
+      <div *ngSwitchCase="false">
+        <div
+          class="popup-content"
+          [ngClass]="{
+            small: selectedFeatures[0].properties.source === SOURCES.OSM,
+            'multi-items': false
+          }"
+        >
+          <div class="title" title="{{ getMapItemTitle(selectedFeatures[0]) }}">
+            {{ getMapItemTitle(selectedFeatures[0]) }}
+          </div>
+          <div
+            class="description"
+            *ngIf="selectedFeatures[0].properties.descr && selectedFeatures[0].properties.descr != 'null'"
+          >
+            {{ selectedFeatures[0].properties.descr }}
+          </div>
+          <div class="link">
+            <a routerLink="{{ selectedFeatures[0].properties.internal_link }}">{{ 'OPEN_DETAIL' | translate }}</a>
+          </div>
         </div>
-        <div *ngSwitchDefault>
-          <a routerLink="{{ selectedFeature.properties.internal_link }}">{{ 'OPEN_DETAIL' | translate }}</a>
+      </div>
+      <div *ngSwitchDefault>
+        <div
+          class="popup-content"
+          [ngClass]="{
+            'multi-items': true
+          }"
+        >
+          <perfect-scrollbar>
+            <div class="popup-item" *ngFor="let item of selectedFeatures">
+              <div class="category {{ getPoiCategoryClass(item) }}">{{ getPoiCategoryTag(item) }}</div>
+              <h4 title="{{ getMapItemTitle(item) }}">
+                <a routerLink="{{ item.properties.internal_link }}">{{ getMapItemTitle(item) }}</a>
+              </h4>
+            </div>
+          </perfect-scrollbar>
         </div>
       </div>
-      <div *ngIf="selectedFeature.properties.source === SOURCES.WCI" class="link"></div>
     </div>
   </mgl-popup>
 </mgl-map>

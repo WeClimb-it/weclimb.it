@@ -49,55 +49,114 @@ mgl-map {
       }
     }
 
-    .title {
-      @include multilineTruncate(3);
-      text-transform: uppercase;
-      font-size: 14px;
-      line-height: 16px;
-      font-weight: 600;
-      color: rgba(0, 0, 0, 0.75);
-      padding-bottom: 3px;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-    }
-
-    .description {
-      position: relative;
-      margin-top: 3px;
-      font-size: 13px;
-      line-height: 15px;
-      min-height: 110px;
-      max-height: 76%;
+    &.multi-items {
       overflow: hidden;
-      color: rgba(0, 0, 0, 0.55);
-
-      &::first-letter {
-        text-transform: uppercase;
-      }
 
       &:after {
+        pointer-events: none;
         position: absolute;
         content: '';
         bottom: 0;
         display: block;
         width: 100%;
-        height: 105px;
+        height: 5px;
         background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%);
       }
+
+      .popup-item {
+        cursor: pointer;
+
+        display: block;
+        width: 100%;
+        min-height: 32px;
+        border-bottom: 1px solid rgba(black, 0.05);
+
+        margin-top: 4px;
+        margin-bottom: 4px;
+
+        &:first-child {
+          margin-top: 0;
+        }
+
+        &:last-child {
+          margin-bottom: 0;
+          border-bottom: none;
+        }
+
+        h4 {
+          color: black;
+          text-transform: uppercase;
+          font-size: 13px;
+          line-height: 26px;
+          @include multilineTruncate(1);
+
+          a {
+            color: black;
+            text-decoration: none;
+
+            &:hover {
+              color: $primary;
+            }
+          }
+        }
+
+        .category {
+          margin-right: 5px;
+          @include poiCategoryBadge();
+        }
+      }
+    }
+  }
+
+  .title {
+    @include multilineTruncate(3);
+    text-transform: uppercase;
+    font-size: 14px;
+    line-height: 16px;
+    font-weight: 600;
+    color: rgba(0, 0, 0, 0.75);
+    padding-bottom: 3px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  }
+
+  .description {
+    position: relative;
+    margin-top: 3px;
+    font-size: 13px;
+    line-height: 15px;
+    min-height: 110px;
+    max-height: 76%;
+    overflow: hidden;
+    color: rgba(0, 0, 0, 0.55);
+
+    &::first-letter {
+      text-transform: uppercase;
     }
 
-    .link {
+    &:after {
+      pointer-events: none;
       position: absolute;
-      bottom: -7px;
+      content: '';
+      bottom: 0;
+      display: block;
       width: 100%;
-      text-align: center;
+      height: 105px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%);
+    }
+  }
 
-      a {
-        font-size: 13px;
-        text-transform: uppercase;
-        color: $primary;
-        text-decoration: none;
-        font-weight: 600;
-      }
+  .link {
+    position: absolute;
+    bottom: -7px;
+    width: 100%;
+    text-align: center;
+
+    a {
+      font-size: 13px;
+      text-transform: uppercase;
+      color: $primary;
+      text-decoration: none;
+      font-weight: 600;
     }
   }
 }

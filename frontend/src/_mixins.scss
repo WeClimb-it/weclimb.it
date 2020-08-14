@@ -114,3 +114,37 @@
     }
   }
 }
+
+@mixin poiCategoryBadge {
+  position: relative;
+  float: left;
+  color: white;
+  width: 14px;
+  height: 20px;
+  line-height: 20px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 3px 6px 3px 6px;
+  border-radius: 90px;
+
+  &.crag {
+    background: $cragPinColor;
+  }
+  &.hike {
+    background: $hikePinColor;
+  }
+  &.shelter {
+    background: $shelterPinColor;
+  }
+  &.event,
+  &.competition {
+    background: $eventPinColor;
+  }
+  &.place {
+    background: $placePinColor;
+  }
+  &.drinking-water {
+    background: $drinkingWaterPinColor;
+  }
+}

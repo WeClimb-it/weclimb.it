@@ -1,4 +1,15 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+  ViewChild,
+} from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import _ from 'lodash';
 import { MapComponent as MapBoxComponent } from 'ngx-mapbox-gl';
 import { GeoLocation } from 'src/app/classes/geolocation.class';
@@ -10,14 +21,15 @@ import { Hike } from 'src/app/interfaces/graphql/hike.type';
 import { Place } from 'src/app/interfaces/graphql/place.type';
 import { Shelter } from 'src/app/interfaces/graphql/shelter.type';
 import { getGeoJsonFromCoords } from 'src/app/utils/Map';
+import { getPoiCategoryClass, getPoiCategoryTag, Poi } from 'src/app/utils/Poi';
 import { environment } from 'src/environments/environment';
 import { GeoJSON, GeoJSONFeature } from '../../interfaces/geo/GeoJSONFeature.interface';
 import CragPin from './pins/crag';
+import DrinkingWaterPin from './pins/drinking-water';
 import EventPin from './pins/event';
 import HikePin from './pins/hike';
 import PlacePin from './pins/place';
 import ShelterPin from './pins/shelter';
-import DrinkingWaterPin from './pins/drinking-water';
 import { PinUtils } from './pins/utils';
 
 export enum POI_TYPE {
@@ -101,10 +113,11 @@ export class MapComponent implements OnInit, OnChanges {
   geoJson: GeoJSON;
   osmGeoJson: GeoJSON;
   centerGeoJson: GeoJSON;
-  selectedFeature: any;
+  selectedFeatures: any[] = [];
+  selectedCoordinates: any;
 
   // Default props
-  minZoom = 4;
+  minZoom = 6;
   maxZoom = 22;
   clusterMaxZoom = 17;
   clusterRadius = 50;
@@ -123,6 +136,8 @@ export class MapComponent implements OnInit, OnChanges {
   private radians = 57.2958;
 
   private mapInstance: mapboxgl.Map;
+
+  constructor(private translateService: TranslateService, private ref: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.loadPins();
@@ -174,14 +189,34 @@ export class MapComponent implements OnInit, OnChanges {
    */
   onMarkerClick($event: any): void {
     const features = this.mapInstance.queryRenderedFeatures($event.point, {
-      layers: ['unclustered-pois', 'clustered-pois'],
+      layers: ['unclustered-pois'],
     });
+
     if (features.length) {
       const clickedPoint = features[0];
-      if (clickedPoint.layer.id === 'unclustered-pois') {
-        this.selectedFeature = clickedPoint;
-      } else {
-        // TODO: Expand cluster
+      this.selectedFeatures[0] = clickedPoint;
+      this.selectedCoordinates = (clickedPoint.geometry as any).coordinates;
+    }
+  }
+
+  /**
+   *
+   */
+  onClusterClick($event: any): void {
+    const features = this.mapInstance.queryRenderedFeatures($event.point, {
+      layers: ['clustered-pois'],
+    });
+
+    if (features.length) {
+      const clusterId = features[0].properties.cluster_id;
+      const pointCount = features[0].properties.point_count;
+      const clusterSource: any = this.mapInstance.getSource('pois');
+      if (clusterSource) {
+        clusterSource.getClusterLeaves(clusterId, pointCount, 0, (err: Error, clusterFeatures: any) => {
+          this.selectedFeatures = !err ? clusterFeatures : [];
+          this.selectedCoordinates = (features[0].geometry as any).coordinates;
+          this.ref.detectChanges();
+        });
       }
     }
   }
@@ -190,7 +225,28 @@ export class MapComponent implements OnInit, OnChanges {
    *
    */
   closePopup(): void {
-    this.selectedFeature = undefined;
+    this.selectedFeatures = [];
+  }
+
+  /**
+   *
+   */
+  getPoiCategoryTag(item: Poi): string {
+    return getPoiCategoryTag(this.translateService, item);
+  }
+
+  /**
+   *
+   */
+  getPoiCategoryClass(item: Poi): string {
+    return getPoiCategoryClass(this.translateService, item);
+  }
+
+  /**
+   *
+   */
+  getMapItemTitle(item: GeoJSONFeature): string {
+    return (item.properties.title || item.properties.name || this.translateService.instant('UNKNOWN')) as string;
   }
 
   /**
@@ -208,6 +264,13 @@ export class MapComponent implements OnInit, OnChanges {
    */
   get loadingData(): boolean {
     return this.loadingOsmData || this.loadingWciData;
+  }
+
+  /**
+   *
+   */
+  get hasMultiItems(): boolean {
+    return _.size(this.selectedFeatures) > 1;
   }
 
   /**

@@ -96,6 +96,7 @@
       ></wci-header>
     </div>
     <wci-map
+      *ngIf="currentLocation && userLocation"
       [zoom]="zoom"
       [centerLocation]="currentLocation"
       [userLocation]="userLocation"

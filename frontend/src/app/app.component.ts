@@ -3,6 +3,7 @@ import { ActivatedRoute, NavigationEnd, Router, RouterEvent } from '@angular/rou
 import { TranslateService } from '@ngx-translate/core';
 import _ from 'lodash';
 import moment from 'moment-timezone';
+import { Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { GeoLocation } from './classes/geolocation.class';
 import { SearchOptions } from './components/header/header.component';
@@ -46,8 +47,8 @@ export class AppComponent implements OnInit {
   private userData: UserInfo;
   private latestSearchOptions: SearchOptions;
 
-  private cancelableNearbySubscription;
-  private cancelableOsmSubscription;
+  private cancelableNearbySubscription: Subscription;
+  private cancelableOsmSubscription: Subscription;
 
   private osmRadiusThreshold = 137;
 
