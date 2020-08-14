@@ -13,7 +13,7 @@
   &.withTitle {
     h4 {
       @include multilineTruncate(2);
-      font-size: 14px;
+      font-size: 19px;
       text-transform: capitalize;
     }
 
