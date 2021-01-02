@@ -41,14 +41,14 @@
     "ng5-slider": "^1.2.4",
     "ngx-mapbox-gl": "^4.8.1",
     "ngx-moment": "^5.0.0",
-    "ngx-perfect-scrollbar": "^10.0.0",
+    "ngx-perfect-scrollbar": "^10.0.1",
     "rxjs": "^6.6.3",
     "tslib": "^2.0.0",
     "zone.js": "^0.10.3",
     "@apollo/client": "^3.0.0"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^0.1000.5",
+    "@angular-devkit/build-angular": "^0.1100.5",
     "@angular/cli": "^10.0.5",
     "@angular/compiler-cli": "^10.0.7",
     "@angular/language-service": "^10.0.7",
