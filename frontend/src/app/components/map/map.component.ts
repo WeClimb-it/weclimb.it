@@ -391,7 +391,7 @@ export class MapComponent implements OnChanges {
       maxzoom: this.maxZoom,
     });
 
-    this.mapInstance.setTerrain({ source: 'mapbox-dem', exaggeration: 3 });
+    this.mapInstance.setTerrain({ source: 'mapbox-dem' });
 
     this.mapInstance.addLayer({
       id: 'sky',
