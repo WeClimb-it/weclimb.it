@@ -1,5 +1,5 @@
-import { ApolloModule, APOLLO_OPTIONS } from 'apollo-angular';
-import { HttpLink, HttpLinkModule } from 'apollo-angular/http';
+import { APOLLO_OPTIONS } from 'apollo-angular';
+import { HttpLink } from 'apollo-angular/http';
 import { InMemoryCache, ApolloLink } from '@apollo/client/core';
 import { NgModule } from '@angular/core';
 
@@ -54,7 +54,7 @@ export function createApollo(httpLink: HttpLink) {
     ssrMode: true,
     queryDeduplication: false,
     link: ApolloLink.from([
-      new RetryLink(),
+      new RetryLink() as any,
       userSessionIdMiddleware,
       userLangMiddleware,
       httpLink.create({ uri: environment.graphql.url }),
@@ -63,7 +63,7 @@ export function createApollo(httpLink: HttpLink) {
 }
 
 @NgModule({
-  exports: [ApolloModule, HttpLinkModule],
+  exports: [],
   providers: [
     {
       provide: APOLLO_OPTIONS,
