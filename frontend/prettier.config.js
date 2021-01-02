@@ -10,5 +10,4 @@ module.exports = {
   trailingComma: 'all', // other options `es5` or `all`
   bracketSpacing: true,
   arrowParens: 'always',
-  preserve: 'always',
 };
