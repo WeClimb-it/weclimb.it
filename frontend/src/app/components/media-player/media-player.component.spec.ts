@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { MediaPlayerComponent } from './media-player.component';
 
@@ -10,11 +10,13 @@ xdescribe('SidebarComponent', () => {
   let component: MediaPlayerComponent;
   let fixture: ComponentFixture<MediaPlayerComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [MediaPlayerComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [MediaPlayerComponent],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MediaPlayerComponent);

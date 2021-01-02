@@ -1,25 +1,18 @@
 <mgl-map
   #map
-  *ngIf="renderMap"
   [style]="mapStyle"
   [zoom]="[zoom]"
   [center]="centerCoords"
   [minZoom]="minZoom"
   [maxZoom]="maxZoom"
-  (load)="mapLoaded()"
+  [pitch]="pitch"
+  [bearing]="bearing"
+  (mapLoad)="mapLoaded()"
   (moveEnd)="mapInteractionEnd()"
 >
   <!-- The map controls -->
   <mgl-control mglNavigation position="bottom-left"></mgl-control>
   <mgl-control mglScale unit="metric" position="bottom-right"></mgl-control>
-
-  <!-- The Pins -->
-  <mgl-image id="crag-pin" [data]="pins.crag"> </mgl-image>
-  <mgl-image id="event-pin" [data]="pins.event"> </mgl-image>
-  <mgl-image id="hike-pin" [data]="pins.hike"> </mgl-image>
-  <mgl-image id="place-pin" [data]="pins.place"> </mgl-image>
-  <mgl-image id="shelter-pin" [data]="pins.shelter"> </mgl-image>
-  <mgl-image id="drinking-water-pin" [data]="pins['drinking-water']"> </mgl-image>
 
   <!-- The POIs source -->
   <mgl-geojson-source
@@ -47,7 +40,7 @@
         stops: clusterSizes
       }
     }"
-    (click)="onClusterClick($event)"
+    (layerClick)="onClusterClick($event)"
   >
   </mgl-layer>
 
@@ -75,7 +68,7 @@
       'icon-image': '{marker-symbol}',
       'icon-offset': [0, 20]
     }"
-    (click)="onMarkerClick($event)"
+    (layerClick)="onMarkerClick($event)"
   >
   </mgl-layer>
 

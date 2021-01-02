@@ -4,13 +4,12 @@ import {
   EventEmitter,
   Input,
   OnChanges,
-  OnInit,
   Output,
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import _ from 'lodash';
+import { each, size } from 'lodash';
 import { MapComponent as MapBoxComponent } from 'ngx-mapbox-gl';
 import { GeoLocation } from 'src/app/classes/geolocation.class';
 import { MapUpdateEvent } from 'src/app/interfaces/events/map-update.interface';
@@ -23,14 +22,8 @@ import { Shelter } from 'src/app/interfaces/graphql/shelter.type';
 import { getGeoJsonFromCoords } from 'src/app/utils/Map';
 import { getPoiCategoryClass, getPoiCategoryTag, Poi } from 'src/app/utils/Poi';
 import { environment } from 'src/environments/environment';
+
 import { GeoJSON, GeoJSONFeature } from '../../interfaces/geo/GeoJSONFeature.interface';
-import CragPin from './pins/crag';
-import DrinkingWaterPin from './pins/drinking-water';
-import EventPin from './pins/event';
-import HikePin from './pins/hike';
-import PlacePin from './pins/place';
-import ShelterPin from './pins/shelter';
-import { PinUtils } from './pins/utils';
 
 export enum POI_TYPE {
   CRAG = 'crag',
@@ -59,7 +52,7 @@ type Entities = Crag[] | Place[] | Competition[] | Shelter[] | Hike[];
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss'],
 })
-export class MapComponent implements OnInit, OnChanges {
+export class MapComponent implements OnChanges {
   @ViewChild('map') map: MapBoxComponent;
   @Input() zoom: number;
   @Input() centerLocation: GeoLocation;
@@ -117,6 +110,8 @@ export class MapComponent implements OnInit, OnChanges {
   selectedCoordinates: any;
 
   // Default props
+  pitch = 60;
+  bearing = 0;
   minZoom = 8;
   maxZoom = 22;
   clusterMaxZoom = 17;
@@ -130,7 +125,6 @@ export class MapComponent implements OnInit, OnChanges {
 
   // Flags
   isLoading = true;
-  renderMap = false;
 
   private earthRadius = 3963.0;
   private radians = 57.2958;
@@ -138,10 +132,6 @@ export class MapComponent implements OnInit, OnChanges {
   private mapInstance: mapboxgl.Map;
 
   constructor(private translateService: TranslateService, private ref: ChangeDetectorRef) {}
-
-  ngOnInit(): void {
-    this.loadPins();
-  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.centerLocation && this.centerLocation) {
@@ -174,6 +164,9 @@ export class MapComponent implements OnInit, OnChanges {
   mapLoaded(): void {
     this.isLoading = false;
     this.mapInstance = this.map.mapInstance;
+
+    this.init3dTerrain();
+
     this.emitMapUpdateStatus(true);
   }
 
@@ -270,7 +263,7 @@ export class MapComponent implements OnInit, OnChanges {
    *
    */
   get hasMultiItems(): boolean {
-    return _.size(this.selectedFeatures) > 1;
+    return size(this.selectedFeatures) > 1;
   }
 
   /**
@@ -313,9 +306,9 @@ export class MapComponent implements OnInit, OnChanges {
   /**
    *
    */
-  private translateToFeatureCollection(entities: Entities, type: string, namespace: string): any {
-    const output = new Array();
-    _.each(entities, (e: Entity) => {
+  private translateToFeatureCollection(entities: Entities, type: string, namespace: string): GeoJSONFeature[] {
+    const output: GeoJSONFeature[] = [];
+    each(entities, (e: Entity) => {
       const feature: GeoJSONFeature = {
         type: 'Feature',
         properties: { ...e, source: this.SOURCES.WCI, 'marker-symbol': type, internal_link: `/${namespace}/${e.slug}` },
@@ -349,28 +342,34 @@ export class MapComponent implements OnInit, OnChanges {
    *
    */
   private hydrateOsmGeoJSON(pois: { features: GeoJSONFeature[] }): void {
-    const injectMarker = (poi: GeoJSONFeature): void => {
-      _.each(this.OSM_WCI_MARKER_TYPE_MAP, (mapValue: string, mapKey: string) => {
+    const features = [];
+
+    const buildMarker = (poi: GeoJSONFeature): void => {
+      each(this.OSM_WCI_MARKER_TYPE_MAP, (mapValue: string, mapKey: string) => {
+        const feature = { ...poi };
         const kPieces = mapKey.split('.');
         const key = kPieces[0];
         const value = kPieces[1];
-        if (poi.properties[key] === value) {
-          poi.properties = {
-            ...poi.properties,
+
+        if (feature.properties[key] === value) {
+          feature.properties = {
+            ...feature.properties,
             'marker-symbol': mapValue,
             source: this.SOURCES.OSM,
-            internal_link: `/pois/${(poi.properties.id as string).split('/')[1]}`,
+            internal_link: `/pois/${(feature.properties.id as string).split('/')[1]}`,
           };
+
+          features.push(feature);
           return false;
         }
       });
     };
 
-    _.each(pois.features, injectMarker);
+    each(pois.features, buildMarker);
 
     this.osmGeoJson = {
       type: 'FeatureCollection',
-      features: pois.features,
+      features,
     };
   }
 
@@ -384,15 +383,24 @@ export class MapComponent implements OnInit, OnChanges {
   /**
    *
    */
-  private async loadPins(): Promise<void> {
-    this.pins = {
-      crag: await PinUtils.toImageData(CragPin),
-      event: await PinUtils.toImageData(EventPin),
-      hike: await PinUtils.toImageData(HikePin),
-      place: await PinUtils.toImageData(PlacePin),
-      shelter: await PinUtils.toImageData(ShelterPin),
-      'drinking-water': await PinUtils.toImageData(DrinkingWaterPin),
-    };
-    this.renderMap = true;
+  private init3dTerrain(): void {
+    this.mapInstance.addSource('mapbox-dem', {
+      type: 'raster-dem',
+      url: 'mapbox://mapbox.mapbox-terrain-dem-v1',
+      tileSize: 512,
+      maxzoom: this.maxZoom,
+    });
+
+    this.mapInstance.setTerrain({ source: 'mapbox-dem' });
+
+    this.mapInstance.addLayer({
+      id: 'sky',
+      type: 'sky' as any,
+      paint: {
+        'sky-type': 'atmosphere',
+        'sky-atmosphere-sun': [0.0, 0.0],
+        'sky-atmosphere-sun-intensity': 15,
+      } as any,
+    });
   }
 }

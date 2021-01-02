@@ -159,10 +159,14 @@ export class GeoService {
    */
   getLocationFromBrowser(success: (location) => void, error: () => void): void {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((location) => {
-        PersistanceService.set('geoloc', '1');
-        success(location);
-      }, error);
+      navigator.geolocation.watchPosition(
+        (location) => {
+          PersistanceService.set('geoloc', '1');
+          success(location);
+        },
+        error,
+        { enableHighAccuracy: true },
+      );
     } else {
       error();
     }

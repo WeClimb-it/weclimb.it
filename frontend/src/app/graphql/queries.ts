@@ -1,7 +1,9 @@
+import { ApolloQueryResult } from '@apollo/client/core';
+import { gql } from 'apollo-angular';
 import { Route } from '@angular/compiler/src/core';
-import { ApolloQueryResult } from 'apollo-client';
+
 import { DocumentNode } from 'graphql';
-import gql from 'graphql-tag';
+
 import { Competition } from '../interfaces/graphql/competition.type';
 import { Crag } from '../interfaces/graphql/crag.type';
 import { ForecastResult as ForecastResultType } from '../interfaces/graphql/forecastresult.type';

@@ -2,6 +2,9 @@
 @import '../../../common';
 @import '../../../mixins';
 
+$closeButtonSize: 20px;
+$closeButtonFontsize: $closeButtonSize - 4px;
+
 mgl-map {
   height: 100%;
   width: 100%;
@@ -29,9 +32,17 @@ mgl-map {
     }
 
     button {
-      width: 20px;
-      height: 20px;
-      line-height: 20px;
+      width: $closeButtonSize;
+      height: $closeButtonSize;
+      line-height: $closeButtonSize;
+
+      mat-icon {
+        font-size: $closeButtonFontsize;
+        line-height: $closeButtonSize;
+        width: $closeButtonSize;
+        height: $closeButtonSize;
+        padding-bottom: $closeButtonSize - $closeButtonFontsize;
+      }
     }
   }
 
@@ -158,6 +169,37 @@ mgl-map {
       text-decoration: none;
       font-weight: 600;
     }
+  }
+}
+
+.map-loader {
+  position: relative;
+  display: inline-block;
+  bottom: 70px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: $maxZIndex - 1;
+
+  height: 40px;
+  border-radius: 40px;
+
+  background: rgba(black, 0.95);
+
+  .spinner {
+    display: inline-block;
+    padding-left: 5px;
+    margin-right: 5px;
+    vertical-align: middle;
+  }
+
+  .text {
+    color: rgba(white, 0.8);
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 13px;
+    text-align: center;
+    line-height: 38px;
+    padding-right: 15px;
   }
 }
 
