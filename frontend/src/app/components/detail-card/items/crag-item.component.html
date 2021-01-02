@@ -113,8 +113,8 @@
             [center]="centerCoords"
             [minZoom]="minZoom"
             [maxZoom]="maxZoom"
-            (mouseOver)="onMapBusy(true)"
-            (mouseOut)="onMapBusy(false)"
+            (mapMouseOver)="onMapBusy(true)"
+            (mapMouseOut)="onMapBusy(false)"
           >
             <!-- The map controls -->
             <mgl-control mglNavigation position="bottom-left"></mgl-control>

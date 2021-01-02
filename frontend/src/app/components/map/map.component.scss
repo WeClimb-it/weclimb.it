@@ -2,6 +2,9 @@
 @import '../../../common';
 @import '../../../mixins';
 
+$closeButtonSize: 20px;
+$closeButtonFontsize: $closeButtonSize - 4px;
+
 mgl-map {
   height: 100%;
   width: 100%;
@@ -29,9 +32,17 @@ mgl-map {
     }
 
     button {
-      width: 20px;
-      height: 20px;
-      line-height: 20px;
+      width: $closeButtonSize;
+      height: $closeButtonSize;
+      line-height: $closeButtonSize;
+
+      mat-icon {
+        font-size: $closeButtonFontsize;
+        line-height: $closeButtonSize;
+        width: $closeButtonSize;
+        height: $closeButtonSize;
+        padding-bottom: $closeButtonSize - $closeButtonFontsize;
+      }
     }
   }
 
