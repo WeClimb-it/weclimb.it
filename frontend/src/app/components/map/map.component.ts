@@ -110,6 +110,8 @@ export class MapComponent implements OnChanges {
   selectedCoordinates: any;
 
   // Default props
+  pitch = 60;
+  bearing = 0;
   minZoom = 8;
   maxZoom = 22;
   clusterMaxZoom = 17;
@@ -162,6 +164,9 @@ export class MapComponent implements OnChanges {
   mapLoaded(): void {
     this.isLoading = false;
     this.mapInstance = this.map.mapInstance;
+
+    this.init3dTerrain();
+
     this.emitMapUpdateStatus(true);
   }
 
@@ -373,5 +378,29 @@ export class MapComponent implements OnChanges {
    */
   private updateCenterGeoJSON(): void {
     this.centerGeoJson = getGeoJsonFromCoords(this.centerCoords);
+  }
+
+  /**
+   *
+   */
+  private init3dTerrain(): void {
+    this.mapInstance.addSource('mapbox-dem', {
+      type: 'raster-dem',
+      url: 'mapbox://mapbox.mapbox-terrain-dem-v1',
+      tileSize: 512,
+      maxzoom: this.maxZoom,
+    });
+
+    this.mapInstance.setTerrain({ source: 'mapbox-dem', exaggeration: 3 });
+
+    this.mapInstance.addLayer({
+      id: 'sky',
+      type: 'sky' as any,
+      paint: {
+        'sky-type': 'atmosphere',
+        'sky-atmosphere-sun': [0.0, 0.0],
+        'sky-atmosphere-sun-intensity': 15,
+      } as any,
+    });
   }
 }

@@ -72,6 +72,10 @@ a:visited {
   }
 }
 
+*:focus {
+  outline: none;
+}
+
 .no-mouse {
   pointer-events: none;
 }
