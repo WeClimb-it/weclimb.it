@@ -1,6 +1,6 @@
 import { Poi } from './Poi';
 import { GeoJSONFeature } from '../interfaces/geo/GeoJSONFeature.interface';
-import _ from 'lodash';
+import { each } from 'lodash';
 
 export enum ContentType {
   CRAGS = 'crags',
@@ -49,7 +49,7 @@ export const typeOfGeoJSONFeature = (item: GeoJSONFeature): string => {
   if (item.properties.__typename) {
     found = (item.properties as any).__typename;
   } else {
-    _.each(OSM_TYPE_MAP, (typeValue: string, mapKey: string) => {
+    each(OSM_TYPE_MAP, (typeValue: string, mapKey: string) => {
       const kPieces = mapKey.split('.');
       const key = kPieces[0];
       const value = kPieces[1];

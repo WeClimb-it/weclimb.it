@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router, RouterEvent } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import _ from 'lodash';
+import { debounce, isEmpty } from 'lodash';
 import moment from 'moment-timezone';
 import { Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -82,7 +82,7 @@ export class AppComponent implements OnInit {
       }
     });
 
-    this.onMapReadyOrUpdate = _.debounce(this.onMapReadyOrUpdate, 1500);
+    this.onMapReadyOrUpdate = debounce(this.onMapReadyOrUpdate, 1500);
   }
 
   ngOnInit(): void {
@@ -301,7 +301,7 @@ export class AppComponent implements OnInit {
       })
       .subscribe((res: { loading: boolean; data: Record<string, object> }) => {
         if (!res.loading) {
-          if (!_.isEmpty(res.data) && !_.isEmpty(res.data.osmNodes)) {
+          if (!isEmpty(res.data) && !isEmpty(res.data.osmNodes)) {
             const { osmNodes: pois } = res.data;
             this.nearbyOsmPois = pois;
           }

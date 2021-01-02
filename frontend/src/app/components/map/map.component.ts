@@ -10,7 +10,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import _ from 'lodash';
+import { size, each } from 'lodash';
 import { MapComponent as MapBoxComponent } from 'ngx-mapbox-gl';
 import { GeoLocation } from 'src/app/classes/geolocation.class';
 import { MapUpdateEvent } from 'src/app/interfaces/events/map-update.interface';
@@ -23,6 +23,7 @@ import { Shelter } from 'src/app/interfaces/graphql/shelter.type';
 import { getGeoJsonFromCoords } from 'src/app/utils/Map';
 import { getPoiCategoryClass, getPoiCategoryTag, Poi } from 'src/app/utils/Poi';
 import { environment } from 'src/environments/environment';
+
 import { GeoJSON, GeoJSONFeature } from '../../interfaces/geo/GeoJSONFeature.interface';
 import CragPin from './pins/crag';
 import DrinkingWaterPin from './pins/drinking-water';
@@ -270,7 +271,7 @@ export class MapComponent implements OnInit, OnChanges {
    *
    */
   get hasMultiItems(): boolean {
-    return _.size(this.selectedFeatures) > 1;
+    return size(this.selectedFeatures) > 1;
   }
 
   /**
@@ -315,7 +316,7 @@ export class MapComponent implements OnInit, OnChanges {
    */
   private translateToFeatureCollection(entities: Entities, type: string, namespace: string): any {
     const output = new Array();
-    _.each(entities, (e: Entity) => {
+    each(entities, (e: Entity) => {
       const feature: GeoJSONFeature = {
         type: 'Feature',
         properties: { ...e, source: this.SOURCES.WCI, 'marker-symbol': type, internal_link: `/${namespace}/${e.slug}` },
@@ -350,7 +351,7 @@ export class MapComponent implements OnInit, OnChanges {
    */
   private hydrateOsmGeoJSON(pois: { features: GeoJSONFeature[] }): void {
     const injectMarker = (poi: GeoJSONFeature): void => {
-      _.each(this.OSM_WCI_MARKER_TYPE_MAP, (mapValue: string, mapKey: string) => {
+      each(this.OSM_WCI_MARKER_TYPE_MAP, (mapValue: string, mapKey: string) => {
         const kPieces = mapKey.split('.');
         const key = kPieces[0];
         const value = kPieces[1];
@@ -366,7 +367,7 @@ export class MapComponent implements OnInit, OnChanges {
       });
     };
 
-    _.each(pois.features, injectMarker);
+    each(pois.features, injectMarker);
 
     this.osmGeoJson = {
       type: 'FeatureCollection',

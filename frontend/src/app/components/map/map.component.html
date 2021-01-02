@@ -6,7 +6,7 @@
   [center]="centerCoords"
   [minZoom]="minZoom"
   [maxZoom]="maxZoom"
-  (load)="mapLoaded()"
+  (mapLoad)="mapLoaded()"
   (moveEnd)="mapInteractionEnd()"
 >
   <!-- The map controls -->
@@ -47,7 +47,7 @@
         stops: clusterSizes
       }
     }"
-    (click)="onClusterClick($event)"
+    (layerClick)="onClusterClick($event)"
   >
   </mgl-layer>
 
@@ -75,7 +75,7 @@
       'icon-image': '{marker-symbol}',
       'icon-offset': [0, 20]
     }"
-    (click)="onMarkerClick($event)"
+    (layerClick)="onMarkerClick($event)"
   >
   </mgl-layer>
 

@@ -3,7 +3,7 @@ import { GeoLocation } from 'src/app/classes/geolocation.class';
 import { GeoService, JourneyMode } from 'src/app/services/geo.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Coords } from 'src/app/interfaces/graphql/coords.type';
-import _ from 'lodash';
+import { isEmpty } from 'lodash';
 import { TranslateService } from '@ngx-translate/core';
 
 @Pipe({
@@ -21,8 +21,8 @@ export class DistancePipe implements PipeTransform {
     fromUser: boolean = true,
   ): unknown {
     if (
-      _.isEmpty(source) ||
-      _.isEmpty(destination) ||
+      isEmpty(source) ||
+      isEmpty(destination) ||
       source.lat === null ||
       source.lng === null ||
       destination.lat === null ||
