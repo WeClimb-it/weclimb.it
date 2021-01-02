@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
-import { FetchPolicy } from 'apollo-client';
+import { FetchPolicy } from '@apollo/client/core';
+import { Injectable } from '@angular/core';
+
 import { Observable } from 'rxjs';
 import Queries, {
   CragResult,

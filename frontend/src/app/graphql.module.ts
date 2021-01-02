@@ -1,8 +1,8 @@
-import { NgModule } from '@angular/core';
 import { ApolloModule, APOLLO_OPTIONS } from 'apollo-angular';
-import { HttpLink, HttpLinkModule } from 'apollo-angular-link-http';
-import { InMemoryCache } from 'apollo-cache-inmemory';
-import { ApolloLink } from 'apollo-link';
+import { HttpLink, HttpLinkModule } from 'apollo-angular/http';
+import { InMemoryCache, ApolloLink } from '@apollo/client/core';
+import { NgModule } from '@angular/core';
+
 import { RetryLink } from 'apollo-link-retry';
 import { environment } from 'src/environments/environment';
 import { I18nService } from './services/i18n.service';
