@@ -51,7 +51,9 @@
               "rxjs",
               "zen-observable",
               "graphql-tag",
-              "@mapbox/togeojson"
+              "@mapbox/togeojson",
+              "geolib",
+              "js-cookie"
             ]
           },
           "configurations": {
@@ -72,13 +74,13 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "5mb"
+                  "maximumWarning": "8mb",
+                  "maximumError": "10mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "6kb",
-                  "maximumError": "10kb"
+                  "maximumWarning": "50kb",
+                  "maximumError": "100kb"
                 }
               ]
             }
