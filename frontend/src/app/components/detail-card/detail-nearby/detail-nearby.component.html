@@ -3,7 +3,7 @@
   <div *ngFor="let item of items" class="item">
     <div class="category {{ getNearbyCategoryClass(item) }}">{{ getNearbyCategoryTag(item) }}</div>
     <h4 (click)="onEntitySelected(item)">
-      {{ item.title || item.name }}
+      {{ item['title'] || item['name'] }}
     </h4>
     <div *ngIf="item.coords" [innerHTML]="item.coords | distance: distanceCoords:false:false:false"></div>
   </div>
