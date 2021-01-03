@@ -10,6 +10,7 @@ import {
 } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { each, size } from 'lodash';
+import { MapboxGeoJSONFeature } from 'mapbox-gl';
 import { MapComponent as MapBoxComponent } from 'ngx-mapbox-gl';
 import { GeoLocation } from 'src/app/classes/geolocation.class';
 import { MapUpdateEvent } from 'src/app/interfaces/events/map-update.interface';
@@ -56,6 +57,7 @@ export class MapComponent implements OnChanges {
   @ViewChild('map') map: MapBoxComponent;
   @Input() zoom: number;
   @Input() centerLocation: GeoLocation;
+  @Input() userOrientation: number;
   @Input() userLocation: GeoLocation;
   @Input() pois: Pois;
   @Input() osmPois: GeoJSON;
@@ -100,14 +102,25 @@ export class MapComponent implements OnChanges {
     OSM: 'osm',
   };
 
+  USER_LOCATION_SYMBOL = 'user-location-symbol';
+  USER_LOCATION_COLOR_RGB = '251, 197, 49';
+  USER_DIRECTION_COLOR_RGB = '232, 65, 24';
+
+  CENTER_LOCATION_COLOR_RGB = '255, 71, 87';
+  CLUSTER_COLOR_RGB = '64,205,126';
+
   pins: { [key: string]: ImageData };
+
   centerCoords: number[];
+  centerLocationGeoJson: GeoJSON;
+
   userCoords: number[];
+  userLocationGeoJson: GeoJSON;
+
   geoJson: GeoJSON;
   osmGeoJson: GeoJSON;
-  centerGeoJson: GeoJSON;
-  selectedFeatures: any[] = [];
-  selectedCoordinates: any;
+  selectedFeatures: MapboxGeoJSONFeature | GeoJSONFeature[] = [];
+  selectedCoordinates: unknown;
 
   // Default props
   pitch = 60;
@@ -116,7 +129,7 @@ export class MapComponent implements OnChanges {
   maxZoom = 22;
   clusterMaxZoom = 17;
   clusterRadius = 50;
-  clusterColor = 'rgba(64, 205, 126, 0.75)';
+  clusterColor = `rgba(${this.CLUSTER_COLOR_RGB}, 0.7)`;
   clusterSizes = [
     [0, 20],
     [20, 40],
@@ -126,8 +139,8 @@ export class MapComponent implements OnChanges {
   // Flags
   isLoading = true;
 
-  private earthRadius = 3963.0;
-  private radians = 57.2958;
+  private EARTH_RADIUS = 3963.0;
+  private RADIANS = 57.2958;
 
   private mapInstance: mapboxgl.Map;
 
@@ -141,6 +154,7 @@ export class MapComponent implements OnChanges {
 
     if (changes.userLocation && this.userLocation) {
       this.userCoords = this.userLocation.toCoordinates();
+      this.updateUserLocationGeoJSON();
     }
 
     if (changes.pois && changes.pois.currentValue) {
@@ -269,6 +283,86 @@ export class MapComponent implements OnChanges {
   /**
    *
    */
+  get userLocationSymbol(): any {
+    const symbolSize = 100;
+    const halfSymbolSize = symbolSize / 2;
+    const halfWidth = halfSymbolSize;
+    const halfHeight = halfWidth;
+
+    const orientationSymbolXOffset = halfSymbolSize;
+    const orientationSymbolYOffset = 15;
+    const orientationSymbolWidth = 10;
+    const orientationSymbolHeight = 13;
+
+    const PI2 = Math.PI * 2;
+
+    const self = this;
+
+    return {
+      width: symbolSize,
+      height: symbolSize,
+      data: new Uint8Array(symbolSize * symbolSize * 4),
+
+      // get rendering context for the map canvas when layer is added to the map
+      onAdd: function () {
+        const canvas = document.createElement('canvas');
+        canvas.width = this.width;
+        canvas.height = this.height;
+
+        this.context = canvas.getContext('2d');
+      },
+
+      render: function () {
+        const radius = halfSymbolSize * 0.3;
+        const context = this.context;
+
+        context.clearRect(0, 0, symbolSize, symbolSize);
+
+        // Matrix transformation
+        context.translate(halfWidth, halfHeight);
+        context.rotate((self.userOrientation * Math.PI) / 180);
+        context.translate(-halfWidth, -halfHeight);
+
+        // draw circle
+        context.beginPath();
+        context.arc(halfWidth, halfHeight, radius * 3, 0, PI2);
+        context.fillStyle = `rgba(${self.USER_LOCATION_COLOR_RGB}, 0.7)`;
+        context.fill();
+
+        context.beginPath();
+        context.arc(halfWidth, halfHeight, radius, 0, PI2);
+        context.fillStyle = `rgba(${self.USER_DIRECTION_COLOR_RGB}, 1)`;
+        context.fill();
+
+        if (self.userOrientation) {
+          // draw user direction
+          const sX = orientationSymbolXOffset;
+          const sY = orientationSymbolYOffset;
+          const w = orientationSymbolWidth;
+          const h = orientationSymbolHeight;
+
+          context.beginPath();
+          context.moveTo(sX, sY);
+          context.lineTo(sX - w, sY + h);
+          context.lineTo(sX + w, sY + h);
+          context.closePath();
+          context.fillStyle = `rgba(${self.USER_DIRECTION_COLOR_RGB}, 1)`;
+          context.fill();
+
+          context.setTransform(1, 0, 0, 1, 0, 0);
+        }
+
+        // update this image's data with data from the canvas
+        this.data = context.getImageData(0, 0, symbolSize, symbolSize).data;
+
+        return true;
+      },
+    };
+  }
+
+  /**
+   *
+   */
   private emitMapUpdateStatus(firstLoad = false): void {
     if (!this.mapInstance) {
       return;
@@ -291,14 +385,14 @@ export class MapComponent implements OnChanges {
     const bounds = this.mapInstance.getBounds();
 
     // From decimal degrees into radians
-    const lat1 = center.lat / this.radians;
-    const lon1 = center.lng / this.radians;
-    const lat2 = bounds.getNorthEast().lat / this.radians;
-    const lon2 = bounds.getNorthEast().lng / this.radians;
+    const lat1 = center.lat / this.RADIANS;
+    const lon1 = center.lng / this.RADIANS;
+    const lat2 = bounds.getNorthEast().lat / this.RADIANS;
+    const lon2 = bounds.getNorthEast().lng / this.RADIANS;
 
     // From radians to miles
     return Math.ceil(
-      this.earthRadius *
+      this.EARTH_RADIUS *
         Math.acos(Math.sin(lat1) * Math.sin(lat2) + Math.cos(lat1) * Math.cos(lat2) * Math.cos(lon2 - lon1)),
     );
   }
@@ -377,7 +471,14 @@ export class MapComponent implements OnChanges {
    *
    */
   private updateCenterGeoJSON(): void {
-    this.centerGeoJson = getGeoJsonFromCoords(this.centerCoords);
+    this.centerLocationGeoJson = getGeoJsonFromCoords(this.centerCoords);
+  }
+
+  /**
+   *
+   */
+  private updateUserLocationGeoJSON(): void {
+    this.userLocationGeoJson = getGeoJsonFromCoords(this.userCoords, this.userOrientation);
   }
 
   /**

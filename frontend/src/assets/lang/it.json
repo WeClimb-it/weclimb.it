@@ -84,7 +84,7 @@
   "LOADING": "Solo un attimo...",
   "LOADING_MAP": "Aggiorno la mappa",
   "USER_LOCATION_MESSAGE": "Non sei vicino {{city}}?",
-  "USER_LOCATION_MESSAGE_NO_CITY": "Cerchi una localizzazione più accurata?",
+  "USER_LOCATION_MESSAGE_NO_CITY": "Reimposta la mappa",
   "ENABLE_GEOLOCATION": "Attiva localizzazione",
   "USE_GEOLOCATION": "Usa la tua posizione",
   "UNKNOWN": "sconosciuto"

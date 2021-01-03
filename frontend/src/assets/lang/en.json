@@ -84,7 +84,7 @@
   "LOADING": "Just a second...",
   "LOADING_MAP": "Updating map",
   "USER_LOCATION_MESSAGE": "Far from {{city}}?",
-  "USER_LOCATION_MESSAGE_NO_CITY": "Do you need a more accurate location?",
+  "USER_LOCATION_MESSAGE_NO_CITY": "Reset the map",
   "ENABLE_GEOLOCATION": "Enable geolocation",
   "USE_GEOLOCATION": "Use your position",
   "UNKNOWN": "unknown"

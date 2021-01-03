@@ -1,5 +1,6 @@
-import { isDevMode, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+
 import { DetailComponent } from './pages/detail/detail.component';
 import { EntitiesListComponent } from './pages/entities-list/entities-list.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';

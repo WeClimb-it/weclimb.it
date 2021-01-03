@@ -6,6 +6,7 @@ import { Coords } from '../interfaces/graphql/coords.type';
  */
 export const getGeoJsonFromCoords = (
   coordinates: number[],
+  orientation?: number,
 ): {
   type: 'FeatureCollection';
   features: GeoJSONFeature[];
@@ -19,6 +20,7 @@ export const getGeoJsonFromCoords = (
           type: 'Point',
           coordinates,
         },
+        properties: orientation ? { orientation } : undefined,
       },
     ],
   };

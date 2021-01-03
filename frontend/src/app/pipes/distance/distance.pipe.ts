@@ -54,15 +54,15 @@ export class DistancePipe implements PipeTransform {
     let unit = 'kms';
 
     if (byWalk) {
-      const oDistance = this.geo.getDistanceInTime(+metricDistance, JourneyMode.WALK);
+      const oDistance = this.geo.getDistanceInTime(metricDistance, JourneyMode.WALK);
       distance = oDistance.value;
       unit = oDistance.unit;
     } else if (byCar) {
-      const oDistance = this.geo.getDistanceInTime(+metricDistance, JourneyMode.CAR);
+      const oDistance = this.geo.getDistanceInTime(metricDistance, JourneyMode.CAR);
       distance = oDistance.value;
       unit = oDistance.unit;
     } else {
-      distance = +metricDistance > 500 ? Math.floor(+metricDistance).toString() : metricDistance;
+      distance = metricDistance > 500 ? Math.floor(metricDistance).toString() : metricDistance.toString();
     }
 
     return source.toString() !== destinationStr

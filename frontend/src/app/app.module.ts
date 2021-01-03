@@ -10,11 +10,12 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 import { MomentModule } from 'ngx-moment';
 import {
+  PERFECT_SCROLLBAR_CONFIG,
   PerfectScrollbarConfigInterface,
   PerfectScrollbarModule,
-  PERFECT_SCROLLBAR_CONFIG,
 } from 'ngx-perfect-scrollbar';
 import { environment } from 'src/environments/environment';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DetailCardComponent } from './components/detail-card/detail-card.component';
@@ -23,8 +24,8 @@ import { CompetitionCardItemComponent } from './components/detail-card/items/com
 import { CragCardItemComponent } from './components/detail-card/items/crag-item.component';
 import { HikeCardItemComponent } from './components/detail-card/items/hike-item.component';
 import { PlaceCardItemComponent } from './components/detail-card/items/place-item.component';
-import { ShelterCardItemComponent } from './components/detail-card/items/shelter-item.component';
 import { PoiCardItemComponent } from './components/detail-card/items/poi-item.component';
+import { ShelterCardItemComponent } from './components/detail-card/items/shelter-item.component';
 import { HeaderComponent } from './components/header/header.component';
 import { CompetitionListItemComponent } from './components/list-items/competition-item.component';
 import { CragListItemComponent } from './components/list-items/crag-item.component';

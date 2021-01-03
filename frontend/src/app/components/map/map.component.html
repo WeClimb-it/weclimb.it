@@ -14,6 +14,8 @@
   <mgl-control mglNavigation position="bottom-left"></mgl-control>
   <mgl-control mglScale unit="metric" position="bottom-right"></mgl-control>
 
+  <mgl-image [id]="USER_LOCATION_SYMBOL" [data]="userLocationSymbol" [options]="{ pixelRatio: 2 }"> </mgl-image>
+
   <!-- The POIs source -->
   <mgl-geojson-source
     id="pois"
@@ -24,7 +26,10 @@
   ></mgl-geojson-source>
 
   <!-- The landing point source -->
-  <mgl-geojson-source id="center" [data]="centerGeoJson"></mgl-geojson-source>
+  <mgl-geojson-source id="center-location" [data]="centerLocationGeoJson"></mgl-geojson-source>
+
+  <!-- The landing point source -->
+  <mgl-geojson-source id="user-location" [data]="userLocationGeoJson"></mgl-geojson-source>
 
   <!-- The clusters -->
   <mgl-layer
@@ -76,9 +81,9 @@
   <mgl-layer
     id="center-point"
     type="circle"
-    source="center"
+    source="center-location"
     [paint]="{
-      'circle-color': 'rgba(255, 95, 88, 0.8)',
+      'circle-color': 'rgba(' + CENTER_LOCATION_COLOR_RGB + ', 0.8)',
       'circle-radius': 8
     }"
   >
@@ -86,12 +91,16 @@
   <mgl-layer
     id="center-point-2"
     type="circle"
-    source="center"
+    source="center-location"
     [paint]="{
-      'circle-color': 'rgba(255, 95, 88, 0.5)',
+      'circle-color': 'rgba(' + CENTER_LOCATION_COLOR_RGB + ', 0.5)',
       'circle-radius': 20
     }"
   >
+  </mgl-layer>
+
+  <!-- The user location -->
+  <mgl-layer id="user-point" type="symbol" source="user-location" [layout]="{ 'icon-image': USER_LOCATION_SYMBOL }">
   </mgl-layer>
 
   <mgl-popup *ngIf="selectedFeatures && selectedFeatures[0]" [lngLat]="selectedCoordinates" [closeOnClick]="true">
