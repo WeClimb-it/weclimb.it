@@ -5,10 +5,10 @@
 export const environment = {
   production: false,
   graphql: {
-    url: 'https://api.dev.weclimb.it/graphql',
+    url: 'https://api.weclimb.it/graphql',
   },
   rest: {
-    url: 'https://api.dev.weclimb.it/s',
+    url: 'https://api.weclimb.it/s',
   },
   i18n: {
     defaultLang: 'en',
