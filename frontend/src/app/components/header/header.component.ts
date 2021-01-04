@@ -1,6 +1,14 @@
-import { Component, ElementRef, EventEmitter, Output, ViewChild, HostListener, ChangeDetectorRef } from '@angular/core';
-import { GeoService, PlaceSuggestion } from 'src/app/services/geo.service';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  EventEmitter,
+  HostListener,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { GeoLocation } from 'src/app/classes/geolocation.class';
+import { GeoService, PlaceSuggestion } from 'src/app/services/geo.service';
 
 const MIN_PLACES_QUERY_LEN = 3;
 const MAX_PLACES_RESULTS = 10;
@@ -19,6 +27,7 @@ export interface SearchOptions {
   selector: 'wci-header',
   templateUrl: 'header.component.html',
   styleUrls: ['header.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent {
   @Output() search: EventEmitter<SearchOptions> = new EventEmitter<SearchOptions>();

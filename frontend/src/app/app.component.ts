@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router, RouterEvent } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { debounce, isEmpty } from 'lodash';
@@ -23,6 +23,7 @@ import { Poi } from './utils/Poi';
   selector: 'wci-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Default,
 })
 export class AppComponent implements OnInit {
   zoom = 11;

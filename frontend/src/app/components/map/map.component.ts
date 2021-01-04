@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   EventEmitter,
@@ -53,6 +54,7 @@ type Entities = Crag[] | Place[] | Competition[] | Shelter[] | Hike[];
   selector: 'wci-map',
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MapComponent implements OnChanges {
   @ViewChild('map') map: MapBoxComponent;
@@ -128,6 +130,7 @@ export class MapComponent implements OnChanges {
   bearing = 0;
   minZoom = 8;
   maxZoom = 22;
+  max3dZoom = 14;
   clusterMaxZoom = 17;
   clusterRadius = 50;
   clusterColor = `rgba(${this.CLUSTER_COLOR_RGB}, 0.7)`;
@@ -142,6 +145,8 @@ export class MapComponent implements OnChanges {
 
   private EARTH_RADIUS = 3963.0;
   private RADIANS = 57.2958;
+
+  private maxLoadableRadius = 50; // Miles
 
   private mapInstance: mapboxgl.Map;
 
@@ -408,11 +413,13 @@ export class MapComponent implements OnChanges {
     const lat2 = bounds.getNorthEast().lat / this.RADIANS;
     const lon2 = bounds.getNorthEast().lng / this.RADIANS;
 
-    // From radians to miles
-    return Math.ceil(
+    const radius = Math.ceil(
       this.EARTH_RADIUS *
         Math.acos(Math.sin(lat1) * Math.sin(lat2) + Math.cos(lat1) * Math.cos(lat2) * Math.cos(lon2 - lon1)),
     );
+
+    // From radians to miles
+    return radius < this.maxLoadableRadius ? radius : this.maxLoadableRadius;
   }
 
   /**
@@ -507,7 +514,7 @@ export class MapComponent implements OnChanges {
       type: 'raster-dem',
       url: 'mapbox://mapbox.mapbox-terrain-dem-v1',
       tileSize: 512,
-      maxzoom: this.maxZoom,
+      maxzoom: this.max3dZoom,
     });
 
     this.mapInstance.setTerrain({ source: 'mapbox-dem' });

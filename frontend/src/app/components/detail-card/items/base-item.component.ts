@@ -1,4 +1,12 @@
-import { Component, HostListener, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  HostListener,
+  Input,
+  OnChanges,
+  SimpleChanges,
+  ViewChild,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { GeoLocation } from 'src/app/classes/geolocation.class';
@@ -14,6 +22,7 @@ import { environment } from 'src/environments/environment';
 @Component({
   selector: 'wci-base-card-item',
   template: '<div></div>',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BaseCardItemComponent implements OnChanges {
   @Input() data: Poi;

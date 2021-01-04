@@ -1,12 +1,22 @@
-import { Component, OnInit, Input, OnDestroy, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  OnDestroy,
+  ViewChild,
+  ElementRef,
+  AfterViewInit,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 
 // tslint:disable-next-line: no-string-literal
 const Skycons = (window && window['Skycons']) || {};
 
 @Component({
   selector: 'wci-skycon',
-  template: ` <canvas #skycon id="{{ id }}" width="{{ width }}" height="{{ height }}"></canvas> `,
+  template: `<canvas #skycon id="{{ id }}" width="{{ width }}" height="{{ height }}"></canvas>`,
   styles: [],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyconComponent implements AfterViewInit, OnDestroy {
   @Input() width: number;

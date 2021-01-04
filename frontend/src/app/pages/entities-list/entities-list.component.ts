@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -36,6 +36,7 @@ const DEFAULT_END = 20;
   selector: 'wci-entities-list',
   templateUrl: './entities-list.component.html',
   styleUrls: ['./entities-list.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Default,
 })
 export class EntitiesListComponent implements OnInit, OnDestroy {
   title = '';

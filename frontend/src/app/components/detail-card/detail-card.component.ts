@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { ContentType } from 'src/app/utils/ContentType';
 import { Poi } from 'src/app/utils/Poi';
@@ -8,6 +8,7 @@ import { GeoLocation } from 'src/app/classes/geolocation.class';
   selector: 'wci-detail-card',
   templateUrl: './detail-card.component.html',
   styleUrls: ['./detail-card.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Default,
 })
 export class DetailCardComponent {
   @Input() type: ContentType;

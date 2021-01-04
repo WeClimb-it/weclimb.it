@@ -1,13 +1,13 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Poi, getPoiCategoryTag, getPoiCategoryClass } from 'src/app/utils/Poi';
-import { typeOfItem } from 'src/app/utils/ContentType';
-import { Coords } from 'src/app/interfaces/graphql/coords.type';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { Coords } from 'src/app/interfaces/graphql/coords.type';
+import { getPoiCategoryClass, getPoiCategoryTag, Poi } from 'src/app/utils/Poi';
 
 @Component({
   selector: 'wci-detail-nearby',
   templateUrl: './detail-nearby.component.html',
   styleUrls: ['./detail-nearby.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Default,
 })
 export class DetailNearbyComponent {
   @Input() items: Poi[];

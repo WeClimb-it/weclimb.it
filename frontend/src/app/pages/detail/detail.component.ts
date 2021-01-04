@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { GeoLocation } from 'src/app/classes/geolocation.class';
@@ -14,6 +14,7 @@ type Results = CragResult | HikeResult | ShelterResult | PlaceResult | Competiti
   selector: 'wci-detail',
   templateUrl: './detail.component.html',
   styleUrls: ['./detail.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Default,
 })
 export class DetailComponent implements OnInit, OnDestroy {
   contentType: ContentType;

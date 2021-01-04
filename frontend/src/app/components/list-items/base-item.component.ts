@@ -1,14 +1,15 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { GeoLocation } from 'src/app/classes/geolocation.class';
 import { MediaPlayerComponent } from 'src/app/components/media-player/media-player.component';
 import { ContentType } from 'src/app/utils/ContentType';
 import { Poi } from 'src/app/utils/Poi';
-import { GeoLocation } from 'src/app/classes/geolocation.class';
 
 @Component({
   selector: 'wci-base-item',
   template: '<div></div>',
+  changeDetection: ChangeDetectionStrategy.Default,
 })
 export class BaseListItemComponent {
   @Input() currentLocation: GeoLocation;
