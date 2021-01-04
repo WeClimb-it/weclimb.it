@@ -3,7 +3,7 @@ import { GeoLocation } from 'src/app/classes/geolocation.class';
 import { GeoService, JourneyMode } from 'src/app/services/geo.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Coords } from 'src/app/interfaces/graphql/coords.type';
-import _ from 'lodash';
+import { isEmpty } from 'lodash';
 import { TranslateService } from '@ngx-translate/core';
 
 @Pipe({
@@ -21,8 +21,8 @@ export class DistancePipe implements PipeTransform {
     fromUser: boolean = true,
   ): unknown {
     if (
-      _.isEmpty(source) ||
-      _.isEmpty(destination) ||
+      isEmpty(source) ||
+      isEmpty(destination) ||
       source.lat === null ||
       source.lng === null ||
       destination.lat === null ||
@@ -54,15 +54,15 @@ export class DistancePipe implements PipeTransform {
     let unit = 'kms';
 
     if (byWalk) {
-      const oDistance = this.geo.getDistanceInTime(+metricDistance, JourneyMode.WALK);
+      const oDistance = this.geo.getDistanceInTime(metricDistance, JourneyMode.WALK);
       distance = oDistance.value;
       unit = oDistance.unit;
     } else if (byCar) {
-      const oDistance = this.geo.getDistanceInTime(+metricDistance, JourneyMode.CAR);
+      const oDistance = this.geo.getDistanceInTime(metricDistance, JourneyMode.CAR);
       distance = oDistance.value;
       unit = oDistance.unit;
     } else {
-      distance = +metricDistance > 500 ? Math.floor(+metricDistance).toString() : metricDistance;
+      distance = metricDistance > 500 ? Math.floor(metricDistance).toString() : metricDistance.toString();
     }
 
     return source.toString() !== destinationStr

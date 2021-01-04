@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router, RouterEvent } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import _ from 'lodash';
+import { debounce, isEmpty } from 'lodash';
 import moment from 'moment-timezone';
 import { Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
+
 import { GeoLocation } from './classes/geolocation.class';
 import { SearchOptions } from './components/header/header.component';
 import { NearbyResult, UserInfoResult } from './graphql/queries';
@@ -30,6 +31,7 @@ export class AppComponent implements OnInit {
   hasBrowserGeolocation = navigator && navigator.geolocation;
   hasActivatedBrowserGeolocation = false;
   currentLocation: GeoLocation = new GeoLocation(0, 0);
+  currentOrientation: number | undefined;
   userLocation: GeoLocation;
   nearbyPois: SearchResult;
   nearbyOsmPois: object;
@@ -78,11 +80,10 @@ export class AppComponent implements OnInit {
     this.appStore.watchProperty('currentUserLocation').subscribe((location: GeoLocation) => {
       if (location) {
         this.userLocation = location;
-        this.getNearby();
       }
     });
 
-    this.onMapReadyOrUpdate = _.debounce(this.onMapReadyOrUpdate, 1500);
+    this.onMapReadyOrUpdate = debounce(this.onMapReadyOrUpdate, 1500);
   }
 
   ngOnInit(): void {
@@ -161,9 +162,12 @@ export class AppComponent implements OnInit {
    */
   onLanguageSelected(index: number): void {
     const lang = environment.i18n.availableLangs[index];
+
     I18nService.chosenUserLang = lang;
     PersistanceService.set('lang', lang);
+
     this.translate.use(lang);
+
     this.onSectionSelected('/');
   }
 
@@ -171,17 +175,14 @@ export class AppComponent implements OnInit {
    *
    */
   onEnableGeolocation(): void {
-    this.geoService.getLocationFromBrowser(
-      (position) => {
-        this.userLocation = new GeoLocation(position.coords.latitude, position.coords.longitude, '');
-        this.currentLocation = this.userLocation;
-        this.updateUserLocationInStore();
-        this.updateCurrentLocationInStore();
-      },
-      () => {
-        throw new Error('Something went wrong during the geolocation');
-      },
-    );
+    if (!this.hasActivatedBrowserGeolocation) {
+      this.registerMovementHandlers();
+    } else {
+      this.currentLocation = this.userLocation;
+
+      this.updateUserLocationInStore();
+      this.updateCurrentLocationInStore();
+    }
   }
 
   /**
@@ -198,38 +199,7 @@ export class AppComponent implements OnInit {
         this.userData = res.data.userInfo;
 
         this.initI18n();
-
-        /*
-          We set the user location as current one so the map is updated
-          (note that it will trigger the "onMapUpdate" event)
-
-          At first, we try to retrieve the position from the browser,
-          in case of error or unapproved geolocation we use the position
-          coming from the back-end.
-        */
-        const doUpdateLocation = (location: GeoLocation) => {
-          this.userLocation = location;
-          this.updateCurrentLocationInStore();
-          this.updateUserLocationInStore();
-        };
-        this.geoService.getRespectfullyLocationFromBrowser(
-          (position) => {
-            // success
-            this.currentLocation = new GeoLocation(position.coords.latitude, position.coords.longitude, '');
-            doUpdateLocation(this.currentLocation);
-            this.hasActivatedBrowserGeolocation = true;
-          },
-          () => {
-            // error
-            this.currentLocation = new GeoLocation(
-              this.userData.geo.coords.lat,
-              this.userData.geo.coords.lng,
-              undefined,
-              this.userData.geo.city,
-            );
-            doUpdateLocation(this.currentLocation);
-          },
-        );
+        this.registerMovementHandlers();
 
         sub$.unsubscribe();
       }
@@ -246,6 +216,7 @@ export class AppComponent implements OnInit {
 
     this.isNearbyLoading = true;
 
+    // Load OSM items only below a certain radius threshold
     if (this.mapData.radius < this.osmRadiusThreshold) {
       this.getOsmNearby();
     }
@@ -301,7 +272,7 @@ export class AppComponent implements OnInit {
       })
       .subscribe((res: { loading: boolean; data: Record<string, object> }) => {
         if (!res.loading) {
-          if (!_.isEmpty(res.data) && !_.isEmpty(res.data.osmNodes)) {
+          if (!isEmpty(res.data) && !isEmpty(res.data.osmNodes)) {
             const { osmNodes: pois } = res.data;
             this.nearbyOsmPois = pois;
           }
@@ -370,5 +341,70 @@ export class AppComponent implements OnInit {
 
     moment.locale(this.userData.geo.isoCode);
     moment.tz.setDefault(this.userData.geo.timeZone);
+  }
+
+  /**
+   *
+   */
+  private registerMovementHandlers(): void {
+    /*
+    We set the user location using the current one so the map is updated
+    (note that it will trigger the "onMapUpdate" event)
+
+    At first, we try to retrieve the position from the browser,
+    in case of error or unapproved geolocation we use the position
+    coming from the back-end.
+    */
+    const doUpdateLocations = (location: GeoLocation, storeCurrentLocation: boolean) => {
+      if (storeCurrentLocation) {
+        this.currentLocation = location;
+        this.updateCurrentLocationInStore();
+      }
+
+      this.userLocation = location;
+      this.updateUserLocationInStore();
+    };
+
+    this.geoService.watchLocationFromBrowser(
+      (position) => {
+        // success
+        this.hasActivatedBrowserGeolocation = true;
+        const newLocation = new GeoLocation(position.coords.latitude, position.coords.longitude, '');
+
+        let updateCurrentLocation = false;
+
+        if (!this.userLocation) {
+          updateCurrentLocation = true;
+        } else {
+          if (this.mapData) {
+            const deltaLocationDistance = this.geoService.getDistanceFromCoords(this.userLocation, newLocation);
+            updateCurrentLocation = deltaLocationDistance > this.mapData.radius;
+          }
+        }
+
+        doUpdateLocations(newLocation, updateCurrentLocation);
+      },
+      () => {
+        // error (fallback using coords from the BE)
+        const location = new GeoLocation(
+          this.userData.geo.coords.lat,
+          this.userData.geo.coords.lng,
+          undefined,
+          this.userData.geo.city,
+        );
+
+        doUpdateLocations(location, true);
+      },
+    );
+
+    this.geoService.watchDeviceHorizontalOrientation(
+      (orientation: number) => {
+        this.currentOrientation = orientation ? Math.ceil(orientation) : this.currentOrientation;
+      },
+      () => {
+        // Nothing to do, the feature is not supported by the device
+        // TODO: Show a message?
+      },
+    );
   }
 }

@@ -123,6 +123,7 @@ export class HeaderComponent {
   /**
    *
    */
+  // TODO: KeyCode deprecated
   onSuggestionsKeyboardEvent($event: KeyboardEvent): void {
     if ($event.keyCode === this.ARROW_UP_KEY) {
       this.suggestionsKeyboardSelectionIndex =

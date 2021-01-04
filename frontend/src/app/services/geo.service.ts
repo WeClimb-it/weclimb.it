@@ -1,11 +1,11 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { GeoLocation } from '../classes/geolocation.class';
-
+import { TranslateService } from '@ngx-translate/core';
 import { getDistance } from 'geolib';
 import moment, { Duration } from 'moment';
-import { HttpClient, HttpResponse } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { TranslateService } from '@ngx-translate/core';
+
+import { GeoLocation } from '../classes/geolocation.class';
 import { PersistanceService } from './persistanceService';
 
 const WINDOW: any = window || {};
@@ -25,8 +25,8 @@ export enum JourneyMode {
 @Injectable({ providedIn: 'root' })
 export class GeoService {
   // in km/h
-  private avgHumanSpeed = 3.6;
-  private avgCarSpeed = 85;
+  private AVG_HUMAN_SPEED = 3.6;
+  private AVG_CAR_SPEED = 85;
 
   constructor(private httpClient: HttpClient, private translateService: TranslateService) {}
 
@@ -79,7 +79,7 @@ export class GeoService {
   /**
    *
    */
-  getDistanceFromCoords(source: GeoLocation, destination: GeoLocation): string {
+  getDistanceFromCoords(source: GeoLocation, destination: GeoLocation): number {
     // Meters in float
     const distance =
       getDistance(
@@ -87,7 +87,7 @@ export class GeoService {
         { latitude: destination.lat, longitude: destination.lng },
       ) / 1000;
 
-    return distance.toFixed(2);
+    return +distance.toFixed(2);
   }
 
   /**
@@ -104,10 +104,10 @@ export class GeoService {
     switch (mode) {
       default:
       case JourneyMode.WALK:
-        avgSpeed = this.avgHumanSpeed;
+        avgSpeed = this.AVG_HUMAN_SPEED;
         break;
       case JourneyMode.CAR:
-        avgSpeed = this.avgCarSpeed;
+        avgSpeed = this.AVG_CAR_SPEED;
         break;
     }
 
@@ -146,9 +146,16 @@ export class GeoService {
   /**
    *
    */
-  getRespectfullyLocationFromBrowser(success: (location) => void, error: () => void): void {
-    if (PersistanceService.get('geoloc') === '1') {
-      this.getLocationFromBrowser(success, error);
+  watchLocationFromBrowser(success: (location) => void, error: () => void): void {
+    if (navigator.geolocation) {
+      navigator.geolocation.watchPosition(
+        (location) => {
+          PersistanceService.set('geoloc', '1');
+          success(location);
+        },
+        error,
+        { enableHighAccuracy: true },
+      );
     } else {
       error();
     }
@@ -159,10 +166,35 @@ export class GeoService {
    */
   getLocationFromBrowser(success: (location) => void, error: () => void): void {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((location) => {
-        PersistanceService.set('geoloc', '1');
-        success(location);
-      }, error);
+      navigator.geolocation.getCurrentPosition(
+        (location) => {
+          PersistanceService.set('geoloc', '1');
+          success(location);
+        },
+        error,
+        { enableHighAccuracy: true },
+      );
+    } else {
+      error();
+    }
+  }
+
+  /**
+   *
+   */
+  watchDeviceHorizontalOrientation(success: (orientation: number) => void, error: () => void): void {
+    if (window.DeviceOrientationEvent) {
+      window.addEventListener(
+        'deviceorientation',
+        (event: DeviceOrientationEvent) => {
+          if (event.alpha) {
+            success(360 - event.alpha);
+          } else {
+            error();
+          }
+        },
+        true,
+      );
     } else {
       error();
     }

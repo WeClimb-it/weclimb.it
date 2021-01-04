@@ -8,9 +8,7 @@ import { ForecastResult } from 'src/app/graphql/queries';
 
 @Component({
   selector: 'wci-with-weather-card-item',
-  template: `
-    <div></div>
-  `,
+  template: ` <div></div> `,
 })
 export class BaseItemWithWeatherComponent extends BaseCardItemComponent implements OnChanges {
   hasForecast = false;

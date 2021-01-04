@@ -9,7 +9,12 @@
     <div *ngIf="isSearchPage">
       <div *ngIf="specialItems.locations.length > 0" class="cities">
         <strong>{{ 'WANNA_GO_TO' | translate }}:</strong>&nbsp;
-        <span *ngFor="let city of specialItems.locations" (click)="onCitySelected(city)">{{ city.name }}</span>
+        <span *ngFor="let city of specialItems.locations" (click)="onCitySelected(city)"
+          >{{ city['name'] }}
+          <i class="suggestion-distance"
+            >(<i [innerHTML]="city['coords'] | distance: userLocation:false:false:false"></i>)</i
+          ></span
+        >
       </div>
     </div>
     <div *ngFor="let item of items">

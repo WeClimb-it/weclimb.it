@@ -11,9 +11,7 @@ import { getGeoJsonFromCoords } from 'src/app/utils/Map';
 
 @Component({
   selector: 'wci-with-dynamic-map-card-item',
-  template: `
-    <div></div>
-  `,
+  template: ` <div></div> `,
 })
 export class BaseItemWithDynamicMapComponent extends BaseItemWithWeatherComponent implements OnChanges {
   zoom = 15;

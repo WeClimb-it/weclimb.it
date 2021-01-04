@@ -1,25 +1,20 @@
 <mgl-map
   #map
-  *ngIf="renderMap"
   [style]="mapStyle"
   [zoom]="[zoom]"
   [center]="centerCoords"
   [minZoom]="minZoom"
   [maxZoom]="maxZoom"
-  (load)="mapLoaded()"
+  [pitch]="pitch"
+  [bearing]="bearing"
+  (mapLoad)="mapLoaded()"
   (moveEnd)="mapInteractionEnd()"
 >
   <!-- The map controls -->
   <mgl-control mglNavigation position="bottom-left"></mgl-control>
   <mgl-control mglScale unit="metric" position="bottom-right"></mgl-control>
 
-  <!-- The Pins -->
-  <mgl-image id="crag-pin" [data]="pins.crag"> </mgl-image>
-  <mgl-image id="event-pin" [data]="pins.event"> </mgl-image>
-  <mgl-image id="hike-pin" [data]="pins.hike"> </mgl-image>
-  <mgl-image id="place-pin" [data]="pins.place"> </mgl-image>
-  <mgl-image id="shelter-pin" [data]="pins.shelter"> </mgl-image>
-  <mgl-image id="drinking-water-pin" [data]="pins['drinking-water']"> </mgl-image>
+  <mgl-image [id]="USER_LOCATION_SYMBOL" [data]="userLocationSymbol" [options]="{ pixelRatio: 2 }"> </mgl-image>
 
   <!-- The POIs source -->
   <mgl-geojson-source
@@ -31,7 +26,10 @@
   ></mgl-geojson-source>
 
   <!-- The landing point source -->
-  <mgl-geojson-source id="center" [data]="centerGeoJson"></mgl-geojson-source>
+  <mgl-geojson-source id="center-location" [data]="centerLocationGeoJson"></mgl-geojson-source>
+
+  <!-- The landing point source -->
+  <mgl-geojson-source id="user-location" [data]="userLocationGeoJson"></mgl-geojson-source>
 
   <!-- The clusters -->
   <mgl-layer
@@ -47,7 +45,7 @@
         stops: clusterSizes
       }
     }"
-    (click)="onClusterClick($event)"
+    (layerClick)="onClusterClick($event)"
   >
   </mgl-layer>
 
@@ -75,7 +73,7 @@
       'icon-image': '{marker-symbol}',
       'icon-offset': [0, 20]
     }"
-    (click)="onMarkerClick($event)"
+    (layerClick)="onMarkerClick($event)"
   >
   </mgl-layer>
 
@@ -83,9 +81,9 @@
   <mgl-layer
     id="center-point"
     type="circle"
-    source="center"
+    source="center-location"
     [paint]="{
-      'circle-color': 'rgba(255, 95, 88, 0.8)',
+      'circle-color': 'rgba(' + CENTER_LOCATION_COLOR_RGB + ', 0.8)',
       'circle-radius': 8
     }"
   >
@@ -93,15 +91,28 @@
   <mgl-layer
     id="center-point-2"
     type="circle"
-    source="center"
+    source="center-location"
     [paint]="{
-      'circle-color': 'rgba(255, 95, 88, 0.5)',
+      'circle-color': 'rgba(' + CENTER_LOCATION_COLOR_RGB + ', 0.5)',
       'circle-radius': 20
     }"
   >
   </mgl-layer>
 
-  <mgl-popup *ngIf="selectedFeatures && selectedFeatures[0]" [lngLat]="selectedCoordinates" [closeOnClick]="true">
+  <!-- The user location -->
+  <mgl-layer id="user-point" type="symbol" source="user-location" [layout]="{ 'icon-image': USER_LOCATION_SYMBOL }">
+  </mgl-layer>
+
+  <mgl-popup
+    *ngIf="selectedFeatures && selectedFeatures[0]"
+    [className]="
+      selectedFeatures[0].properties.source === SOURCES.OSM && selectedFeatures[0].properties.wikipedia
+        ? 'wiki-resource'
+        : ''
+    "
+    [lngLat]="selectedCoordinates"
+    [closeOnClick]="true"
+  >
     <div class="popup-close-button">
       <button mat-icon-button (click)="closePopup()">
         <mat-icon>close</mat-icon>
@@ -112,31 +123,56 @@
         <div
           class="popup-content"
           [ngClass]="{
-            small: selectedFeatures[0].properties.source === SOURCES.OSM,
-            'multi-items': false
+            'multi-items': false,
+            'wiki-content':
+              selectedFeatures[0].properties.source === SOURCES.OSM && selectedFeatures[0].properties.wikipedia
           }"
         >
           <div class="title" title="{{ getMapItemTitle(selectedFeatures[0]) }}">
             {{ getMapItemTitle(selectedFeatures[0]) }}
           </div>
-          <div
-            class="description"
-            *ngIf="selectedFeatures[0].properties.descr && selectedFeatures[0].properties.descr != 'null'"
-          >
-            {{ selectedFeatures[0].properties.descr }}
-          </div>
-          <div class="link">
-            <a routerLink="{{ selectedFeatures[0].properties.internal_link }}">{{ 'OPEN_DETAIL' | translate }}</a>
-          </div>
+
+          <ng-container [ngSwitch]="selectedFeatures[0].properties.source === SOURCES.OSM">
+            <!-- Internal content -->
+            <ng-container *ngSwitchCase="false">
+              <div
+                class="description"
+                *ngIf="selectedFeatures[0].properties.descr && selectedFeatures[0].properties.descr != 'null'"
+              >
+                {{ selectedFeatures[0].properties.descr }}
+              </div>
+              <div class="link">
+                <a routerLink="{{ selectedFeatures[0].properties.internal_link }}">{{ 'OPEN_DETAIL' | translate }}</a>
+              </div>
+            </ng-container>
+            <!-- Content from OSM -->
+            <ng-container *ngSwitchDefault>
+              <!-- External frame -->
+              <ng-container *ngIf="selectedFeatures[0].properties.wikipedia">
+                <iframe [src]="getMapItemWikipage(selectedFeatures[0])" class="external-resource-iframe"></iframe>
+                <div class="link">
+                  <a routerLink="{{ selectedFeatures[0].properties.internal_link }}">{{ 'OPEN_DETAIL' | translate }}</a>
+                </div>
+              </ng-container>
+
+              <!-- Description -->
+              <ng-container *ngIf="!selectedFeatures[0].properties.wikipedia">
+                <div
+                  *ngIf="selectedFeatures[0].properties.ele"
+                  class="description"
+                  [innerHTML]="'OSM_PEAK_DESCRIPTION' | translate: { ele: selectedFeatures[0].properties.ele }"
+                ></div>
+                <div class="link">
+                  <a routerLink="{{ selectedFeatures[0].properties.internal_link }}">{{ 'OPEN_DETAIL' | translate }}</a>
+                </div>
+              </ng-container>
+            </ng-container>
+          </ng-container>
         </div>
       </div>
+      <!-- List of items -->
       <div *ngSwitchDefault>
-        <div
-          class="popup-content"
-          [ngClass]="{
-            'multi-items': true
-          }"
-        >
+        <div class="popup-content" [ngClass]="{ 'multi-items': true }">
           <perfect-scrollbar>
             <div class="popup-item" *ngFor="let item of selectedFeatures">
               <div class="category {{ getPoiCategoryClass(item) }}">{{ getPoiCategoryTag(item) }}</div>

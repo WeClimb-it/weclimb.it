@@ -1,11 +1,11 @@
-(function(global) {
+(function (global) {
   'use strict';
 
   /* Set up a RequestAnimationFrame shim so we can animate efficiently FOR
    * GREAT JUSTICE. */
   var requestInterval, cancelInterval;
 
-  (function() {
+  (function () {
     var raf =
         global.requestAnimationFrame ||
         global.webkitRequestAnimationFrame ||
@@ -20,7 +20,7 @@
         global.msCancelAnimationFrame;
 
     if (raf && caf) {
-      requestInterval = function(fn) {
+      requestInterval = function (fn) {
         var handle = { value: null };
 
         function loop() {
@@ -32,7 +32,7 @@
         return handle;
       };
 
-      cancelInterval = function(handle) {
+      cancelInterval = function (handle) {
         caf(handle.value);
       };
     } else {
@@ -681,14 +681,14 @@
     }
   }
 
-  var Skycons = function(opts) {
+  var Skycons = function (opts) {
     this.list = [];
     this.interval = null;
     this.color = opts && opts.color ? opts.color : 'black';
     this.resizeClear = !!(opts && opts.resizeClear);
   };
 
-  Skycons.CLEAR_DAY = function(ctx, t, color) {
+  Skycons.CLEAR_DAY = function (ctx, t, color) {
     var w = ctx.canvas.width,
       h = ctx.canvas.height,
       s = Math.min(w, h);
@@ -696,7 +696,7 @@
     sun(ctx, t, w * 0.5, h * 0.5, s, s * STROKE, color);
   };
 
-  Skycons.CLEAR_NIGHT = function(ctx, t, color) {
+  Skycons.CLEAR_NIGHT = function (ctx, t, color) {
     var w = ctx.canvas.width,
       h = ctx.canvas.height,
       s = Math.min(w, h);
@@ -704,7 +704,7 @@
     moon(ctx, t, w * 0.5, h * 0.5, s, s * STROKE, color);
   };
 
-  Skycons.PARTLY_CLOUDY_DAY = function(ctx, t, color) {
+  Skycons.PARTLY_CLOUDY_DAY = function (ctx, t, color) {
     var w = ctx.canvas.width,
       h = ctx.canvas.height,
       s = Math.min(w, h);
@@ -713,7 +713,7 @@
     cloud(ctx, t, w * 0.375, h * 0.625, s * 0.75, s * STROKE, color);
   };
 
-  Skycons.PARTLY_CLOUDY_NIGHT = function(ctx, t, color) {
+  Skycons.PARTLY_CLOUDY_NIGHT = function (ctx, t, color) {
     var w = ctx.canvas.width,
       h = ctx.canvas.height,
       s = Math.min(w, h);
@@ -722,7 +722,7 @@
     cloud(ctx, t, w * 0.375, h * 0.625, s * 0.75, s * STROKE, color);
   };
 
-  Skycons.CLOUDY = function(ctx, t, color) {
+  Skycons.CLOUDY = function (ctx, t, color) {
     var w = ctx.canvas.width,
       h = ctx.canvas.height,
       s = Math.min(w, h);
@@ -730,7 +730,7 @@
     cloud(ctx, t, w * 0.5, h * 0.5, s, s * STROKE, color);
   };
 
-  Skycons.RAIN = function(ctx, t, color) {
+  Skycons.RAIN = function (ctx, t, color) {
     var w = ctx.canvas.width,
       h = ctx.canvas.height,
       s = Math.min(w, h);
@@ -739,7 +739,7 @@
     cloud(ctx, t, w * 0.5, h * 0.37, s * 0.9, s * STROKE, color);
   };
 
-  Skycons.SLEET = function(ctx, t, color) {
+  Skycons.SLEET = function (ctx, t, color) {
     var w = ctx.canvas.width,
       h = ctx.canvas.height,
       s = Math.min(w, h);
@@ -748,7 +748,7 @@
     cloud(ctx, t, w * 0.5, h * 0.37, s * 0.9, s * STROKE, color);
   };
 
-  Skycons.SNOW = function(ctx, t, color) {
+  Skycons.SNOW = function (ctx, t, color) {
     var w = ctx.canvas.width,
       h = ctx.canvas.height,
       s = Math.min(w, h);
@@ -757,7 +757,7 @@
     cloud(ctx, t, w * 0.5, h * 0.37, s * 0.9, s * STROKE, color);
   };
 
-  Skycons.WIND = function(ctx, t, color) {
+  Skycons.WIND = function (ctx, t, color) {
     var w = ctx.canvas.width,
       h = ctx.canvas.height,
       s = Math.min(w, h);
@@ -766,7 +766,7 @@
     swoosh(ctx, t, w * 0.5, h * 0.5, s, s * STROKE, 1, 2, color);
   };
 
-  Skycons.FOG = function(ctx, t, color) {
+  Skycons.FOG = function (ctx, t, color) {
     var w = ctx.canvas.width,
       h = ctx.canvas.height,
       s = Math.min(w, h),
@@ -794,12 +794,12 @@
   };
 
   Skycons.prototype = {
-    _determineDrawingFunction: function(draw) {
+    _determineDrawingFunction: function (draw) {
       if (typeof draw === 'string') draw = Skycons[draw.toUpperCase().replace(/-/g, '_')] || null;
 
       return draw;
     },
-    add: function(el, draw) {
+    add: function (el, draw) {
       var obj;
 
       if (typeof el === 'string') el = document.getElementById(el);
@@ -821,7 +821,7 @@
       this.list.push(obj);
       this.draw(obj, KEYFRAME);
     },
-    set: function(el, draw) {
+    set: function (el, draw) {
       var i;
 
       if (typeof el === 'string') el = document.getElementById(el);
@@ -835,7 +835,7 @@
 
       this.add(el, draw);
     },
-    remove: function(el) {
+    remove: function (el) {
       var i;
 
       if (typeof el === 'string') el = document.getElementById(el);
@@ -846,7 +846,7 @@
           return;
         }
     },
-    draw: function(obj, time) {
+    draw: function (obj, time) {
       var canvas = obj.context.canvas;
 
       if (this.resizeClear) canvas.width = canvas.width;
@@ -854,18 +854,18 @@
 
       obj.drawing(obj.context, time, this.color);
     },
-    play: function() {
+    play: function () {
       var self = this;
 
       this.pause();
-      this.interval = requestInterval(function() {
+      this.interval = requestInterval(function () {
         var now = Date.now(),
           i;
 
         for (i = self.list.length; i--; ) self.draw(self.list[i], now);
       }, 1000 / 60);
     },
-    pause: function() {
+    pause: function () {
       if (this.interval) {
         cancelInterval(this.interval);
         this.interval = null;

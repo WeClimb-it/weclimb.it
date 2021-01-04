@@ -5,9 +5,7 @@ const Skycons = (window && window['Skycons']) || {};
 
 @Component({
   selector: 'wci-skycon',
-  template: `
-    <canvas #skycon id="{{ id }}" width="{{ width }}" height="{{ height }}"></canvas>
-  `,
+  template: ` <canvas #skycon id="{{ id }}" width="{{ width }}" height="{{ height }}"></canvas> `,
   styles: [],
 })
 export class SkyconComponent implements AfterViewInit, OnDestroy {
@@ -19,9 +17,7 @@ export class SkyconComponent implements AfterViewInit, OnDestroy {
 
   skycons;
 
-  id = Math.random()
-    .toString(36)
-    .substr(2, 5);
+  id = Math.random().toString(36).substr(2, 5);
 
   ngAfterViewInit(): void {
     this.skycons = new Skycons({ color: this.color || 'white' });

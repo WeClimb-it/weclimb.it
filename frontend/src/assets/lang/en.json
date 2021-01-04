@@ -4,6 +4,8 @@
   "FURTHER_EVENT_INFO_WEBSITE": "Further info on the event's website",
   "DOWNLOAD_INFO_SHEET": "Download the info sheet",
   "SECTORS_ROUTES": "Sectors and routes",
+  "SECTORS": "Sectors",
+  "ROUTES": "Routes",
   "METERS_ABB": "mt.",
   "PITONS": "pitons",
   "NOW": "Now",
@@ -84,8 +86,9 @@
   "LOADING": "Just a second...",
   "LOADING_MAP": "Updating map",
   "USER_LOCATION_MESSAGE": "Far from {{city}}?",
-  "USER_LOCATION_MESSAGE_NO_CITY": "Do you need a more accurate location?",
+  "USER_LOCATION_MESSAGE_NO_CITY": "Reset the map",
   "ENABLE_GEOLOCATION": "Enable geolocation",
   "USE_GEOLOCATION": "Use your position",
-  "UNKNOWN": "unknown"
+  "UNKNOWN": "unknown",
+  "OSM_PEAK_DESCRIPTION": "A natural peak with an elevation of <strong>{{ele}} meters.</strong>"
 }

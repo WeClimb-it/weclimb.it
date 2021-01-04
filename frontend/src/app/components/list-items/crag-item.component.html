@@ -30,12 +30,12 @@
       <mat-chip-list>
         <mat-chip *ngIf="data._stats.sectorsCount > 0" color="primary" selected
           ><strong>{{ data._stats.sectorsCount }}</strong
-          >&nbsp;sectors</mat-chip
-        >
+          >&nbsp; {{ 'SECTORS' | translate }}
+        </mat-chip>
         <mat-chip *ngIf="data._stats.routesCount > 0" color="primary" selected
           ><strong>{{ data._stats.routesCount }}</strong
-          >&nbsp;routes</mat-chip
-        >
+          >&nbsp; {{ 'ROUTES' | translate }}
+        </mat-chip>
       </mat-chip-list>
       <div *ngIf="data.quality_rank.weather !== null" class="coeff">
         <mat-icon aria-hidden="false">brightness_high</mat-icon
