@@ -89,5 +89,6 @@
   "USER_LOCATION_MESSAGE_NO_CITY": "Reimposta la mappa",
   "ENABLE_GEOLOCATION": "Attiva localizzazione",
   "USE_GEOLOCATION": "Usa la tua posizione",
-  "UNKNOWN": "sconosciuto"
+  "UNKNOWN": "sconosciuto",
+  "OSM_PEAK_DESCRIPTION": "Un promontorio naturale con una elevazione di <strong>{{ele}} metri.</strong>"
 }

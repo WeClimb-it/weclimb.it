@@ -89,5 +89,6 @@
   "USER_LOCATION_MESSAGE_NO_CITY": "Reset the map",
   "ENABLE_GEOLOCATION": "Enable geolocation",
   "USE_GEOLOCATION": "Use your position",
-  "UNKNOWN": "unknown"
+  "UNKNOWN": "unknown",
+  "OSM_PEAK_DESCRIPTION": "A natural peak with an elevation of <strong>{{ele}} meters.</strong>"
 }

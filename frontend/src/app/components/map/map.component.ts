@@ -8,6 +8,7 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
 import { each, size } from 'lodash';
 import { MapboxGeoJSONFeature } from 'mapbox-gl';
@@ -144,7 +145,11 @@ export class MapComponent implements OnChanges {
 
   private mapInstance: mapboxgl.Map;
 
-  constructor(private translateService: TranslateService, private ref: ChangeDetectorRef) {}
+  constructor(
+    private translateService: TranslateService,
+    private ref: ChangeDetectorRef,
+    private sanitizer: DomSanitizer,
+  ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.centerLocation && this.centerLocation) {
@@ -254,6 +259,19 @@ export class MapComponent implements OnChanges {
    */
   getMapItemTitle(item: GeoJSONFeature): string {
     return (item.properties.title || item.properties.name || this.translateService.instant('UNKNOWN')) as string;
+  }
+
+  /**
+   *
+   */
+  getMapItemWikipage(item: GeoJSONFeature): SafeUrl {
+    if (!item.properties.wikipedia) {
+      throw new Error('Cannot derive the wikipedia URL from the given feature');
+    }
+
+    return this.sanitizer.bypassSecurityTrustResourceUrl(
+      `https://en.wikipedia.org/wiki/${item.properties.wikipedia}?printable=yes`,
+    );
   }
 
   /**
