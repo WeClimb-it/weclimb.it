@@ -16,4 +16,11 @@ The code of this repository is up and running on [WeClimb.it](https://www.weclim
 
 ---
 
-We follow a monorepo approach, if you want to know more about the code, feel free to browse the folders. Ciao!
+We follow a monorepo approach, if you want to know more about the code, feel free to browse the folders.
+Please note that we use GIT submodules for the frontend, backend and design. Some of them might be private; in such a case, if you want to contribute to that submodules, feel free to drop a message and get in touch with us.
+
+To clone the repo you can use the following command:
+`git clone --recurse-submodules https://github.com/WeClimb-it/weclimb.it.git`
+
+In case you want git pull to also fetch a submodule and run submodule update, you can use this configuration:
+`git config --global submodule.recurse true`
