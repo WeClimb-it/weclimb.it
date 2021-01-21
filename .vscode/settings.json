@@ -1,8 +1,14 @@
 {
-    "editor.formatOnSave": true,
-    "files.eol": "\n",
-    "prettier.endOfLine": "lf",
-    "editor.tabSize": 2,
+    "javascript.preferences.quoteStyle": "single",
     "editor.formatOnPaste": true,
-    "prettier.tabWidth": 4
+    "editor.formatOnSave": true,
+    "editor.renderControlCharacters": true,
+    "editor.insertSpaces": true,
+    "editor.tabSize": 2,
+    "prettier.tabWidth": 4,
+    "prettier.singleQuote": true,
+    "prettier.endOfLine": "lf",
+    "files.eol": "\n",
+    "files.insertFinalNewline": true,
+    "files.trimTrailingWhitespace": true
 }
