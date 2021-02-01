@@ -7,3 +7,6 @@
 [submodule "design"]
 	path = design
 	url = https://github.com/WeClimb-it/design.git
+[submodule "crawlers"]
+	path = crawlers
+	url = https://github.com/WeClimb-it/crawlers.git
