@@ -10,3 +10,6 @@
 [submodule "crawlers"]
 	path = crawlers
 	url = https://github.com/WeClimb-it/crawlers.git
+[submodule "scraper"]
+	path = scraper
+	url = https://github.com/WeClimb-it/scraper
