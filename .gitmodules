@@ -13,3 +13,6 @@
 [submodule "scraper"]
 	path = scraper
 	url = https://github.com/WeClimb-it/scraper
+[submodule "admin"]
+	path = admin
+	url = https://github.com/WeClimb-it/admin.git
