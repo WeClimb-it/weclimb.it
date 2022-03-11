@@ -1,9 +1,6 @@
 [submodule "backend"]
 	path = backend
 	url = https://github.com/WeClimb-it/backend.git
-[submodule "frontend"]
-	path = frontend
-	url = https://github.com/WeClimb-it/frontend.git
 [submodule "design"]
 	path = design
 	url = https://github.com/WeClimb-it/design.git
